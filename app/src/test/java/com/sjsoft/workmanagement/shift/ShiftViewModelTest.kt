@@ -114,4 +114,116 @@ class ShiftViewModelTest {
         Assert.assertFalse(LiveDataTestUtil.getValue(shiftViewModel.items).isEmpty())
         Assert.assertTrue(LiveDataTestUtil.getValue(shiftViewModel.items).size == 3)
     }
+
+    @Test
+    fun startShift_started() {
+        val shiftHalf = ShiftHalf(
+            latitude = latitude,
+            longitude = longitude
+        )
+
+        shiftViewModel.setLocation(Location(LocationManager.NETWORK_PROVIDER))
+        shiftViewModel.startShift()
+
+        Mockito.verify<ShiftRepository>(shiftRepository).startShift(any(), capture(editShiftsCallbackCaptor))
+        Assert.assertSame(LiveDataTestUtil.getValue(shiftViewModel.shiftButton), UserStatus.LOADING)
+
+        var shifts = mutableListOf(
+            makeShift(
+                "1",
+                "2016-05-23T00:00:01+00:00"
+            )
+        )
+        editShiftsCallbackCaptor.value.onComplete(shifts)
+
+        Assert.assertSame(LiveDataTestUtil.getValue(shiftViewModel.shiftButton), UserStatus.WORKING)
+    }
+
+    @Test
+    fun startShift_duplicationError() {
+        val shift1 = makeShift(
+            "2",
+            "2016-05-22T00:00:00+00:00",
+            "2016-05-22T09:30:00+00:00"
+        )
+
+        val shift2 = makeShift(
+            "1",
+            "2016-05-21T00:00:00+00:00"
+        )
+
+        var shifts = mutableListOf(shift1, shift2)
+
+        shiftViewModel.setLocation(Location(LocationManager.NETWORK_PROVIDER))
+        shiftViewModel.loadShifts()
+
+        // Callback is captured and invoked with stubbed tasks
+        Mockito.verify<ShiftRepository>(shiftRepository).getShifts(capture(loadShiftsCallbackCaptor))
+
+        // Then progress indicator is shown
+        Assert.assertTrue(LiveDataTestUtil.getValue(shiftViewModel.dataLoading))
+        loadShiftsCallbackCaptor.value.onShiftsLoaded(shifts)
+
+        // Then progress indicator is hidden
+        Assert.assertFalse(LiveDataTestUtil.getValue(shiftViewModel.dataLoading))
+
+        // And data loaded
+        Assert.assertFalse(LiveDataTestUtil.getValue(shiftViewModel.items).isEmpty())
+        Assert.assertTrue(LiveDataTestUtil.getValue(shiftViewModel.items).last().end.isEmpty())
+
+        shiftViewModel.startShift()
+
+        val value = LiveDataTestUtil.getValue(shiftViewModel.snackbarInt)
+        Assert.assertEquals(
+            value.getContentIfNotHandled(),
+            R.string.error_cannot_start_shift
+        )
+    }
+
+    @Test
+    fun endShift_ended() {
+
+        val shift1 = makeShift(
+            "2",
+            "2016-05-22T00:00:00+00:00",
+            "2016-05-22T09:30:00+00:00"
+        )
+        val shift2 = makeShift(
+            "1",
+            "2016-05-21T00:00:00+00:00"
+            //"2016-05-21T09:30:00+00:00"
+        )
+
+        var shifts = mutableListOf(shift1, shift2)
+
+        shiftViewModel.setLocation(Location(LocationManager.NETWORK_PROVIDER))
+        shiftViewModel.loadShifts()
+
+        // Callback is captured and invoked with stubbed tasks
+        Mockito.verify<ShiftRepository>(shiftRepository).getShifts(capture(loadShiftsCallbackCaptor))
+
+        // Then progress indicator is shown
+        Assert.assertTrue(LiveDataTestUtil.getValue(shiftViewModel.dataLoading))
+        loadShiftsCallbackCaptor.value.onShiftsLoaded(shifts)
+
+        // Then progress indicator is hidden
+        Assert.assertFalse(LiveDataTestUtil.getValue(shiftViewModel.dataLoading))
+
+        // And data loaded
+        Assert.assertFalse(LiveDataTestUtil.getValue(shiftViewModel.items).isEmpty())
+        Assert.assertTrue(LiveDataTestUtil.getValue(shiftViewModel.items).last().end.isEmpty())
+
+        shiftViewModel.endShift()
+
+        Mockito.verify<ShiftRepository>(shiftRepository).endShift(any(), capture(editShiftsCallbackCaptor))
+        Assert.assertSame(LiveDataTestUtil.getValue(shiftViewModel.shiftButton), UserStatus.LOADING)
+
+        shifts.last().end = "2016-05-21T09:30:00+00:00"
+        shifts.last().endLatitude = latitude
+        shifts.last().endLongitude = longitude
+
+        editShiftsCallbackCaptor.value.onComplete(shifts)
+
+        Assert.assertSame(LiveDataTestUtil.getValue(shiftViewModel.shiftButton), UserStatus.READY)
+    }
 }
