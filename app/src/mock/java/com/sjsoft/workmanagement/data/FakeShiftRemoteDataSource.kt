@@ -24,7 +24,7 @@ class FakeShiftRemoteDataSource : ShiftDataSource {
             )
             callback.onComplete(list)
         } else {
-            callback.onError()
+            callback.onError(null)
         }
     }
 
@@ -35,7 +35,7 @@ class FakeShiftRemoteDataSource : ShiftDataSource {
             list.last().endLongitude = marker.longitude
             callback.onComplete(list)
         } else {
-            callback.onError()
+            callback.onError(null)
         }
     }
 

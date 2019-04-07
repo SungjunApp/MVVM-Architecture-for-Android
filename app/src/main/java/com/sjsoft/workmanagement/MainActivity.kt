@@ -56,7 +56,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun AppCompatActivity.replaceFragmentInActivity(frameId: Int, fragment: Fragment, tag: String) {
+    fun replaceFragmentInActivity(frameId: Int, fragment: Fragment, tag: String) {
         supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
         supportFragmentManager.transact {
             setCustomAnimations(0, 0, 0, 0)
@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun AppCompatActivity.addFragmentToActivity(frameId: Int, fragment: Fragment, tag: String) {
+    fun addFragmentToActivity(frameId: Int, fragment: Fragment, tag: String) {
         supportFragmentManager.transact {
             setCustomAnimations(
                 R.anim.slide_in_right_left,
