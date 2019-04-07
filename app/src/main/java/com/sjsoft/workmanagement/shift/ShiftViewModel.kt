@@ -56,7 +56,8 @@ class ShiftViewModel(
     internal var location: Location? = null
     fun setLocation(location: Location) {
         this.location = location
-        _shiftAvailable.value = canStart() || canEnd()
+
+        _shiftAvailable.value = (canStart() || canEnd()) && _shiftButton.value !== UserStatus.LOADING
     }
 
     fun loadShifts() {
@@ -102,7 +103,7 @@ class ShiftViewModel(
                         }
 
                         override fun onError(message: String?) {
-                            updateShiftButton()
+                            //updateShiftButton()
                             message?.also { _snackbarString.value = Event(it) }
                         }
                     })
@@ -135,7 +136,7 @@ class ShiftViewModel(
                         }
 
                         override fun onError(message: String?) {
-                            updateShiftButton()
+                            //updateShiftButton()
                             message?.also { showSnackbarText(it) }
                         }
                     })
