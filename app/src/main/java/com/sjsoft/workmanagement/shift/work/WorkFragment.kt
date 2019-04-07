@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.NestedScrollView
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -12,6 +13,9 @@ import com.sjsoft.workmanagement.*
 import com.sjsoft.workmanagement.shift.BaseFragment
 import com.sjsoft.workmanagement.shift.ShiftViewModel
 import kotlinx.android.synthetic.main.fragment_work.*
+import androidx.recyclerview.widget.RecyclerView
+
+
 
 class WorkFragment : BaseFragment() {
     override val titleResource: Int
@@ -32,6 +36,12 @@ class WorkFragment : BaseFragment() {
         model.loadShifts()
     }
 
+    override fun onDestroyView(){
+        mOnScrollListener?.also {
+            recyclerView.removeOnScrollListener(it)
+        }
+        super.onDestroyView()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -41,9 +51,23 @@ class WorkFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_work, container, false)
     }
 
+    var mOnScrollListener: RecyclerView.OnScrollListener? = null
     lateinit var mAdapter: WorkAdapter
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+        mOnScrollListener = object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                setAlphaListShadow(shadowView, recyclerView.computeVerticalScrollOffset())
+            }
+        }
+
+        mOnScrollListener?.also {
+            recyclerView.addOnScrollListener(it)
+        }
+
+
         model.snackbarInt.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {
                 view?.also { view ->
@@ -117,5 +141,18 @@ class WorkFragment : BaseFragment() {
         model.items.observe(this, Observer {
             mAdapter.setList(it)
         })
+    }
+
+    internal val offSetRange = 150f
+    fun setAlphaListShadow(view: View?, offSet: Int) {
+        if (view == null)
+            return
+
+        if (0 <= offSet && offSet <= offSetRange)
+            view.alpha = offSet / offSetRange
+        else if (offSet > offSetRange)
+            view.alpha = 1f
+        else
+            view.alpha = 0f
     }
 }

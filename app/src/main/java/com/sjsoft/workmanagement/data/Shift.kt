@@ -15,27 +15,18 @@ data class Shift constructor(
     val image: String
 ) {
 
-    fun getStartTime(): String {
+    fun getStartDateTime(): String {
         return getTimeString(start)
     }
 
-    fun getEndTime(): String {
+    fun getEndDateTime(): String {
         return getTimeString(end)
-    }
-
-    fun getStartDate(): Int {
-        if (!start.isEmpty()) {
-            val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
-            val format = SimpleDateFormat("yyyyMMdd")
-            return format.format(df.parse(start)).toInt()
-        } else
-            return 0
     }
 
     fun getTimeString(date: String): String {
         if (!date.isEmpty()) {
             val df = SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssXXX")
-            val format = SimpleDateFormat("HH:mm:ss")
+            val format = SimpleDateFormat("yyyy.MM.dd HH:mm:ss")
             return format.format(df.parse(date))
         } else
             return ""

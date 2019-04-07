@@ -1,3 +1,3 @@
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <dimen name="shadow_h">3dp</dimen>
 </resources>

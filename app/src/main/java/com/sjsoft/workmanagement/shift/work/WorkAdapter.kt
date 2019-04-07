@@ -46,9 +46,9 @@ class WorkAdapter(val context:Context, val requestBuilder: GlideRequest<Drawable
             val shift = list[position]
 
 
-            holder.tv_start_time.text = String.format(context.getString(R.string.check_in_at_x),shift.getStartTime())
+            holder.tv_start_time.text = String.format(context.getString(R.string.check_in_at_x),shift.getStartDateTime())
             holder.tv_duration.text = String.format(context.getString(R.string.worked_for_x),shift.getDuration())
-            holder.tv_end_time.text = String.format(context.getString(R.string.check_out_at_x),shift.getEndTime())
+            holder.tv_end_time.text = String.format(context.getString(R.string.check_out_at_x),shift.getEndDateTime())
 
             val visibility = if (shift.end.isEmpty())
                 View.INVISIBLE
