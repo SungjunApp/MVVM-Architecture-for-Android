@@ -14,6 +14,8 @@
     <string name="end_shift">End Shift</string>
     <string name="loading_shift">Loading ..</string>
 
+    <string name="retry">Retry</string>
+
     <string name="check_in_at_x">Checked in at %s</string>
     <string name="check_out_at_x">Checked out at %s</string>
     <string name="worked_for_x">Worked for %s</string>

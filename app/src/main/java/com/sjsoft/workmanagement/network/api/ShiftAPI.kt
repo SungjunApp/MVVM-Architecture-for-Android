@@ -9,10 +9,10 @@ import retrofit2.http.POST
 
 interface ShiftAPI {
     @POST("shift/start")
-    fun start(@Body marker: ShiftHalf): Call<Void>
+    fun start(@Body marker: ShiftHalf): Call<String>
 
     @POST("shift/end")
-    fun end(@Body marker: ShiftHalf): Call<Void>
+    fun end(@Body marker: ShiftHalf): Call<String>
 
     @GET("shifts")
     fun shifts(): Call<List<Shift>>

@@ -11,7 +11,7 @@ interface ShiftDataSource {
 
     interface CompletableCallback {
         fun onComplete(shifts: List<Shift>)
-        fun onError()
+        fun onError(message:String?)
     }
 
     fun startShift(marker: ShiftHalf, callback:CompletableCallback)

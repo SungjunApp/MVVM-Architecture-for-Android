@@ -41,17 +41,35 @@ class WorkFragment : BaseFragment() {
         return inflater.inflate(R.layout.fragment_work, container, false)
     }
 
-    lateinit var mAdapter : WorkAdapter
+    lateinit var mAdapter: WorkAdapter
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        model.snackbarMessage.observe(this, Observer { event ->
+        model.snackbarInt.observe(this, Observer { event ->
             event.getContentIfNotHandled()?.let {
-                context?.also { ctx ->
-                    view?.also { view -> Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show() }
-                    //showSnackbar(ctx.getString(it), Snackbar.LENGTH_SHORT)
+                view?.also { view ->
+                    Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
                 }
-
             }
+        })
+
+        model.snackbarString.observe(this, Observer { event ->
+            event.getContentIfNotHandled()?.let {
+                view?.also { view ->
+                    Snackbar.make(view, it, Snackbar.LENGTH_SHORT).show()
+                }
+            }
+        })
+
+        model.dataLoading.observe(this, Observer {
+            progressBar.visibility =
+                if (it) View.VISIBLE
+                else View.GONE
+        })
+
+        model.retryAvailable.observe(this, Observer {
+            button_retry.visibility =
+                if (it) View.VISIBLE
+                else View.GONE
         })
 
         model.shiftAvailable.observe(this, Observer {
@@ -59,35 +77,44 @@ class WorkFragment : BaseFragment() {
         })
 
         model.shiftButton.observe(this, Observer {
-             val textRes = when (it) {
+            val textRes = when (it) {
                 UserStatus.READY -> R.string.start_shift
                 UserStatus.LOADING -> R.string.loading_shift
                 UserStatus.WORKING -> R.string.end_shift
                 else -> 0
             }
-            if(textRes!=0)
+            if (textRes != 0)
                 button_shift.setText(textRes)
             else
                 button_shift.text = ""
         })
 
-        button_shift.setOnClickListener{
+        button_retry.setOnClickListener {
+            model.loadShifts()
+        }
+
+        button_shift.setOnClickListener {
             when (model.shiftButton.value) {
                 UserStatus.READY -> model.startShift()
-                UserStatus.LOADING -> { }
+                UserStatus.LOADING -> {
+                }
                 UserStatus.WORKING -> model.endShift()
                 else -> ""
             }
         }
 
+        context?.also{
+            mAdapter = WorkAdapter(it, GlideApp.with(this).asDrawable())
+            recyclerView.adapter = mAdapter
 
-        mAdapter = WorkAdapter(context!!, GlideApp.with(this).asDrawable())
-        recyclerView.adapter = mAdapter
+            val layoutManager = LinearLayoutManager(context)
+            layoutManager.reverseLayout = true
+            layoutManager.stackFromEnd = true
+            recyclerView!!.layoutManager = layoutManager
+        }
 
-        val layoutManager = LinearLayoutManager(context)
-        recyclerView!!.layoutManager = layoutManager
 
-        model.shiftDetails.observe(this, Observer {
+        model.items.observe(this, Observer {
             mAdapter.setList(it)
         })
     }

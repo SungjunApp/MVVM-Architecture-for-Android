@@ -28,7 +28,7 @@ class RequestMaker constructor(val context: Context){
 
     init {
         builder = Retrofit.Builder()
-            .baseUrl("https://apjoqdpqi3.execute-api.us-west-2.amazonaws.com/dmc/")
+            .baseUrl("https://apjoqdqpi3.execute-api.us-west-2.amazonaws.com/dmc/")
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
 
         val httpClientBuilder = OkHttpClient.Builder()

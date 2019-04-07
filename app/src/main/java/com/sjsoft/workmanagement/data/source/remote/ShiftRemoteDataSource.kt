@@ -1,5 +1,6 @@
 package com.sjsoft.workmanagement.data.source.remote
 
+import android.util.Log
 import com.sjsoft.workmanagement.data.Shift
 import com.sjsoft.workmanagement.data.ShiftHalf
 import com.sjsoft.workmanagement.data.source.ShiftDataSource
@@ -10,54 +11,60 @@ import retrofit2.Response
 class ShiftRemoteDataSource constructor(val shiftAPI: ShiftAPI) : ShiftDataSource {
     override fun startShift(marker: ShiftHalf, callback: ShiftDataSource.CompletableCallback) {
         val call = shiftAPI.start(marker)
-        call.enqueue(object : retrofit2.Callback<Void>{
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                val list = response.body()
-                if(list!=null){
+        call.enqueue(object : retrofit2.Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                if(response.isSuccessful){
+                    response.body()?.also {
+                        callback.onError(it)
+                    }
+
                     getShifts(object:ShiftDataSource.LoadShiftCallback{
+
                         override fun onShiftsLoaded(shifts: List<Shift>) {
                             callback.onComplete(shifts)
                         }
-
                         override fun onDataNotAvailable() {
-                            callback.onError()
+                            callback.onError(null)
                         }
                     })
+
                 }else{
-                    callback.onError()
+                    callback.onError(response.message())
                 }
             }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
+            override fun onFailure(call: Call<String>, t: Throwable) {
                 t.printStackTrace()
-                callback.onError()
+                callback.onError(t.message)
             }
         })
     }
 
     override fun endShift(marker: ShiftHalf, callback: ShiftDataSource.CompletableCallback) {
         val call = shiftAPI.end(marker)
-        call.enqueue(object : retrofit2.Callback<Void>{
-            override fun onResponse(call: Call<Void>, response: Response<Void>) {
-                val list = response.body()
-                if(list!=null){
+        call.enqueue(object : retrofit2.Callback<String>{
+            override fun onResponse(call: Call<String>, response: Response<String>) {
+                if(response.isSuccessful){
+                    response.body()?.also {
+                        callback.onError(it)
+                    }
                     getShifts(object:ShiftDataSource.LoadShiftCallback{
                         override fun onShiftsLoaded(shifts: List<Shift>) {
                             callback.onComplete(shifts)
                         }
 
                         override fun onDataNotAvailable() {
-                            callback.onError()
+                            callback.onError(null)
                         }
                     })
                 }else{
-                    callback.onError()
+                    callback.onError(response.message())
                 }
             }
 
-            override fun onFailure(call: Call<Void>, t: Throwable) {
+            override fun onFailure(call: Call<String>, t: Throwable) {
                 t.printStackTrace()
-                callback.onError()
+                callback.onError(t.message)
             }
         })
     }

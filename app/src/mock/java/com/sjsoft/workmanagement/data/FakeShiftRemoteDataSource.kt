@@ -5,13 +5,12 @@ import java.util.*
 
 class FakeShiftRemoteDataSource : ShiftDataSource {
     val list: MutableList<Shift> = ArrayList()
-    fun canStart() = list.isEmpty() || !list.first().end.isEmpty()
-    fun canEnd() = !list.isEmpty() && list.first().end.isEmpty()
+    fun canStart() = list.isEmpty() || !list.last().end.isEmpty()
+    fun canEnd() = !list.isEmpty() && list.last().end.isEmpty()
 
     override fun startShift(marker: ShiftHalf, callback: ShiftDataSource.CompletableCallback) {
         if (canStart()) {
             list.add(
-                0,
                 Shift(
                     (list.size + 1).toString(),
                     marker.time,
@@ -31,10 +30,9 @@ class FakeShiftRemoteDataSource : ShiftDataSource {
 
     override fun endShift(marker: ShiftHalf, callback: ShiftDataSource.CompletableCallback) {
         if (canEnd()) {
-            list.first().end = marker.time
-            list.first().endLatitude = marker.latitude
-            list.first().endLongitude = marker.longitude
-
+            list.last().end = marker.time
+            list.last().endLatitude = marker.latitude
+            list.last().endLongitude = marker.longitude
             callback.onComplete(list)
         } else {
             callback.onError()

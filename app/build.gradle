@@ -37,10 +37,12 @@ android {
 
     productFlavors {
         mock {
+            manifestPlaceholders = [appNameGradle    : "WorkMock"]
             dimension "default"
             applicationIdSuffix = ".mock"
         }
         prod {
+            manifestPlaceholders = [appNameGradle    : "WorkProd"]
             dimension "default"
         }
     }
