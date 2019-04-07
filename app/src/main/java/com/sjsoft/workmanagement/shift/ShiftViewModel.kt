@@ -57,7 +57,6 @@ class ShiftViewModel(
     internal var location: Location? = null
     fun setLocation(location: Location) {
         this.location = location
-        _shiftAvailable.value = true
         updateShiftButton()
     }
 
@@ -83,6 +82,9 @@ class ShiftViewModel(
     }
 
     fun startShift() {
+        if (location == null)
+            return
+
         if (canStart()) {
             location?.also {
                 _shiftButton.value = UserStatus.LOADING
@@ -113,9 +115,13 @@ class ShiftViewModel(
     }
 
     fun endShift() {
+        if (location == null)
+            return
+
         if (canEnd()) {
             location?.also {
                 _shiftButton.value = UserStatus.LOADING
+                _shiftAvailable.value = false
                 shiftRepository.endShift(
                     ShiftHalf(
                         getCurrentTime(),
@@ -155,22 +161,27 @@ class ShiftViewModel(
     }
 
     fun updateShiftButton() {
-        if (canStart()) {
+        val canStart = canStart()
+        val canEnd = canEnd()
+        if (canStart) {
             _shiftButton.value = UserStatus.READY
-            _shiftAvailable.value = true
-        } else if (canEnd()) {
+
+        } else if (canEnd) {
             _shiftButton.value = UserStatus.WORKING
-            _shiftAvailable.value = true
         }
+
+        _shiftAvailable.value =
+            location != null
+                    && (canStart || canEnd)
     }
 
     fun canStart() =
-        location != null
-                &&
-                (_items.value == null || _items.value!!.isEmpty() || !_items.value!!.last().end.isEmpty())
+        _items.value == null
+                || _items.value!!.isEmpty()
+                || !_items.value!!.last().end.isEmpty()
 
     fun canEnd() =
-        location != null
-                &&
-                (_items.value != null && !_items.value!!.isEmpty() && _items.value!!.last().end.isEmpty())
+        _items.value != null
+                && !_items.value!!.isEmpty()
+                && _items.value!!.last().end.isEmpty()
 }
