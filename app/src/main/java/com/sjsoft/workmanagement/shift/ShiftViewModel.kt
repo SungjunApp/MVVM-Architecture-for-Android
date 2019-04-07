@@ -50,7 +50,6 @@ class ShiftViewModel(
 
     fun disableShiftButton() {
         location = null
-        _shiftAvailable.value = false
         updateShiftButton()
     }
 
