@@ -56,12 +56,7 @@ class ShiftViewModel(
     internal var location: Location? = null
     fun setLocation(location: Location) {
         this.location = location
-        val canStart = canStart()
-        val canEnd = canEnd()
-
-        _shiftAvailable.value =
-            location != null
-                    && (canStart || canEnd)
+        _shiftAvailable.value = canStart() || canEnd()
     }
 
     fun loadShifts() {
