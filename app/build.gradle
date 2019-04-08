@@ -75,10 +75,8 @@ dependencies {
 
     // Android Testing Support Library - Instrumented testing
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1'
-    androidTestImplementation "androidx.test.espresso:espresso-intents:3.1.1"
 
     implementation 'androidx.appcompat:appcompat:1.0.2'
-    implementation 'androidx.constraintlayout:constraintlayout:1.1.3'
     implementation 'com.google.android.material:material:1.0.0-beta01'
 
     /**
@@ -87,7 +85,7 @@ dependencies {
     implementation "com.google.android.gms:play-services-location:16.0.0"
 
     /**
-     * Architecuture Component
+     * Architecture Component
      */
     implementation "androidx.lifecycle:lifecycle-extensions:2.0.0"
     kapt "androidx.lifecycle:lifecycle-compiler:2.0.0"

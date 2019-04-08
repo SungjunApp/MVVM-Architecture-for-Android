@@ -1,9 +1,7 @@
 package com.sjsoft.workmanagement.network
 
 import android.content.Context
-import android.text.TextUtils
 import android.util.Log
-import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.orhanobut.logger.Logger
 import com.sjsoft.workmanagement.BuildConfig
@@ -28,7 +26,7 @@ class RequestMaker constructor(val context: Context){
 
     init {
         builder = Retrofit.Builder()
-            .baseUrl("https://apjoqdqpi3.execute-api.us-west-2.amazonaws.com/dmc/")
+            .baseUrl(DomainInfo.URL)
             .addConverterFactory(GsonConverterFactory.create(GsonBuilder().create()))
 
         val httpClientBuilder = OkHttpClient.Builder()
@@ -71,7 +69,7 @@ class RequestMaker constructor(val context: Context){
 
         httpClientBuilder.addInterceptor(object : Interceptor {
             override fun intercept(chain: Interceptor.Chain): Response {
-                return convertInterceptToResponse(context, chain)
+                return convertInterceptToResponse(chain)
             }
         })
         okHttpClient = httpClientBuilder.build()
@@ -82,7 +80,7 @@ class RequestMaker constructor(val context: Context){
     }
 
     @Throws(IOException::class)
-    fun convertInterceptToResponse(context: Context, chain: Interceptor.Chain): Response {
+    fun convertInterceptToResponse(chain: Interceptor.Chain): Response {
         val original = chain.request()
 
         val responseOri = chain.proceed(getRequest(original))
@@ -116,8 +114,7 @@ class RequestMaker constructor(val context: Context){
     private fun getRequest(request: Request): Request {
         val builder = request.newBuilder()
 
-        val shasum = "d395031c07b0a80122d987147f5ad9efe4d3e9af"
-        builder.header("Authorization", "Deputy $shasum")
+        builder.header("Authorization", "Deputy ${DomainInfo.CLIENT_SHASUM}")
         builder.header("Content-Type", "application/json")
         builder.method(request.method(), request.body())
 
