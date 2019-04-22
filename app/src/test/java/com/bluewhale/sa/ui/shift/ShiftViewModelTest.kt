@@ -1,4 +1,4 @@
-package com.bluewhale.sa.shift
+package com.bluewhale.sa.ui.shift
 
 import android.app.Application
 import android.location.Location
@@ -10,7 +10,7 @@ import com.bluewhale.sa.data.Shift
 import com.bluewhale.sa.data.ShiftHalf
 import com.bluewhale.sa.data.source.ShiftDataSource
 import com.bluewhale.sa.data.source.ShiftRepository
-import com.bluewhale.sa.shift.work.UserStatus
+import com.bluewhale.sa.ui.shift.work.UserStatus
 import com.bluewhale.sa.util.any
 import com.bluewhale.sa.util.capture
 import org.junit.Assert

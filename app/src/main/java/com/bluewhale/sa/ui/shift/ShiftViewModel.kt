@@ -1,4 +1,4 @@
-package com.bluewhale.sa.shift
+package com.bluewhale.sa.ui.shift
 
 import android.location.Location
 import androidx.annotation.StringRes
@@ -10,7 +10,7 @@ import com.bluewhale.sa.data.Shift
 import com.bluewhale.sa.data.ShiftHalf
 import com.bluewhale.sa.data.source.ShiftDataSource
 import com.bluewhale.sa.data.source.ShiftRepository
-import com.bluewhale.sa.shift.work.UserStatus
+import com.bluewhale.sa.ui.shift.work.UserStatus
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -184,4 +184,8 @@ class ShiftViewModel(
         _items.value != null
                 && !_items.value!!.isEmpty()
                 && _items.value!!.last().end.isEmpty()
+
+    fun moveToDetail(shift:Shift){
+
+    }
 }

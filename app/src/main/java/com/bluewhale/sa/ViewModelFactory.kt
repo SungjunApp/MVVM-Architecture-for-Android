@@ -6,7 +6,7 @@ import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bluewhale.sa.data.source.ShiftRepository
-import com.bluewhale.sa.shift.ShiftViewModel
+import com.bluewhale.sa.ui.shift.ShiftViewModel
 
 class ViewModelFactory private constructor(
     private val shiftRepository: ShiftRepository

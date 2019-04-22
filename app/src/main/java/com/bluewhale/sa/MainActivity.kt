@@ -23,9 +23,12 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE
 import com.bluewhale.sa.BuildConfig.APPLICATION_ID
-import com.bluewhale.sa.shift.BaseFragment
-import com.bluewhale.sa.shift.ShiftViewModel
-import com.bluewhale.sa.shift.work.WorkFragment
+import com.bluewhale.sa.ui.BaseFragment
+import com.bluewhale.sa.ui.shift.ShiftViewModel
+import com.bluewhale.sa.ui.shift.work.WorkFragment
+import com.bluewhale.sa.view.replaceFragmentInActivity
+import com.bluewhale.sa.view.setupActionBar
+import kotlinx.android.synthetic.main.toolbar.*
 
 class MainActivity : AppCompatActivity() {
     val TAG = "MainActivity"
@@ -43,42 +46,11 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.addOnBackStackChangedListener(mOnBackStackChangedListener)
 
-        replaceFragmentInActivity(R.id.contentFrame, findOrCreateViewFragment(), "WorkFragment")
+        replaceFragmentInActivity(R.id.contentFrame, findOrCreateViewFragment())
     }
 
     private fun findOrCreateViewFragment() =
         supportFragmentManager.findFragmentById(R.id.contentFrame) ?: WorkFragment.newInstance()
-
-    fun setupActionBar(@IdRes toolbarId: Int, action: ActionBar.() -> Unit) {
-        setSupportActionBar(findViewById(toolbarId))
-        supportActionBar?.run {
-            action()
-        }
-    }
-
-    fun replaceFragmentInActivity(frameId: Int, fragment: Fragment, tag: String) {
-        supportFragmentManager.popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE)
-        supportFragmentManager.transact {
-            setCustomAnimations(0, 0, 0, 0)
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            addToBackStack(tag)
-            replace(frameId, fragment, tag)
-        }
-    }
-
-    fun addFragmentToActivity(frameId: Int, fragment: Fragment, tag: String) {
-        supportFragmentManager.transact {
-            setCustomAnimations(
-                R.anim.slide_in_right_left,
-                R.anim.slide_out_right_left,
-                R.anim.slide_in_left_right,
-                R.anim.slide_out_left_right
-            )
-            setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-            addToBackStack(tag)
-            replace(frameId, fragment, tag)
-        }
-    }
 
     private val mOnBackStackChangedListener = FragmentManager.OnBackStackChangedListener {
         try {
@@ -91,13 +63,13 @@ class MainActivity : AppCompatActivity() {
             }
 
             if (fragmentCount > 1) {
-                setupActionBar(R.id.toolbar) {
+                setupActionBar(toolbar) {
                     setTitle(title)
                     setDisplayHomeAsUpEnabled(true)
                     setDisplayShowHomeEnabled(true)
                 }
             } else {
-                setupActionBar(R.id.toolbar) {
+                setupActionBar(toolbar) {
                     setTitle(title)
                     setDisplayHomeAsUpEnabled(false)
                     setDisplayShowHomeEnabled(false)

@@ -1,4 +1,4 @@
-package com.bluewhale.sa.shift.work
+package com.bluewhale.sa.ui.shift.work
 
 enum class UserStatus {
     /**

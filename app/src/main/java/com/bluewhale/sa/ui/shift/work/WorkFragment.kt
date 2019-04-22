@@ -1,4 +1,4 @@
-package com.bluewhale.sa.shift.work
+package com.bluewhale.sa.ui.shift.work
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -9,11 +9,10 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.bluewhale.sa.*
-import com.bluewhale.sa.shift.BaseFragment
-import com.bluewhale.sa.shift.ShiftViewModel
+import com.bluewhale.sa.ui.BaseFragment
+import com.bluewhale.sa.ui.shift.ShiftViewModel
 import kotlinx.android.synthetic.main.fragment_work.*
 import androidx.recyclerview.widget.RecyclerView
-
 
 
 class WorkFragment : BaseFragment() {
@@ -35,7 +34,7 @@ class WorkFragment : BaseFragment() {
         model.loadShifts()
     }
 
-    override fun onDestroyView(){
+    override fun onDestroyView() {
         mOnScrollListener?.also {
             recyclerView.removeOnScrollListener(it)
         }
@@ -126,8 +125,13 @@ class WorkFragment : BaseFragment() {
             }
         }
 
-        context?.also{
-            mAdapter = WorkAdapter(it, GlideApp.with(this).asDrawable())
+        context?.also {
+            mAdapter = WorkAdapter(
+                it,
+                GlideApp.with(this).asDrawable()
+            ) {
+                model.moveToDetail(it)
+            }
             recyclerView.adapter = mAdapter
 
             val layoutManager = LinearLayoutManager(context)

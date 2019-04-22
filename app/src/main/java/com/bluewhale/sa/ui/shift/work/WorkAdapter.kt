@@ -1,4 +1,4 @@
-package com.bluewhale.sa.shift.work
+package com.bluewhale.sa.ui.shift.work
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -13,7 +13,11 @@ import com.bluewhale.sa.R
 import com.bluewhale.sa.data.Shift
 import java.util.*
 
-class WorkAdapter(val context:Context, val requestBuilder: GlideRequest<Drawable>) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+class WorkAdapter(
+    val context: Context,
+    val requestBuilder: GlideRequest<Drawable>,
+    val clickListener: (Shift) -> Unit
+    ) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     internal var list: ArrayList<Shift> = java.util.ArrayList()
 
     fun getList(): ArrayList<Shift> {
@@ -46,9 +50,10 @@ class WorkAdapter(val context:Context, val requestBuilder: GlideRequest<Drawable
             val shift = list[position]
 
 
-            holder.tv_start_time.text = String.format(context.getString(R.string.check_in_at_x),shift.getStartDateTime())
-            holder.tv_duration.text = String.format(context.getString(R.string.worked_for_x),shift.getDuration())
-            holder.tv_end_time.text = String.format(context.getString(R.string.check_out_at_x),shift.getEndDateTime())
+            holder.tv_start_time.text =
+                String.format(context.getString(R.string.check_in_at_x), shift.getStartDateTime())
+            holder.tv_duration.text = String.format(context.getString(R.string.worked_for_x), shift.getDuration())
+            holder.tv_end_time.text = String.format(context.getString(R.string.check_out_at_x), shift.getEndDateTime())
 
             val visibility = if (shift.end.isEmpty())
                 View.INVISIBLE

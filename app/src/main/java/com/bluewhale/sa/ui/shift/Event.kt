@@ -1,4 +1,4 @@
-package com.bluewhale.sa.shift
+package com.bluewhale.sa.ui.shift
 
 /**
  * Used as a wrapper for data that is exposed via a LiveData that represents an event.
