@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/layout_fragment"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/colorWhite">
+
+    <RelativeLayout
+        android:id="@+id/layout_sub"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" android:layout_alignParentLeft="true">
+
+        <LinearLayout
+            style="@style/regPadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <ImageButton
+                    android:id="@+id/ib_checkBox_all"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:layout_centerVertical="true"
+                    android:gravity="center"
+                    android:padding="5dp"
+                    tools:ignore="RtlHardcoded,RtlSymmetry"/>
+
+                <TextView
+                    android:id="@+id/tv_clauseAll"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@+id/ib_checkBox_all"
+                    android:includeFontPadding="false"
+                    android:text="checkAll"
+                    android:textColor="@color/colorText"
+                    android:textSize="17sp"
+                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/ib_checkBox_all"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/v_clause1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40dp"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" android:paddingLeft="10dp">
+
+                <foundation.bluewhale.splashviews.widget.IconImageView
+                    android:id="@+id/checkBox_01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_check_white"
+                    app:imageColor="@color/colorText"/>
+
+                <TextView
+                    android:id="@+id/tv_clause1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@+id/checkBox_01"
+                    android:includeFontPadding="false"
+                    android:text="check1"
+                    android:textColor="@color/colorText"
+                    android:textSize="15sp"
+                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/checkBox_01"/>
+
+                <TextView
+                    android:id="@+id/tv_condition1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/tv_clause1"
+                    android:includeFontPadding="false"
+                    android:text="(required)"
+                    android:textColor="@color/colorText"
+                    android:textSize="12sp"
+                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/tv_clause1"/>
+
+                <foundation.bluewhale.splashviews.widget.IconImageButton
+                    android:id="@+id/ib_clause1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="15dp"
+                    android:background="@color/transparent"
+                    android:padding="5dp"
+                    android:src="@drawable/icon_clamp_gray"
+                    app:imageColor="@color/colorText" android:layout_alignParentRight="true"
+                    android:layout_marginLeft="15dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/v_clause2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" android:paddingLeft="10dp">
+
+                <foundation.bluewhale.splashviews.widget.IconImageView
+                    android:id="@+id/checkBox_02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_check_white"
+                    app:imageColor="@color/colorText"/>
+
+                <TextView
+                    android:id="@+id/tv_clause2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@+id/checkBox_02"
+                    android:includeFontPadding="false"
+                    android:text="check2"
+                    android:textColor="@color/colorText"
+                    android:textSize="15sp"
+                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/checkBox_02"/>
+
+                <TextView
+                    android:id="@+id/tv_condition2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/tv_clause2"
+                    android:includeFontPadding="false"
+                    android:text="(required)"
+                    android:textColor="@color/colorText"
+                    android:textSize="12sp"
+                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/tv_clause2"/>
+
+                <foundation.bluewhale.splashviews.widget.IconImageButton
+                    android:id="@+id/ib_clause2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="15dp"
+                    android:background="@color/transparent"
+                    android:padding="5dp"
+                    android:src="@drawable/icon_clamp_gray"
+                    app:imageColor="@color/colorText" android:layout_alignParentRight="true"
+                    android:layout_marginLeft="15dp"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/v_clause3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingStart="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp" android:paddingLeft="10dp">
+
+                <foundation.bluewhale.splashviews.widget.IconImageView
+                    android:id="@+id/checkBox_03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/icon_check_white"
+                    app:imageColor="@color/colorText"/>
+
+                <TextView
+                    android:id="@+id/tv_clause3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="15dp"
+                    android:layout_toEndOf="@+id/checkBox_03"
+                    android:includeFontPadding="false"
+                    android:text="check3"
+                    android:textColor="@color/colorText"
+                    android:textSize="15sp"
+                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="15dp"
+                    android:layout_toRightOf="@+id/checkBox_03"/>
+
+                <TextView
+                    android:id="@+id/tv_condition3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginStart="5dp"
+                    android:layout_toEndOf="@+id/tv_clause3"
+                    android:includeFontPadding="false"
+                    android:text="(optional)"
+                    android:textColor="@color/colorText"
+                    android:textSize="12sp"
+                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@+id/tv_clause3"/>
+
+                <foundation.bluewhale.splashviews.widget.IconImageButton
+                    android:id="@+id/ib_clause3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentEnd="true"
+                    android:layout_centerVertical="true"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginStart="15dp"
+                    android:background="@color/transparent"
+                    android:padding="5dp"
+                    android:src="@drawable/icon_clamp_gray"
+                    app:imageColor="@color/colorText" android:layout_alignParentRight="true"
+                    android:layout_marginLeft="15dp"/>
+            </RelativeLayout>
+
+            <foundation.bluewhale.splashviews.widget.BWTextButton
+                android:id="@+id/bwtb_agree"
+                style="@style/BWTextButton_blue_bg"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="45dp"
+                android:gravity="center"
+                android:text="@string/button_next"
+                android:textSize="18sp"
+                app:fontFamily="@font/notosans_cjkkr_medium"
+                app:roundRadius="@dimen/button_radius_small"
+                tools:ignore="SpUsage"/>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>

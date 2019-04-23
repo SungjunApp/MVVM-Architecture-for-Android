@@ -31,7 +31,8 @@ import com.bluewhale.sa.view.setupActionBar
 import kotlinx.android.synthetic.main.toolbar.*
 
 class MainActivity : AppCompatActivity() {
-    val TAG = "MainActivity"
+//    val TAG = "MainActivity"
+    val TAG = this.localClassName
     private lateinit var model: ShiftViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

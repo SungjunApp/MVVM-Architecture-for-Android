@@ -5,15 +5,16 @@ import androidx.test.espresso.Espresso.onView
 import androidx.test.espresso.action.ViewActions.click
 import androidx.test.espresso.assertion.ViewAssertions
 import androidx.test.espresso.matcher.ViewMatchers
+import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
 import com.bluewhale.sa.ui.shift.work.WorkFragment
+import com.bluewhale.sa.view.replaceFragmentInActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import androidx.test.espresso.matcher.ViewMatchers.*
 
 
 /**
@@ -24,7 +25,8 @@ import androidx.test.espresso.matcher.ViewMatchers.*
 @RunWith(AndroidJUnit4::class)
 @LargeTest
 class WorkFragmentTest {
-    @get:Rule var activityTestRule = ActivityTestRule(MainActivity::class.java)
+    @get:Rule
+    var activityTestRule = ActivityTestRule(MainActivity::class.java)
 
     private var mMainActivity: MainActivity? = null
 
@@ -38,8 +40,7 @@ class WorkFragmentTest {
     fun testLaunch() {
         mMainActivity?.replaceFragmentInActivity(
             R.id.contentFrame,
-            WorkFragment(),
-            "WorkFragment"
+            WorkFragment()
         )
 
         Espresso.onView(ViewMatchers.withId(R.id.button_shift))
@@ -68,7 +69,7 @@ class WorkFragmentTest {
     fun shiftButtonIsEnabled() {
         val f = WorkFragment()
 
-        mMainActivity?.replaceFragmentInActivity(R.id.contentFrame, f, "WorkFragment")
+        mMainActivity?.replaceFragmentInActivity(R.id.contentFrame, f)
 
         Thread.sleep(1000)
 
