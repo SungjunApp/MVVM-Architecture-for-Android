@@ -2,29 +2,44 @@ package com.bluewhale.sa.ui.register
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.bluewhale.sa.data.source.register.DRequestToken
-import com.bluewhale.sa.data.source.register.RegisterInfoRepository
+import com.bluewhale.sa.data.source.register.DUser
+import com.bluewhale.sa.data.source.register.RegisterSMSDataSource
+import com.bluewhale.sa.data.source.register.RegisterSMSRepository
+import com.bluewhale.sa.ui.BaseViewModel
 
 
 class RegisterSMSViewModel(
     val navigator: RegisterNavigator,
-    val registerRepository: RegisterInfoRepository,
+    val registerSMSRepository: RegisterSMSRepository,
     val marketingClause: Boolean,
     val getRequestToken: DRequestToken
-) : ViewModel() {
+) : BaseViewModel() {
 
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean>
-        get() = _loading
+    private val _authCode = MutableLiveData<String>()
+    val authCode: LiveData<String>
+        get() = _authCode
 
-    private val _errorPopup = MutableLiveData<Int>()
-    val errorPopup: LiveData<Int>
-        get() = _errorPopup
+    fun setAuthCode(authCode: String) {
+        _authCode.value = authCode
 
-    private val _nextButton = MutableLiveData<Boolean>().apply { value = false }
-    val nextButton: LiveData<Boolean>
-        get() = _nextButton
+        _nextButton.value = authCode.length == 6
+    }
 
+    fun verifyCode() {
+        registerSMSRepository.verifyCode(
+            getRequestToken.token,
+            marketingClause,
+            authCode.value!!,
+            object : RegisterSMSDataSource.CompletableCallback {
+                override fun onComplete(dUser: DUser) {
+                    navigator.goHomeFragment()
+                }
 
+                override fun onError(message: Int) {
+                    _errorPopup.apply { value = message }
+                }
+            }
+        )
+    }
 }

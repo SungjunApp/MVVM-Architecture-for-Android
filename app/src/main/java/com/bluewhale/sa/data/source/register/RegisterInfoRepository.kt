@@ -1,6 +1,6 @@
 package com.bluewhale.sa.data.source.register
 
-class RegisterInfoRepository(private val registerDataSource: RegisterInfoDataSource) : RegisterInfoDataSource {
+class RegisterInfoRepository(private val registerInfoDataSource: RegisterInfoDataSource) : RegisterInfoDataSource {
     override fun requestSMS(
         personalNumber1: String,
         personalNumber2: String,
@@ -9,7 +9,7 @@ class RegisterInfoRepository(private val registerDataSource: RegisterInfoDataSou
         mobileNumber: String,
         callback: RegisterInfoDataSource.CompletableCallback
     ) {
-        registerDataSource.requestSMS(
+        registerInfoDataSource.requestSMS(
             personalNumber1,
             personalNumber2,
             name,
@@ -32,9 +32,9 @@ class RegisterInfoRepository(private val registerDataSource: RegisterInfoDataSou
          * @return the [RegisterInfoRepository] instance
          */
         @JvmStatic
-        fun getInstance(registerDataSource: RegisterInfoDataSource) =
+        fun getInstance(registerInfoDataSource: RegisterInfoDataSource) =
             INSTANCE ?: synchronized(RegisterInfoRepository::class.java) {
-                INSTANCE ?: RegisterInfoRepository(registerDataSource)
+                INSTANCE ?: RegisterInfoRepository(registerInfoDataSource)
                     .also { INSTANCE = it }
             }
 

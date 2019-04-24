@@ -1,5 +1,6 @@
 package com.bluewhale.sa.data
 
+import com.bluewhale.sa.R
 import com.bluewhale.sa.constant.MobileProvider
 import com.bluewhale.sa.data.source.register.DRequestToken
 import com.bluewhale.sa.data.source.register.RegisterInfoDataSource
@@ -22,6 +23,6 @@ class FakeRegisterInfoDataSource : RegisterInfoDataSource {
         if (isCollectPersonalNumber1 && isCollectPersonalNumber2 && isCollectName && isCollectProviderId && isCollectMobileNumber)
             callback.onComplete(DRequestToken("PASS"))
         else
-            callback.onError("Information_is_wrong")
+            callback.onError(R.string.register_invalid_information)
     }
 }

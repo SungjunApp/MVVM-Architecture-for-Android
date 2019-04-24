@@ -37,7 +37,7 @@ class RegisterSMSViewModelFactory private constructor(
             INSTANCE ?: synchronized(RegisterSMSViewModelFactory::class.java) {
                 INSTANCE ?: RegisterSMSViewModelFactory(
                     RegisterNavigator(Injection.createNavigationProvider(activity)),
-                    Injection.provideRegisterRepository(application),
+                    Injection.provideRegisterInfoRepository(application),
                     marketingClause,
                     requestToken
                 )

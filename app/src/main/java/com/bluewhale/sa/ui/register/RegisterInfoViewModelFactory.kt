@@ -35,7 +35,7 @@ class RegisterInfoViewModelFactory private constructor(
             INSTANCE ?: synchronized(RegisterInfoViewModelFactory::class.java) {
                 INSTANCE ?: RegisterInfoViewModelFactory(
                     RegisterNavigator(Injection.createNavigationProvider(activity)),
-                    Injection.provideRegisterRepository(application),
+                    Injection.provideRegisterInfoRepository(application),
                     marketingClause
                 )
                     .also { INSTANCE = it }

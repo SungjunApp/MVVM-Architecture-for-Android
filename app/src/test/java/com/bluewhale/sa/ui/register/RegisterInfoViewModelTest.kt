@@ -2,8 +2,9 @@ package com.bluewhale.sa.ui.register
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.bluewhale.sa.Injection.provideRegisterRepository
+import com.bluewhale.sa.Injection.provideRegisterInfoRepository
 import com.bluewhale.sa.LiveDataTestUtil
+import com.bluewhale.sa.R
 import com.bluewhale.sa.constant.MobileProvider
 import com.bluewhale.sa.data.source.register.DRequestToken
 import com.bluewhale.sa.data.source.register.RegisterInfoDataSource
@@ -36,7 +37,7 @@ class RegisterInfoViewModelTest {
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this)
 
-        registerInfoRepository = provideRegisterRepository(application)
+        registerInfoRepository = provideRegisterInfoRepository(application)
 
         // Get a reference to the class under test
         registerInfoViewModel = RegisterInfoViewModel(navigator, registerInfoRepository, false)
@@ -173,7 +174,10 @@ class RegisterInfoViewModelTest {
 
         printResult("repositoryTest1")
 
-        Assert.assertEquals(LiveDataTestUtil.getValue(registerInfoViewModel.errorPopup), "Information_is_wrong")
+        Assert.assertEquals(
+            LiveDataTestUtil.getValue(registerInfoViewModel.errorPopup),
+            R.string.register_invalid_information
+        )
     }
 
     /**
@@ -202,7 +206,7 @@ class RegisterInfoViewModelTest {
                     token = requestToken
                 }
 
-                override fun onError(message: String?) {
+                override fun onError(message: Int) {
                 }
             }
         )
@@ -213,7 +217,7 @@ class RegisterInfoViewModelTest {
         Assert.assertEquals(token!!.token, "PASS")
     }
 
-    fun printResult(title: String) {
+    private fun printResult(title: String) {
         println(title)
         println("name : ${registerInfoViewModel.items.value?.name}")
         println("personalCode1 : ${registerInfoViewModel.items.value?.personalCode1}")

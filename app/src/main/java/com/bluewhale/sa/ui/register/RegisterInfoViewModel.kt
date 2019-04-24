@@ -7,25 +7,14 @@ import com.bluewhale.sa.constant.MobileProvider
 import com.bluewhale.sa.data.source.register.DRequestToken
 import com.bluewhale.sa.data.source.register.RegisterInfoDataSource
 import com.bluewhale.sa.data.source.register.RegisterInfoRepository
+import com.bluewhale.sa.ui.BaseViewModel
 
 
 class RegisterInfoViewModel(
     val navigator: RegisterNavigator,
     val registerRepository: RegisterInfoRepository,
     val marketingClause: Boolean
-) : ViewModel() {
-
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean>
-        get() = _loading
-
-    private val _errorPopup = MutableLiveData<String>()
-    val errorPopup: LiveData<String>
-        get() = _errorPopup
-
-    private val _nextButton = MutableLiveData<Boolean>().apply { value = false }
-    val nextButton: LiveData<Boolean>
-        get() = _nextButton
+) : BaseViewModel() {
 
     private val _items = MutableLiveData<RegisterInfoData>()
         .apply { value = RegisterInfoData("", "", "", "", MobileProvider.UNSELECTED) }
@@ -73,7 +62,7 @@ class RegisterInfoViewModel(
                         navigator.goRegisterSMSFragment(marketingClause, requestToken)
                     }
 
-                    override fun onError(message: String?) {
+                    override fun onError(message: Int) {
                         _errorPopup.apply { value = message }
                     }
                 }
