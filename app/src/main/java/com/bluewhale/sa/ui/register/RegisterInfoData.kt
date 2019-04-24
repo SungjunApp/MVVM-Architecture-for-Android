@@ -1,5 +1,7 @@
 package com.bluewhale.sa.ui.register
 
+import com.bluewhale.sa.constant.MobileProvider
+
 
 data class RegisterInfoData(
     var name: String,
@@ -31,15 +33,5 @@ data class RegisterInfoData(
 
     fun isInfoFilledUp(): Boolean {
         return isNameFull() && isPersonalCode1Full() && isPersonalCode2Full() && isPhoneFull() && isProviderSelected()
-    }
-
-    enum class MobileProvider(val providerCode: Int) {
-        UNSELECTED(-1),
-        SKT(0),
-        KT(1),
-        LG(2),
-        SKT_SUB(3),
-        KT_SUB(4),
-        LG_SUB(5)
     }
 }

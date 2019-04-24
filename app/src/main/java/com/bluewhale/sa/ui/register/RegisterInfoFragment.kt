@@ -5,9 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bluewhale.sa.MainActivity
 import com.bluewhale.sa.R
+import kotlinx.android.synthetic.main.fragment_register_information.*
 
 class RegisterInfoFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -30,6 +32,22 @@ class RegisterInfoFragment : Fragment() {
             )
                 .get(RegisterInfoViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
+    }
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
+        mViewModel.errorPopup.observe(this, Observer {
+            //todo : make make dialog
+        })
+
+        mViewModel.nextButton.observe(this, Observer {
+            bwtb_next.isEnabled = it
+        })
+
+        bwtb_next.setOnClickListener {
+            mViewModel.requestSMS()
+        }
     }
 
     private fun getMarketClause(): Boolean {

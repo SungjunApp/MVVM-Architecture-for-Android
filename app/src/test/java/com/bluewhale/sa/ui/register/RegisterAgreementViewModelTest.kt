@@ -39,6 +39,8 @@ class RegisterAgreementViewModelTest {
      */
     @Test
     fun passableTest1() {
+        printResult("passableTest1")
+
         Assert.assertFalse(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
     }
 
@@ -52,6 +54,9 @@ class RegisterAgreementViewModelTest {
     @Test
     fun passableTest2() {
         registerAgreementViewModel.setClauseAll(true)
+
+        printResult("passableTest2")
+
         Assert.assertTrue(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
     }
 
@@ -66,6 +71,9 @@ class RegisterAgreementViewModelTest {
     fun passableTest3() {
         registerAgreementViewModel.setClauseAll(true)
         registerAgreementViewModel.setClauseAll(false)
+
+        printResult("passableTest3")
+
         Assert.assertFalse(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
     }
 
@@ -80,6 +88,9 @@ class RegisterAgreementViewModelTest {
     fun passableTest4() {
         registerAgreementViewModel.setClauseAll(true)
         registerAgreementViewModel.setClause3(false)
+
+        printResult("passableTest4")
+
         Assert.assertTrue(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
     }
 
@@ -94,6 +105,9 @@ class RegisterAgreementViewModelTest {
     fun passableTest5() {
         registerAgreementViewModel.setClauseAll(false)
         registerAgreementViewModel.setClause3(true)
+
+        printResult("passableTest5")
+
         Assert.assertFalse(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
     }
 
@@ -107,6 +121,9 @@ class RegisterAgreementViewModelTest {
     @Test
     fun passableTest6() {
         registerAgreementViewModel.setClause1(true)
+
+        printResult("passableTest6")
+
         Assert.assertFalse(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
     }
 
@@ -120,6 +137,9 @@ class RegisterAgreementViewModelTest {
     @Test
     fun passableTest7() {
         registerAgreementViewModel.setClause2(true)
+
+        printResult("passableTest7")
+
         Assert.assertFalse(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
     }
 
@@ -134,6 +154,9 @@ class RegisterAgreementViewModelTest {
     fun passableTest8() {
         registerAgreementViewModel.setClause1(true)
         registerAgreementViewModel.setClause2(true)
+
+        printResult("passableTest8")
+
         Assert.assertTrue(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
     }
 
@@ -149,6 +172,17 @@ class RegisterAgreementViewModelTest {
         registerAgreementViewModel.setClause1(true)
         registerAgreementViewModel.setClause2(true)
         registerAgreementViewModel.setClauseAll(false)
+
+        printResult("passableTest9")
+
         Assert.assertFalse(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
+    }
+
+    fun printResult(title: String) {
+        println(title)
+        println("clause1 : ${registerAgreementViewModel.items.value?.clause1}")
+        println("clause2 : ${registerAgreementViewModel.items.value?.clause2}")
+        println("clause3 : ${registerAgreementViewModel.items.value?.clause3}")
+        println("\n")
     }
 }

@@ -198,7 +198,7 @@
     </ScrollView>
 
     <foundation.bluewhale.splashviews.widget.BWTextButton
-        android:id="@+id/button"
+        android:id="@+id/bwtb_next"
         style="@style/BWTextButton_blue_bg"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
