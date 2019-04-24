@@ -127,7 +127,9 @@ class WorkDetailFragment : BaseFragment() {
         }
 
         context?.also{
-            mAdapter = WorkAdapter(it, GlideApp.with(this).asDrawable())
+            mAdapter = WorkAdapter(it, GlideApp.with(this).asDrawable()){
+
+            }
             recyclerView.adapter = mAdapter
 
             val layoutManager = LinearLayoutManager(context)
