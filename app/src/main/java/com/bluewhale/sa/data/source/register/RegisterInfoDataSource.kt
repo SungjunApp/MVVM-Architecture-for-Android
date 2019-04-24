@@ -2,7 +2,7 @@ package com.bluewhale.sa.data.source.register
 
 interface RegisterInfoDataSource {
     interface CompletableCallback {
-        fun onComplete(requestToken: dRequestToken)
+        fun onComplete(requestToken: DRequestToken)
         fun onError(message: String?)
     }
 

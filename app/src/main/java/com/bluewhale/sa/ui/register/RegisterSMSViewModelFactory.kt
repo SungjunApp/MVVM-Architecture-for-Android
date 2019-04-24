@@ -9,7 +9,7 @@ import com.bluewhale.sa.Injection
 import com.bluewhale.sa.MainActivity
 import com.bluewhale.sa.data.source.register.RegisterInfoRepository
 
-class RegisterInfoViewModelFactory private constructor(
+class RegisterSMSViewModelFactory private constructor(
     val navigator: RegisterNavigator,
     val registerInfoRepository: RegisterInfoRepository,
     val marketingClause: Boolean
@@ -18,8 +18,8 @@ class RegisterInfoViewModelFactory private constructor(
     override fun <T : ViewModel> create(modelClass: Class<T>) =
         with(modelClass) {
             when {
-                isAssignableFrom(RegisterInfoViewModel::class.java) ->
-                    RegisterInfoViewModel(navigator, registerInfoRepository, marketingClause)
+                isAssignableFrom(RegisterSMSViewModel::class.java) ->
+                    RegisterSMSViewModel(navigator, registerInfoRepository, marketingClause)
                 else ->
                     throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
             }
@@ -29,11 +29,11 @@ class RegisterInfoViewModelFactory private constructor(
 
         @SuppressLint("StaticFieldLeak")
         @Volatile
-        private var INSTANCE: RegisterInfoViewModelFactory? = null
+        private var INSTANCE: RegisterSMSViewModelFactory? = null
 
         fun getInstance(activity: MainActivity, application: Application, marketingClause: Boolean) =
-            INSTANCE ?: synchronized(RegisterInfoViewModelFactory::class.java) {
-                INSTANCE ?: RegisterInfoViewModelFactory(
+            INSTANCE ?: synchronized(RegisterSMSViewModelFactory::class.java) {
+                INSTANCE ?: RegisterSMSViewModelFactory(
                     RegisterNavigator(Injection.createNavigationProvider(activity)),
                     Injection.provideRegisterRepository(application),
                     marketingClause

@@ -6,6 +6,7 @@ import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 
 class RegisterAgreementViewModelTest {
@@ -14,6 +15,9 @@ class RegisterAgreementViewModelTest {
 
     private lateinit var registerAgreementViewModel: RegisterAgreementViewModel
 
+    @Mock
+    private lateinit var navigator: RegisterNavigator
+
     @Before
     fun setupShiftViewModel() {
         // Mockito has a very convenient way to inject mocks by using the @Mock annotation. To
@@ -21,7 +25,7 @@ class RegisterAgreementViewModelTest {
         MockitoAnnotations.initMocks(this)
 
         // Get a reference to the class under test
-        registerAgreementViewModel = RegisterAgreementViewModel()
+        registerAgreementViewModel = RegisterAgreementViewModel(navigator)
     }
 
     /**
@@ -131,5 +135,20 @@ class RegisterAgreementViewModelTest {
         registerAgreementViewModel.setClause1(true)
         registerAgreementViewModel.setClause2(true)
         Assert.assertTrue(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
+    }
+
+    /**
+     * clause1 : true -> false
+     * clause2 : true -> false
+     * clause3 : false
+     *
+     * nextButton -> false
+     */
+    @Test
+    fun passableTest9() {
+        registerAgreementViewModel.setClause1(true)
+        registerAgreementViewModel.setClause2(true)
+        registerAgreementViewModel.setClauseAll(false)
+        Assert.assertFalse(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
     }
 }

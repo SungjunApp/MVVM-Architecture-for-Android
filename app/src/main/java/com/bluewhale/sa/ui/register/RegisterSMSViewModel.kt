@@ -8,7 +8,7 @@ import com.bluewhale.sa.data.source.register.RegisterInfoRepository
 import com.bluewhale.sa.data.source.register.DRequestToken
 
 
-class RegisterInfoViewModel(
+class RegisterSMSViewModel(
     val navigator: RegisterNavigator,
     val registerRepository: RegisterInfoRepository,
     val marketingClause: Boolean
@@ -27,7 +27,7 @@ class RegisterInfoViewModel(
         get() = _nextButton
 
     private val _items = MutableLiveData<RegisterInfoData>()
-        .apply { value = RegisterInfoData("", "", "", "", RegisterInfoData.MobileProvider.UNSELECTED) }
+        .apply { value = RegisterInfoData("", "", "", "", RegisterInfoData.Provider.UNSELECTED) }
     val items: LiveData<RegisterInfoData>
         get() = _items
 
@@ -53,7 +53,7 @@ class RegisterInfoViewModel(
         _nextButton.value = _items.value?.isInfoFilledUp()
     }
 
-    fun setProvider(provider: RegisterInfoData.MobileProvider) {
+    fun setProvider(provider: RegisterInfoData.Provider) {
         _items.value?.provider = provider
 
         _nextButton.value = _items.value?.isInfoFilledUp()
@@ -61,11 +61,22 @@ class RegisterInfoViewModel(
 
     fun requestSMS() {
         if (_items.value?.isInfoFilledUp()!!) {
+            val providerCode =
+                when (_items.value?.provider) {
+                    RegisterInfoData.Provider.SKT -> 0
+                    RegisterInfoData.Provider.KT -> 1
+                    RegisterInfoData.Provider.LG -> 2
+                    RegisterInfoData.Provider.SKT_SUB -> 3
+                    RegisterInfoData.Provider.KT_SUB -> 4
+                    RegisterInfoData.Provider.LG_SUB -> 5
+                    else -> -1
+                }
+
             registerRepository.requestSMS(
                 _items.value!!.personalCode1,
                 _items.value!!.personalCode2,
                 _items.value!!.name,
-                _items.value!!.provider.providerCode,
+                providerCode,
                 _items.value!!.phone,
                 object : RegisterInfoDataSource.CompletableCallback {
                     override fun onComplete(requestToken: DRequestToken) {

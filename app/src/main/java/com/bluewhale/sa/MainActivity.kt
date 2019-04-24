@@ -10,28 +10,25 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
-import androidx.annotation.IdRes
-import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
-import com.google.android.material.snackbar.Snackbar
-import com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE
 import com.bluewhale.sa.BuildConfig.APPLICATION_ID
 import com.bluewhale.sa.ui.BaseFragment
 import com.bluewhale.sa.ui.shift.ShiftViewModel
 import com.bluewhale.sa.ui.shift.work.WorkFragment
 import com.bluewhale.sa.view.replaceFragmentInActivity
 import com.bluewhale.sa.view.setupActionBar
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
+import com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE
 import kotlinx.android.synthetic.main.toolbar.*
 
 class MainActivity : AppCompatActivity() {
-//    val TAG = "MainActivity"
+    //    val TAG = "MainActivity"
     val TAG = this.localClassName
     private lateinit var model: ShiftViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -102,6 +99,14 @@ class MainActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
+    fun goToRootFragment(){
+        val count = supportFragmentManager.backStackEntryCount
+        if (count >= 2) {
+            val be = supportFragmentManager.getBackStackEntryAt(0)
+            supportFragmentManager.popBackStack(be.id, 0)
+        }
+    }
+
     private inline fun FragmentManager.transact(action: FragmentTransaction.() -> Unit) {
         beginTransaction().apply {
             action()
@@ -121,7 +126,6 @@ class MainActivity : AppCompatActivity() {
             getLastLocation()
         }
     }
-
 
 
     @SuppressLint("MissingPermission")
@@ -150,8 +154,10 @@ class MainActivity : AppCompatActivity() {
         ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) == PERMISSION_GRANTED
 
     private fun startLocationPermissionRequest() {
-        ActivityCompat.requestPermissions(this, arrayOf(ACCESS_FINE_LOCATION),
-            REQUEST_PERMISSIONS_REQUEST_CODE)
+        ActivityCompat.requestPermissions(
+            this, arrayOf(ACCESS_FINE_LOCATION),
+            REQUEST_PERMISSIONS_REQUEST_CODE
+        )
     }
 
     private fun requestPermissions() {
@@ -208,7 +214,7 @@ class MainActivity : AppCompatActivity() {
                             // Build intent that displays the App settings screen.
                             val intent = Intent().apply {
                                 action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                                    data = Uri.fromParts("package", APPLICATION_ID, null)
+                                data = Uri.fromParts("package", APPLICATION_ID, null)
                                 flags = Intent.FLAG_ACTIVITY_NEW_TASK
                             }
                             startActivity(intent)
@@ -224,8 +230,10 @@ class MainActivity : AppCompatActivity() {
         actionStrId: Int = 0,
         listener: View.OnClickListener? = null
     ) {
-        val snackbar = Snackbar.make(findViewById(android.R.id.content), getString(snackStrId),
-            LENGTH_INDEFINITE)
+        val snackbar = Snackbar.make(
+            findViewById(android.R.id.content), getString(snackStrId),
+            LENGTH_INDEFINITE
+        )
         if (actionStrId != 0 && listener != null) {
             snackbar.setAction(getString(actionStrId), listener)
         }

@@ -228,7 +228,7 @@
             </RelativeLayout>
 
             <foundation.bluewhale.splashviews.widget.BWTextButton
-                android:id="@+id/bwtb_agree"
+                android:id="@+id/bwtb_next"
                 style="@style/BWTextButton_blue_bg"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -6,7 +6,7 @@ data class RegisterInfoData(
     var personalCode1: String,
     var personalCode2: String,
     var phone: String,
-    var provider: Provider
+    var provider: MobileProvider
 ) {
 
     fun isNameFull(): Boolean {
@@ -26,20 +26,20 @@ data class RegisterInfoData(
     }
 
     fun isProviderSelected(): Boolean {
-        return provider != Provider.UNSELECTED
+        return provider != MobileProvider.UNSELECTED
     }
 
     fun isInfoFilledUp(): Boolean {
         return isNameFull() && isPersonalCode1Full() && isPersonalCode2Full() && isPhoneFull() && isProviderSelected()
     }
 
-    enum class Provider {
-        UNSELECTED,
-        SKT,
-        KT,
-        LG,
-        SKT_SUB,
-        KT_SUB,
-        LG_SUB
+    enum class MobileProvider(val providerCode: Int) {
+        UNSELECTED(-1),
+        SKT(0),
+        KT(1),
+        LG(2),
+        SKT_SUB(3),
+        KT_SUB(4),
+        LG_SUB(5)
     }
 }

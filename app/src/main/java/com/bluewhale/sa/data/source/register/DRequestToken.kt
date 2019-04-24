@@ -4,4 +4,4 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class dRequestToken constructor(val token: String) : Parcelable
+data class DRequestToken constructor(val token: String) : Parcelable

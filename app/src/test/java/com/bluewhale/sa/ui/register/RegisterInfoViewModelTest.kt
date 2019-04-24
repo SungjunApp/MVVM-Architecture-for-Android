@@ -15,6 +15,9 @@ class RegisterInfoViewModelTest {
     var instantExecutorRule = InstantTaskExecutorRule()
 
     @Mock
+    private lateinit var navigator: RegisterNavigator
+
+    @Mock
     private lateinit var registerInfoRepository: RegisterInfoRepository
 
     private lateinit var registerInfoViewModel: RegisterInfoViewModel
@@ -26,7 +29,7 @@ class RegisterInfoViewModelTest {
         MockitoAnnotations.initMocks(this)
 
         // Get a reference to the class under test
-        registerInfoViewModel = RegisterInfoViewModel(registerInfoRepository)
+        registerInfoViewModel = RegisterInfoViewModel(navigator, registerInfoRepository, false)
     }
 
     /**
@@ -67,7 +70,7 @@ class RegisterInfoViewModelTest {
         registerInfoViewModel.setPhone("01067423129")
         Assert.assertFalse(LiveDataTestUtil.getValue(registerInfoViewModel.nextButton))
 
-        registerInfoViewModel.setProvider(RegisterInfoData.Provider.SKT)
+        registerInfoViewModel.setProvider(RegisterInfoData.MobileProvider.SKT)
         Assert.assertTrue(LiveDataTestUtil.getValue(registerInfoViewModel.nextButton))
     }
 
@@ -88,7 +91,7 @@ class RegisterInfoViewModelTest {
         registerInfoViewModel.setPersonalCode1("90092")
         registerInfoViewModel.setPersonalCode2("1")
         registerInfoViewModel.setPhone("01067423129")
-        registerInfoViewModel.setProvider(RegisterInfoData.Provider.SKT)
+        registerInfoViewModel.setProvider(RegisterInfoData.MobileProvider.SKT)
 
         Assert.assertFalse(LiveDataTestUtil.getValue(registerInfoViewModel.nextButton))
     }
@@ -110,7 +113,7 @@ class RegisterInfoViewModelTest {
         registerInfoViewModel.setPersonalCode1("900927")
         registerInfoViewModel.setPersonalCode2("1")
         registerInfoViewModel.setPhone("0106742312")
-        registerInfoViewModel.setProvider(RegisterInfoData.Provider.SKT)
+        registerInfoViewModel.setProvider(RegisterInfoData.MobileProvider.SKT)
 
         Assert.assertFalse(LiveDataTestUtil.getValue(registerInfoViewModel.nextButton))
     }
@@ -130,7 +133,7 @@ class RegisterInfoViewModelTest {
         registerInfoViewModel.setPersonalCode1("900927")
         registerInfoViewModel.setPersonalCode2("1")
         registerInfoViewModel.setPhone("01067423129")
-        registerInfoViewModel.setProvider(RegisterInfoData.Provider.SKT)
+        registerInfoViewModel.setProvider(RegisterInfoData.MobileProvider.SKT)
 
         Assert.assertTrue(LiveDataTestUtil.getValue(registerInfoViewModel.nextButton))
     }
