@@ -14,7 +14,7 @@ class RegisterAgreementViewModel : ViewModel() {
     val errorPopup: LiveData<Int>
         get() = _errorPopup
 
-    private val _nextButton = MutableLiveData<Boolean>()
+    private val _nextButton = MutableLiveData<Boolean>().apply { value = false }
     val nextButton: LiveData<Boolean>
         get() = _nextButton
 
