@@ -7,13 +7,14 @@ import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
-import com.bluewhale.sa.*
+import androidx.recyclerview.widget.RecyclerView
+import com.bluewhale.sa.GlideApp
+import com.bluewhale.sa.R
+import com.bluewhale.sa.ViewModelFactory
 import com.bluewhale.sa.ui.BaseFragment
 import com.bluewhale.sa.ui.shift.ShiftViewModel
+import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_work.*
-import androidx.recyclerview.widget.RecyclerView
-
 
 
 class WorkDetailFragment : BaseFragment() {
@@ -35,7 +36,7 @@ class WorkDetailFragment : BaseFragment() {
         model.loadShifts()
     }
 
-    override fun onDestroyView(){
+    override fun onDestroyView() {
         mOnScrollListener?.also {
             recyclerView.removeOnScrollListener(it)
         }
@@ -126,8 +127,10 @@ class WorkDetailFragment : BaseFragment() {
             }
         }
 
-        context?.also{
-            mAdapter = WorkAdapter(it, GlideApp.with(this).asDrawable())
+        context?.also {
+            mAdapter = WorkAdapter(it, GlideApp.with(this).asDrawable()) {
+
+            }
             recyclerView.adapter = mAdapter
 
             val layoutManager = LinearLayoutManager(context)
@@ -142,16 +145,15 @@ class WorkDetailFragment : BaseFragment() {
         })
     }
 
-    internal val offSetRange = 150f
+    private val offSetRange = 150
     fun setAlphaListShadow(view: View?, offSet: Int) {
         if (view == null)
             return
 
-        if (0 <= offSet && offSet <= offSetRange)
-            view.alpha = offSet / offSetRange
-        else if (offSet > offSetRange)
-            view.alpha = 1f
-        else
-            view.alpha = 0f
+        when {
+            offSet in 0..offSetRange -> view.alpha = offSet / offSetRange.toFloat()
+            offSet > offSetRange -> view.alpha = 1f
+            else -> view.alpha = 0f
+        }
     }
 }

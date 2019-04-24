@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/layout_fragment"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/colorWhite"
+              android:fitsSystemWindows="true"
+              android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/v_sub"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/v_content"
+            style="@style/regPadding"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_lable_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosans_cjkkr_regular"
+                android:gravity="center"
+                android:text="Name"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"/>
+
+            <foundation.bluewhale.splashviews.widget.BWEditText
+                android:id="@+id/bwet_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                app:hintText="name"
+                app:hintTextColor="@color/colorTextHint"
+                app:hintTextSize="15sp"
+                app:inputTextSize="15sp"
+                app:inputType="text"
+                app:intputTextColor="@color/colorText"
+                app:underlineColor="@color/colorAccent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosans_cjkkr_regular"
+                android:gravity="center"
+                android:text="PersonalNum"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"/>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="30dp">
+
+                <EditText
+                    android:id="@+id/et_1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="●●●●●●"
+                    android:inputType="number"
+                    android:maxLength="6"
+                    android:padding="10dp"
+                    android:textColor="@color/colorText"
+                    android:textColorHint="@color/colorTextHint"
+                    android:textCursorDrawable="@null"/>
+
+                <View
+                    android:layout_width="10dp"
+                    android:layout_height="1dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@color/colorText"/>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1">
+
+                    <EditText
+                        android:id="@+id/et_2"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:hint="●"
+                        android:inputType="number"
+                        android:maxLength="1"
+                        android:padding="10dp"
+                        android:textColor="@color/colorText"
+                        android:textColorHint="@color/colorTextHint"
+                        android:textCursorDrawable="@null"/>
+
+                </LinearLayout>
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosans_cjkkr_regular"
+                android:gravity="center"
+                android:text="Phone"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"/>
+
+            <foundation.bluewhale.splashviews.widget.BWEditText
+                android:id="@+id/bwet_phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                app:hintText="phoneHint"
+                app:hintTextColor="@color/colorTextHint"
+                app:hintTextSize="15sp"
+                app:inputTextSize="15sp"
+                app:inputType="phone"
+                app:intputTextColor="@color/colorText"
+                app:underlineColor="@color/colorAccent"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/notosans_cjkkr_regular"
+                android:text="MobileProvider"
+                android:textColor="@color/colorText"
+                android:textSize="16sp"/>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/v_provider"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="50dp">
+
+                <TextView
+                    android:id="@+id/tv_provider"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:includeFontPadding="false"
+                    android:paddingTop="5dp"
+                    android:paddingBottom="5dp"
+                    android:text="mobile_provider_select"
+                    android:textColor="@color/colorText"
+                    android:textSize="15sp"
+                    app:fontFamily="@font/notosans_cjkkr_regular"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/iv_provider"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <foundation.bluewhale.splashviews.widget.IconImageView
+                    android:id="@+id/iv_provider"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@drawable/icon_triangle"
+                    app:imageColor="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/tv_provider"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <View
+                    android:id="@+id/v_provider_line"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:background="@color/colorAccent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <foundation.bluewhale.splashviews.widget.BWTextButton
+                android:id="@+id/button_impuid"
+                style="@style/BWTextButton_blue_bg"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:includeFontPadding="false"
+                android:padding="5dp"
+                android:text="[Dev only] impuid로 바로 가입하기"
+                android:textSize="12sp"
+                android:visibility="gone"
+                app:fontFamily="@font/notosans_cjkkr_medium"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <foundation.bluewhale.splashviews.widget.BWTextButton
+        android:id="@+id/button"
+        style="@style/BWTextButton_blue_bg"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_next"
+        android:textSize="18sp"
+        app:fontFamily="@font/notosans_cjkkr_regular"
+        app:layout_constraintTop_toBottomOf="@+id/bwet_phone"
+        app:roundRadius="@dimen/button_radius_small"/>
+</LinearLayout>
