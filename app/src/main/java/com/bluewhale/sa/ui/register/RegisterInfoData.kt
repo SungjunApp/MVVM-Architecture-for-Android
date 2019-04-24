@@ -29,7 +29,7 @@ data class RegisterInfoData(
         return provider != Provider.UNSELECTED
     }
 
-    fun isInfoFull(): Boolean {
+    fun isInfoFilledUp(): Boolean {
         return isNameFull() && isPersonalCode1Full() && isPersonalCode2Full() && isPhoneFull() && isProviderSelected()
     }
 

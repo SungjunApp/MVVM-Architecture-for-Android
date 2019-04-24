@@ -19,7 +19,7 @@ class RegisterInfoViewModel(
     val errorPopup: LiveData<Int>
         get() = _errorPopup
 
-    private val _nextButton = MutableLiveData<Boolean>()
+    private val _nextButton = MutableLiveData<Boolean>().apply { value = false }
     val nextButton: LiveData<Boolean>
         get() = _nextButton
 
@@ -35,29 +35,29 @@ class RegisterInfoViewModel(
     fun setPersonalCode1(personalCode1: String) {
         _items.value?.personalCode1 = personalCode1
 
-        _nextButton.value = _items.value?.isInfoFull()
+        _nextButton.value = _items.value?.isInfoFilledUp()
     }
 
     fun setPersonalCode2(personalCode2: String) {
         _items.value?.personalCode2 = personalCode2
 
-        _nextButton.value = _items.value?.isInfoFull()
+        _nextButton.value = _items.value?.isInfoFilledUp()
     }
 
     fun setPhone(phone: String) {
         _items.value?.phone = phone
 
-        _nextButton.value = _items.value?.isInfoFull()
+        _nextButton.value = _items.value?.isInfoFilledUp()
     }
 
     fun setProvider(provider: RegisterInfoData.Provider) {
         _items.value?.provider = provider
 
-        _nextButton.value = _items.value?.isInfoFull()
+        _nextButton.value = _items.value?.isInfoFilledUp()
     }
 
     fun requestSMS() {
-        if (_items.value?.isInfoFull()!!) {
+        if (_items.value?.isInfoFilledUp()!!) {
             val providerCode =
                 when (_items.value?.provider) {
                     RegisterInfoData.Provider.SKT -> 0
@@ -78,10 +78,14 @@ class RegisterInfoViewModel(
                 object : RegisterInfoDataSource.CompletableCallback {
                     override fun onComplete(requestToken: dRequestToken) {
                         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+                        //todo : go next fragment
                     }
 
                     override fun onError(message: String?) {
                         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+                        //todo : show error popup
                     }
 
                 })

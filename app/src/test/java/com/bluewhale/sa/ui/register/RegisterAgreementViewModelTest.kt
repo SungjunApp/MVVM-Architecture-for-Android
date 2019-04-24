@@ -25,11 +25,13 @@ class RegisterAgreementViewModelTest {
     }
 
     /**
+     * default
+     *
      * clause1 : false
      * clause2 : false
      * clause3 : false
      *
-     * result -> false
+     * nextButton -> false
      */
     @Test
     fun passableTest1() {
@@ -41,7 +43,7 @@ class RegisterAgreementViewModelTest {
      * clause2 : true
      * clause3 : true
      *
-     * result -> true
+     * nextButton -> true
      */
     @Test
     fun passableTest2() {
@@ -54,7 +56,7 @@ class RegisterAgreementViewModelTest {
      * clause2 : true -> false
      * clause3 : true -> false
      *
-     * result -> false
+     * nextButton -> false
      */
     @Test
     fun passableTest3() {
@@ -68,7 +70,7 @@ class RegisterAgreementViewModelTest {
      * clause2 : true
      * clause3 : true -> false
      *
-     * result -> true
+     * nextButton -> true
      */
     @Test
     fun passableTest4() {
@@ -82,7 +84,7 @@ class RegisterAgreementViewModelTest {
      * clause2 : false
      * clause3 : false -> true
      *
-     * result -> false
+     * nextButton -> false
      */
     @Test
     fun passableTest5() {
@@ -96,7 +98,7 @@ class RegisterAgreementViewModelTest {
      * clause2 : false
      * clause3 : false
      *
-     * result -> false
+     * nextButton -> false
      */
     @Test
     fun passableTest6() {
@@ -109,7 +111,7 @@ class RegisterAgreementViewModelTest {
      * clause2 : true
      * clause3 : false
      *
-     * result -> false
+     * nextButton -> false
      */
     @Test
     fun passableTest7() {
@@ -122,7 +124,7 @@ class RegisterAgreementViewModelTest {
      * clause2 : true
      * clause3 : false
      *
-     * result -> true
+     * nextButton -> true
      */
     @Test
     fun passableTest8() {
