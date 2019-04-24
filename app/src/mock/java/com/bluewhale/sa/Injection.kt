@@ -1,8 +1,11 @@
 package com.bluewhale.sa
 
+import android.app.Activity
 import android.app.Application
 import com.bluewhale.sa.data.FakeRegisterInfoDataSource
 import com.bluewhale.sa.data.FakeShiftRemoteDataSource
+import com.bluewhale.sa.data.source.BaseNavigator
+import com.bluewhale.sa.data.source.Navigator
 import com.bluewhale.sa.data.source.ShiftRepository
 import com.bluewhale.sa.data.source.register.RegisterInfoRepository
 
@@ -20,4 +23,12 @@ object Injection {
             FakeRegisterInfoDataSource()
         )
     }
+
+    fun createNavigationProvider(activity: Activity): BaseNavigator {
+        return BaseNavigator(activity)
+    }
+
+//    fun provideSchedulerProvider(): BaseSchedulerProvider {
+//        return SchedulerProvider.getInstance()
+//    }
 }

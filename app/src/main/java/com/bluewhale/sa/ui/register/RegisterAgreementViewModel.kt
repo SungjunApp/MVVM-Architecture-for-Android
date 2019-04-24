@@ -5,14 +5,9 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 
-class RegisterAgreementViewModel : ViewModel() {
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean>
-        get() = _loading
-
-    private val _errorPopup = MutableLiveData<Int>()
-    val errorPopup: LiveData<Int>
-        get() = _errorPopup
+class RegisterAgreementViewModel constructor(
+    val navigator: RegisterNavigator
+) : ViewModel() {
 
     private val _nextButton = MutableLiveData<Boolean>().apply { value = false }
     val nextButton: LiveData<Boolean>
@@ -48,8 +43,7 @@ class RegisterAgreementViewModel : ViewModel() {
     }
 
     fun goNext() {
-        if(_items.value?.isPassable()!!){
-
-        }
+        if (_items.value?.isPassable()!!)
+            _items.value?.clause3?.let { navigator.goRegisterInfoFragment(it) }
     }
 }

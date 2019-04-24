@@ -1,7 +1,8 @@
 package com.bluewhale.sa.data
 
+import com.bluewhale.sa.constant.MobileProvider
+import com.bluewhale.sa.data.source.register.DRequestToken
 import com.bluewhale.sa.data.source.register.RegisterInfoDataSource
-import java.util.*
 
 class FakeRegisterInfoDataSource : RegisterInfoDataSource {
     override fun requestSMS(
@@ -12,6 +13,15 @@ class FakeRegisterInfoDataSource : RegisterInfoDataSource {
         mobileNumber: String,
         callback: RegisterInfoDataSource.CompletableCallback
     ) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val isCollectPersonalNumber1 = personalNumber1 == "900927"
+        val isCollectPersonalNumber2 = personalNumber2 == "1"
+        val isCollectName = name == "john"
+        val isCollectProviderId = providerId == MobileProvider.SKT.providerCode
+        val isCollectMobileNumber = mobileNumber == "01067423129"
+
+        if (isCollectPersonalNumber1 && isCollectPersonalNumber2 && isCollectName && isCollectProviderId && isCollectMobileNumber)
+            callback.onComplete(DRequestToken("PASS"))
+        else
+            callback.onError("Information_is_wrong")
     }
 }
