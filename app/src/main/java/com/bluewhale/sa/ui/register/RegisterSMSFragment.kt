@@ -6,32 +6,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.bluewhale.sa.MainActivity
+import com.bluewhale.sa.Injection
 import com.bluewhale.sa.R
 import com.bluewhale.sa.data.source.register.DRequestToken
+import tech.thdev.lifecycle.extensions.lazyInject
 
 class RegisterSMSFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_register_sms, container, false)
     }
 
-    private lateinit var mViewModel: RegisterSMSViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        mViewModel = activity?.run {
-            ViewModelProviders.of(
-                this, RegisterSMSViewModelFactory.getInstance(
-                    activity = MainActivity(),
-                    application = application,
-                    marketingClause = getMarketClause(),
-                    requestToken = getRequestToken() as DRequestToken
-                )
-            )
-                .get(RegisterSMSViewModel::class.java)
-        } ?: throw Exception("Invalid Activity")
+    private val mViewModel: RegisterSMSViewModel by lazyInject(isActivity = true) {
+        ViewModelProviders.of(this,
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return RegisterSMSViewModel(
+                        RegisterNavigator(Injection.createNavigationProvider(activity!!)),
+                        Injection.provideRegisterSMSRepository(activity!!.application),
+                        getMarketClause(),
+                        getRequestToken() as DRequestToken
+                    ) as T
+                }
+            }).get(RegisterSMSViewModel::class.java)
     }
 
     private fun getMarketClause(): Boolean {

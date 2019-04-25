@@ -1,4 +1,4 @@
-package com.bluewhale.sa
+package com.bluewhale.sa.ui
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
 import com.bluewhale.sa.BuildConfig.APPLICATION_ID
-import com.bluewhale.sa.ui.BaseFragment
+import com.bluewhale.sa.R
 import com.bluewhale.sa.ui.shift.ShiftViewModel
 import com.bluewhale.sa.ui.shift.work.WorkFragment
 import com.bluewhale.sa.view.replaceFragmentInActivity
@@ -209,7 +209,8 @@ class MainActivity : AppCompatActivity() {
                 // when permissions are denied. Otherwise, your app could appear unresponsive to
                 // touches or interactions which have required permissions.
                 else -> {
-                    showSnackbar(R.string.permission_denied_explanation, R.string.settings,
+                    showSnackbar(
+                        R.string.permission_denied_explanation, R.string.settings,
                         View.OnClickListener {
                             // Build intent that displays the App settings screen.
                             val intent = Intent().apply {

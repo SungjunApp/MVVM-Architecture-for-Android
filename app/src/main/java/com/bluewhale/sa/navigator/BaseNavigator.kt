@@ -2,7 +2,7 @@ package com.bluewhale.sa.navigator
 
 import android.app.Activity
 import androidx.fragment.app.Fragment
-import com.bluewhale.sa.MainActivity
+import com.bluewhale.sa.ui.MainActivity
 import com.bluewhale.sa.view.addFragmentToActivity
 import com.bluewhale.sa.view.replaceFragmentInActivity
 import java.lang.ref.WeakReference

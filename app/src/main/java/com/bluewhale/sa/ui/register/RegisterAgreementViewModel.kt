@@ -41,4 +41,14 @@ class RegisterAgreementViewModel constructor(
         if (_items.value?.isPassable()!!)
             _items.value?.clause3?.let { navigator.goRegisterInfoFragment(it) }
     }
+
+    data class RegisterAgreementData(
+        var clause1: Boolean,
+        var clause2: Boolean,
+        var clause3: Boolean
+    ) {
+        fun isPassable(): Boolean {
+            return clause1 && clause2
+        }
+    }
 }

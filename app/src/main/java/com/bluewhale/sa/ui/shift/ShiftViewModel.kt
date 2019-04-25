@@ -185,7 +185,7 @@ class ShiftViewModel(
                 && !_items.value!!.isEmpty()
                 && _items.value!!.last().end.isEmpty()
 
-    fun moveToDetail(shift:Shift){
+    fun moveToDetail(shift: Shift) {
 
     }
 }

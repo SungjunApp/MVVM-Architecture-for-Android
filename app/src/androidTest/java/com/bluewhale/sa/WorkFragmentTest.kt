@@ -9,6 +9,7 @@ import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.bluewhale.sa.ui.MainActivity
 import com.bluewhale.sa.ui.shift.work.WorkFragment
 import com.bluewhale.sa.view.replaceFragmentInActivity
 import org.junit.Before

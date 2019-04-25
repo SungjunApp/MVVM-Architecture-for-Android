@@ -1,4 +1,4 @@
-package com.bluewhale.sa
+package com.bluewhale.sa.ui
 
 import android.app.Application
 import com.orhanobut.logger.AndroidLogAdapter

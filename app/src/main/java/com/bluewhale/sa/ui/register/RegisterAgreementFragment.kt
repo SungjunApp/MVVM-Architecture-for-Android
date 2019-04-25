@@ -6,28 +6,28 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.bluewhale.sa.MainActivity
+import com.bluewhale.sa.Injection
 import com.bluewhale.sa.R
 import kotlinx.android.synthetic.main.fragment_register_agreement.*
+import tech.thdev.lifecycle.extensions.lazyInject
 
 class RegisterAgreementFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_register_agreement, container, false)
     }
 
-    private lateinit var mViewModel: RegisterAgreementViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        mViewModel = activity?.run {
-            ViewModelProviders.of(
-                this,
-                RegisterAgreementViewModelFactory.getInstance(activity = MainActivity(), application = application)
-            )
-                .get(RegisterAgreementViewModel::class.java)
-        } ?: throw Exception("Invalid Activity")
+    private val mViewModel: RegisterAgreementViewModel by lazyInject(isActivity = true) {
+        ViewModelProviders.of(this,
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return RegisterAgreementViewModel(
+                        RegisterNavigator(Injection.createNavigationProvider(activity!!))
+                    ) as T
+                }
+            }).get(RegisterAgreementViewModel::class.java)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
