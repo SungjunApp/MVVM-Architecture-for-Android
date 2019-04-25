@@ -11,10 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bluewhale.sa.Injection
 import com.bluewhale.sa.R
+import com.bluewhale.sa.ui.BaseFragment
 import kotlinx.android.synthetic.main.fragment_register_agreement.*
 import tech.thdev.lifecycle.extensions.lazyInject
 
-class RegisterAgreementFragment : Fragment() {
+class RegisterAgreementFragment : BaseFragment() {
+    override val titleResource: Int
+        get() = R.string.title_registerAgreement
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_register_agreement, container, false)
     }
@@ -32,6 +36,8 @@ class RegisterAgreementFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+
+//        _disposables.add(mViewModel.nextButton)
 
         mViewModel.nextButton.observe(this, Observer {
             bwtb_next.isEnabled = it

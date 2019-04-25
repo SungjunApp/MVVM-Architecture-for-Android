@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
-open class BaseViewModel() : ViewModel() {
+open class BaseViewModel : ViewModel() {
     protected val _loading = MutableLiveData<Boolean>().apply { value = false }
     val loading: LiveData<Boolean>
         get() = _loading
@@ -16,4 +16,8 @@ open class BaseViewModel() : ViewModel() {
     protected val _nextButton = MutableLiveData<Boolean>().apply { value = false }
     val nextButton: LiveData<Boolean>
         get() = _nextButton
+
+//    override fun onCleared() {
+//        super.onCleared()
+//    }
 }

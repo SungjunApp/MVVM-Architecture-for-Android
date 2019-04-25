@@ -11,10 +11,14 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bluewhale.sa.Injection
 import com.bluewhale.sa.R
+import com.bluewhale.sa.ui.BaseFragment
 import kotlinx.android.synthetic.main.fragment_register_information.*
 import tech.thdev.lifecycle.extensions.lazyInject
 
-class RegisterInfoFragment : Fragment() {
+class RegisterInfoFragment : BaseFragment() {
+    override val titleResource: Int
+        get() = R.string.title_registerInfo
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_register_information, container, false)
     }

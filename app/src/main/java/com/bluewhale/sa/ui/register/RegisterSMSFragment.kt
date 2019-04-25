@@ -5,16 +5,19 @@ import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bluewhale.sa.Injection
 import com.bluewhale.sa.R
 import com.bluewhale.sa.data.source.register.DRequestToken
+import com.bluewhale.sa.ui.BaseFragment
 import tech.thdev.lifecycle.extensions.lazyInject
 
-class RegisterSMSFragment : Fragment() {
+class RegisterSMSFragment : BaseFragment() {
+    override val titleResource: Int
+        get() = R.string.title_registerSMS
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_register_sms, container, false)
     }
