@@ -7,6 +7,8 @@ import com.bluewhale.sa.data.source.register.RegisterSMSDataSource
 class FakeRegisterSMSDataSource : RegisterSMSDataSource {
     companion object {
         const val testToken = "PASS"
+
+        val testUser = DUser("test", false)
     }
 
     override fun verifyCode(
@@ -15,11 +17,12 @@ class FakeRegisterSMSDataSource : RegisterSMSDataSource {
         authCode: String,
         callback: RegisterSMSDataSource.CompletableCallback
     ) {
-        val isCollectCode = (token == testToken) && (authCode == "test")
+        val isCollectCode = (token == testToken) && (authCode == "test00")
 
-        if (isCollectCode)
-            callback.onComplete(DUser("test", marketingClause))
-        else
+        if (isCollectCode) {
+            testUser.marketingClause = marketingClause
+            callback.onComplete(testUser)
+        } else
             callback.onError(R.string.register_invalid_information)
     }
 }

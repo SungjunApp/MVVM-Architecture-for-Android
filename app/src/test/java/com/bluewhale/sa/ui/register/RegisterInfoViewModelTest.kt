@@ -163,7 +163,7 @@ class RegisterInfoViewModelTest {
      * Wrong Information
      */
     @Test
-    fun repositoryTest1() {
+    fun requestTokenTest1() {
         registerInfoViewModel.setName("joe")
         registerInfoViewModel.setPersonalCode1("900927")
         registerInfoViewModel.setPersonalCode2("1")
@@ -172,7 +172,7 @@ class RegisterInfoViewModelTest {
 
         registerInfoViewModel.requestSMS()
 
-        printResult("repositoryTest1")
+        printResult("requestTokenTest1")
 
         Assert.assertEquals(
             LiveDataTestUtil.getValue(registerInfoViewModel.errorPopup),
@@ -184,7 +184,7 @@ class RegisterInfoViewModelTest {
      * Collect Information
      */
     @Test
-    fun repositoryTest2() {
+    fun requestTokenTest2() {
         registerInfoViewModel.setName("john")
         registerInfoViewModel.setPersonalCode1("900927")
         registerInfoViewModel.setPersonalCode2("1")
@@ -211,7 +211,7 @@ class RegisterInfoViewModelTest {
             }
         )
 
-        printResult("repositoryTest2")
+        printResult("requestTokenTest2")
         println("name : ${token!!.token}\n")
 
         Assert.assertEquals(token!!.token, "PASS")

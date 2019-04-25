@@ -13,10 +13,10 @@ class RegisterSMSViewModel(
     val navigator: RegisterNavigator,
     val registerSMSRepository: RegisterSMSRepository,
     val marketingClause: Boolean,
-    val getRequestToken: DRequestToken
+    val requestToken: DRequestToken
 ) : BaseViewModel() {
 
-    private val _authCode = MutableLiveData<String>()
+    private val _authCode = MutableLiveData<String>().apply { value = "" }
     val authCode: LiveData<String>
         get() = _authCode
 
@@ -28,7 +28,7 @@ class RegisterSMSViewModel(
 
     fun verifyCode() {
         registerSMSRepository.verifyCode(
-            getRequestToken.token,
+            requestToken.token,
             marketingClause,
             authCode.value!!,
             object : RegisterSMSDataSource.CompletableCallback {

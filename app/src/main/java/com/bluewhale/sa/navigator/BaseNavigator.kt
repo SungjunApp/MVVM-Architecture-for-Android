@@ -1,4 +1,4 @@
-package com.bluewhale.sa.data.source
+package com.bluewhale.sa.navigator
 
 import android.app.Activity
 import androidx.fragment.app.Fragment

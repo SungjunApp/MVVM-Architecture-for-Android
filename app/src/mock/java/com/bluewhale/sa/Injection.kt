@@ -5,7 +5,7 @@ import android.app.Application
 import com.bluewhale.sa.data.FakeRegisterInfoDataSource
 import com.bluewhale.sa.data.FakeRegisterSMSDataSource
 import com.bluewhale.sa.data.FakeShiftRemoteDataSource
-import com.bluewhale.sa.data.source.BaseNavigator
+import com.bluewhale.sa.navigator.BaseNavigator
 import com.bluewhale.sa.data.source.ShiftRepository
 import com.bluewhale.sa.data.source.register.RegisterInfoRepository
 import com.bluewhale.sa.data.source.register.RegisterSMSRepository

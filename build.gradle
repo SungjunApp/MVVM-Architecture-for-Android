@@ -28,3 +28,13 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    // Libraries Version
+    guava = '18.0'
+    rxJava = "2.1.15"
+    rxkotlin = "2.2.0"
+    rxAndroid = "2.0.2"
+    retrofit2 = "2.3.0"
+    okhttp3 = "3.10.0"
+}

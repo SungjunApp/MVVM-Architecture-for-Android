@@ -1,6 +1,6 @@
 package com.bluewhale.sa.ui.register
 
-import com.bluewhale.sa.data.source.Navigator
+import com.bluewhale.sa.navigator.Navigator
 import com.bluewhale.sa.data.source.register.DRequestToken
 import com.bluewhale.sa.ui.HomeFragment
 
