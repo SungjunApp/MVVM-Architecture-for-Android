@@ -8,9 +8,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.bluewhale.sa.data.source.ShiftRepository
 import com.bluewhale.sa.network.api.ShiftAPI
 import com.bluewhale.sa.ui.shift.ShiftViewModel
+import dagger.Module
+import dagger.Provides
 
-class ViewModelFactory constructor(val api: ShiftAPI): ViewModelProvider.Factory {
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return Injection.provideShiftRepository(api) as T
+@Module
+class ViewModule {
+    @Provides
+    fun provideShiftViewModelFactory(api: ShiftAPI): ViewModelFactory {
+        return ViewModelFactory(api)
     }
 }

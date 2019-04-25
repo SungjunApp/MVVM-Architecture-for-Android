@@ -29,17 +29,25 @@ import com.bluewhale.sa.ui.shift.work.WorkFragment
 import com.bluewhale.sa.view.replaceFragmentInActivity
 import com.bluewhale.sa.view.setupActionBar
 import kotlinx.android.synthetic.main.toolbar.*
+import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
+
+    @Inject
+    lateinit var factory: ViewModelFactory
+
     val TAG = "MainActivity"
     private lateinit var model: ShiftViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        ViewModelFactory.destroyInstance()
+        //ViewModelFactory.destroyInstance()
+        (application as AppApplication).wikiComponent.inject(this)
 
-        model = ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(ShiftViewModel::class.java)
+        model = ViewModelProviders.of(this, factory)
+            .get(ShiftViewModel::class.java)
+
         model.disableShiftButton()
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)

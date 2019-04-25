@@ -58,8 +58,8 @@ fun AppCompatActivity.setupActionBar(toolbar: Toolbar, action: ActionBar.() -> U
     }
 }
 
-fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
-    ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(viewModelClass)
+/*fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
+    ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(viewModelClass)*/
 
 /**
  * Runs a FragmentTransaction, then calls commit().

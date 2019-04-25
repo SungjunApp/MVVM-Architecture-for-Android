@@ -13,7 +13,7 @@ import com.bluewhale.sa.ui.BaseFragment
 import com.bluewhale.sa.ui.shift.ShiftViewModel
 import kotlinx.android.synthetic.main.fragment_work.*
 import androidx.recyclerview.widget.RecyclerView
-
+import javax.inject.Inject
 
 
 class WorkDetailFragment : BaseFragment() {
@@ -26,10 +26,14 @@ class WorkDetailFragment : BaseFragment() {
 
     private lateinit var model: ShiftViewModel
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = activity?.run {
-            ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(ShiftViewModel::class.java)
+            ViewModelProviders.of(this, factory)
+                .get(ShiftViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
         model.loadShifts()

@@ -127,4 +127,16 @@ dependencies {
     implementation 'com.orhanobut:logger:2.2.0'
 
 
+    /**
+     * Web3J - etherium
+     */
+    implementation "org.web3j:core:3.1.1-android"
+    implementation "org.ethereum:geth:1.7.0"
+
+    /**
+     * Dagger2
+     */
+    implementation "com.google.dagger:dagger:$rootProject.ext.dagger2_version"
+    kapt "com.google.dagger:dagger-compiler:$rootProject.ext.dagger2_version"
+
 }
