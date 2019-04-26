@@ -14,11 +14,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModelProviders
 import com.bluewhale.sa.BuildConfig.APPLICATION_ID
-import com.bluewhale.sa.di.DaggerAppComponent
-import com.bluewhale.sa.di.TestC
 import com.bluewhale.sa.model.DWallet
 import com.bluewhale.sa.ui.BaseFragment
+import com.bluewhale.sa.ui.shift.ShiftViewModel
 import com.bluewhale.sa.ui.shift.work.WorkFragment
 import com.bluewhale.sa.view.setupActionBar
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -31,24 +31,24 @@ import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
 
-//    @Inject
-//    lateinit var factory: ViewModelFactory
+    @Inject
+    lateinit var factory: ViewModelFactory
 
     val TAG = "MainActivity"
 
     @Inject lateinit var dWallet: DWallet
 
-    //lateinit var model: ShiftViewModel
+    lateinit var model: ShiftViewModel
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
 
-//        model = ViewModelProviders.of(this, factory)
-//            .get(ShiftViewModel::class.java)
-//
-//        model.disableShiftButton()
+        model = ViewModelProviders.of(this, factory)
+            .get(ShiftViewModel::class.java)
+
+        model.disableShiftButton()
         println("wallet.address: ${dWallet.address}")
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -141,7 +141,7 @@ class MainActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful && task.result != null) {
                     task.result?.also {
-                       // model.setLocation(it)
+                        model.setLocation(it)
                         Log.w(TAG, "getLastLocation\tlatitude: $it.latitude, longitude: $it.longitude")
 
                     }
@@ -149,7 +149,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Log.w(TAG, "getLastLocation:exception", task.exception)
                     showSnackbar(R.string.no_location_detected)
-                    //model.disableShiftButton()
+                    model.disableShiftButton()
                 }
             }
     }

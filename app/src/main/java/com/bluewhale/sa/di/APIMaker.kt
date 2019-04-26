@@ -7,11 +7,10 @@ import dagger.Provides
 import io.reactivex.Single
 
 
-//@Module
+@Module
 class APIMaker{
-    //@Provides
+    @Provides
     fun prodiveShiftAPI(retrofit: Retrofit): ShiftAPI {
-        return retrofit
-            .create(ShiftAPI::class.java)
+        return retrofit.create(ShiftAPI::class.java)
     }
 }

@@ -7,7 +7,7 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class BuildersModule{
     @ActivityScope
-    @ContributesAndroidInjector(modules = [TestC::class])
+    @ContributesAndroidInjector(modules = [TestC::class, ViewModule::class])
     abstract fun bindSplashModule(): MainActivity
 
 }
