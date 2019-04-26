@@ -16,7 +16,7 @@ import java.util.*
 
 
 class ShiftViewModel(
-    private val shiftRepository: ShiftRepository
+    private val shiftRepository: ShiftDataSource
 ) : ViewModel() {
 
     //private val _items = MutableLiveData<List<Shift>>().apply { value = emptyList() }

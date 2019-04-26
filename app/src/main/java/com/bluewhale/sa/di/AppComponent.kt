@@ -1,6 +1,5 @@
 package com.bluewhale.sa.di
 
-import android.app.Application
 import com.bluewhale.sa.AppApplication
 import dagger.BindsInstance
 import dagger.Component
@@ -11,7 +10,8 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
-        BuildersModule::class,
+        ActivityBuildModule::class,
+        FragmentBuildModule::class,
         AppModule::class,
         RequestMaker::class,
         APIMaker::class

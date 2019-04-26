@@ -12,6 +12,7 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModelProviders
@@ -20,16 +21,25 @@ import com.bluewhale.sa.model.DWallet
 import com.bluewhale.sa.ui.BaseFragment
 import com.bluewhale.sa.ui.shift.ShiftViewModel
 import com.bluewhale.sa.ui.shift.work.WorkFragment
+import com.bluewhale.sa.view.replaceFragmentInActivity
 import com.bluewhale.sa.view.setupActionBar
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE
 import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
+import dagger.android.DispatchingAndroidInjector
 
-class MainActivity : AppCompatActivity() {
+
+
+class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
+    @Inject
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    override fun supportFragmentInjector(): AndroidInjector<Fragment>  = fragmentInjector
 
     @Inject
     lateinit var factory: ViewModelFactory
@@ -55,7 +65,7 @@ class MainActivity : AppCompatActivity() {
 
         supportFragmentManager.addOnBackStackChangedListener(mOnBackStackChangedListener)
 
-        //replaceFragmentInActivity(R.id.contentFrame, findOrCreateViewFragment())
+        replaceFragmentInActivity(R.id.contentFrame, findOrCreateViewFragment())
     }
 
     private fun findOrCreateViewFragment() =

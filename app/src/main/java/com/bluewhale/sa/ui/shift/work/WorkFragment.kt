@@ -1,5 +1,6 @@
 package com.bluewhale.sa.ui.shift.work
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,9 @@ import com.bluewhale.sa.ui.shift.ShiftViewModel
 import kotlinx.android.synthetic.main.fragment_work.*
 import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
+import dagger.android.support.AndroidSupportInjection
+
+
 
 
 class WorkFragment : BaseFragment() {
@@ -28,6 +32,11 @@ class WorkFragment : BaseFragment() {
     lateinit var factory: ViewModelFactory
 
     private lateinit var model: ShiftViewModel
+
+    override fun onAttach(context: Context) {
+        AndroidSupportInjection.inject(this)
+        super.onAttach(context)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
