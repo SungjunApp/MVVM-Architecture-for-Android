@@ -3,6 +3,7 @@ package com.bluewhale.sa
 import android.app.Activity
 import android.app.Application
 import com.bluewhale.sa.di.DaggerAppComponent
+import com.facebook.stetho.Stetho
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
 import dagger.android.AndroidInjector
@@ -16,6 +17,9 @@ class AppApplication : Application() , HasActivityInjector {
     override fun onCreate()
     {
         super.onCreate()
+        if (BuildConfig.DEBUG)
+            Stetho.initializeWithDefaults(this)
+
         Logger.addLogAdapter(AndroidLogAdapter())
 
         DaggerAppComponent

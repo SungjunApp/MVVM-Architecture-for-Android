@@ -204,6 +204,8 @@ class KS {
                 fos = FileOutputStream(file)
                 // Writes bytes from the specified byte array to this file output stream
                 fos.write(data)
+
+                Log.e("Test", "File saved size:${file.length()}")
                 return true
             } catch (e: FileNotFoundException) {
                 println("File not found$e")
@@ -252,7 +254,7 @@ class KS {
             try {
                 while (true) {
                     val len = inputStream.read(buffer)
-                    if (len != -1)
+                    if (len == -1)
                         break
 
                     byteBuffer.write(buffer, 0, len)
@@ -281,6 +283,7 @@ class KS {
             val fin: FileInputStream
             try {
                 val file = File(path)
+                Log.e("Test", "path: $path, fileSize: ${file.length()}")
                 fin = FileInputStream(file)
                 bytes = readBytesFromStream(fin)
             } catch (e: IOException) {
@@ -291,8 +294,8 @@ class KS {
         }
 
         @Throws(ServiceErrorException::class)
-        fun put(context: Context, address: String, password: String) {
-            setData(context, password.toByteArray(), address, address, address + "iv")
+        fun put(context: Context, address: String, password: String) :Boolean{
+            return setData(context, password.toByteArray(), address, address, address + "iv")
         }
 
         @Throws(ServiceErrorException::class)

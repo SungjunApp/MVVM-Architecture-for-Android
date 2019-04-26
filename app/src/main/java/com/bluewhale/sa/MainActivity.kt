@@ -21,6 +21,7 @@ import com.bluewhale.sa.model.DWallet
 import com.bluewhale.sa.ui.BaseFragment
 import com.bluewhale.sa.ui.shift.ShiftViewModel
 import com.bluewhale.sa.ui.shift.work.WorkFragment
+import com.bluewhale.sa.util.KS
 import com.bluewhale.sa.view.replaceFragmentInActivity
 import com.bluewhale.sa.view.setupActionBar
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -33,7 +34,12 @@ import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 import dagger.android.DispatchingAndroidInjector
-
+import io.reactivex.Single
+import io.reactivex.schedulers.Schedulers
+import org.ethereum.geth.Geth
+import org.ethereum.geth.KeyStore
+import java.io.File
+import java.security.SecureRandom
 
 
 class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
@@ -66,6 +72,10 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
         supportFragmentManager.addOnBackStackChangedListener(mOnBackStackChangedListener)
 
         replaceFragmentInActivity(R.id.contentFrame, findOrCreateViewFragment())
+
+
+
+
     }
 
     private fun findOrCreateViewFragment() =

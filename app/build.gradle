@@ -130,7 +130,8 @@ dependencies {
     /**
      * Web3J - etherium
      */
-    implementation "org.web3j:core:3.1.1-android"
+    //implementation "org.web3j:core:3.1.1-android"
+    implementation "org.web3j:core:4.2.0-android"
     implementation "org.ethereum:geth:1.7.0"
 
     /**
@@ -143,5 +144,10 @@ dependencies {
     implementation "com.google.dagger:dagger-android:$rootProject.ext.dagger2_version"
     implementation "com.google.dagger:dagger-android-support:$rootProject.ext.dagger2_version" // if you use the support libraries
 
+    /**
+     * Debuging Network & Resources
+     */
+    implementation 'com.facebook.stetho:stetho:1.5.0'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
 
 }
