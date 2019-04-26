@@ -21,14 +21,14 @@ import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
-@Module
+//@Module
 class RequestMaker {
     private val timeout_read = 5L
     private val timeout_connect = 20L
     private val timeout_write = 30L
 
-    @Provides
-    @Singleton
+    //@Provides
+    //@Singleton
     fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
         val ok = OkHttpClient.Builder()
             .connectTimeout(timeout_connect, TimeUnit.SECONDS)
@@ -72,15 +72,15 @@ class RequestMaker {
         return ok.build()
     }
 
-    @Provides
-    @Singleton
+    //@Provides
+    //@Singleton
     fun provideGSon(): Gson {
         return GsonBuilder()
             .create()
     }
 
-    @Provides
-    @Singleton
+    //@Provides
+    //@Singleton
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
             .baseUrl(DomainInfo.URL)
@@ -94,8 +94,8 @@ class RequestMaker {
         return retrofit.create(serviceClass)
     }*/
 
-    @Provides
-    @Singleton
+    //@Provides
+    //@Singleton
     fun getRequestInterceptor(userRepository: UserPreferenceRepository): Interceptor {
         return Interceptor {
             val original = it.request()
@@ -133,8 +133,8 @@ class RequestMaker {
 
     }
 
-    @Singleton
-    @Provides
+    //@Singleton
+    //@Provides
     fun getUserPreferenceRepository(context: Context): UserPreferenceRepository {
         return UserPreferenceRepository(context)
     }

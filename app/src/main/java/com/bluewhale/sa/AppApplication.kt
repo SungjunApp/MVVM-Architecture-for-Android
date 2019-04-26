@@ -1,29 +1,31 @@
 package com.bluewhale.sa
 
+import android.app.Activity
 import android.app.Application
-import com.bluewhale.sa.di.AppComponent
-import com.bluewhale.sa.di.AppModule
 import com.bluewhale.sa.di.DaggerAppComponent
 import com.orhanobut.logger.AndroidLogAdapter
 import com.orhanobut.logger.Logger
-import com.bluewhale.sa.di.RequestMaker
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.HasActivityInjector
+import javax.inject.Inject
 
-class AppApplication : Application() {
+class AppApplication : Application() , HasActivityInjector {
 
-    lateinit var wikiComponent: AppComponent
-
+    @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
     override fun onCreate()
     {
         super.onCreate()
         Logger.addLogAdapter(AndroidLogAdapter())
-        wikiComponent = initDagger(this)
 
+        DaggerAppComponent
+            .builder()
+            .applicationBind(this)
+            .build()
+            .inject(this)
     }
 
-    private fun initDagger(app: AppApplication): AppComponent =
-        DaggerAppComponent.builder()
-            .appModule(AppModule(app))
-            .build()
 
+    override fun activityInjector(): AndroidInjector<Activity> = dispatchingAndroidInjector
 
 }

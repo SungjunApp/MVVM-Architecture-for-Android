@@ -1,20 +1,30 @@
 package com.bluewhale.sa.di
 
-import com.bluewhale.sa.ViewModule
+import android.app.Application
+import com.bluewhale.sa.AppApplication
 import dagger.BindsInstance
 import dagger.Component
+import dagger.android.support.AndroidSupportInjectionModule
 import javax.inject.Singleton
 
 @Singleton
-@Component(modules = [AppModule::class, RequestMaker::class, ViewModule::class])
-interface AppComponent{
-//    @Component.Builder
-//    interface Builder {
-//        @BindsInstance
-//        fun application(app: App): Builder
-//
-//        fun build(): AppComponent
-//    }
-//
-//    abstract fun inject(app: App)
+@Component(
+    modules = [
+        AndroidSupportInjectionModule::class,
+        BuildersModule::class,
+        AppModule::class
+        /*AppModule::class, *//*RequestMaker::class, ViewModule::class, APIMaker::class*/]
+)
+interface AppComponent {
+
+    @Component.Builder
+    interface Builder {
+
+        fun build(): AppComponent
+
+        @BindsInstance
+        fun applicationBind(application: AppApplication): Builder
+    }
+
+    fun inject(application: AppApplication)
 }
