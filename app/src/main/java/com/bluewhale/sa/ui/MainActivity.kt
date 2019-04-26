@@ -14,8 +14,11 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bluewhale.sa.BuildConfig.APPLICATION_ID
+import com.bluewhale.sa.Injection
 import com.bluewhale.sa.R
 import com.bluewhale.sa.ui.shift.ShiftViewModel
 import com.bluewhale.sa.ui.shift.work.WorkFragment
@@ -26,18 +29,28 @@ import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE
 import kotlinx.android.synthetic.main.toolbar.*
+import tech.thdev.lifecycle.extensions.lazyInject
 
 class MainActivity : AppCompatActivity() {
     //    val TAG = "MainActivity"
     val TAG = this.localClassName
-    private lateinit var model: ShiftViewModel
+
+
+    private val model: ShiftViewModel by lazyInject {
+        ViewModelProviders.of(this,
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return ShiftViewModel(
+                        Injection.provideShiftRepository(application)
+                    ) as T
+                }
+            }).get(ShiftViewModel::class.java)
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        ViewModelFactory.destroyInstance()
-
-        model = ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(ShiftViewModel::class.java)
         model.disableShiftButton()
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
@@ -99,7 +112,7 @@ class MainActivity : AppCompatActivity() {
         super.onBackPressed()
     }
 
-    fun goToRootFragment(){
+    fun goToRootFragment() {
         val count = supportFragmentManager.backStackEntryCount
         if (count >= 2) {
             val be = supportFragmentManager.getBackStackEntryAt(0)

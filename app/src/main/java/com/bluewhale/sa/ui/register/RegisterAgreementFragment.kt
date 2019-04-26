@@ -46,6 +46,7 @@ class RegisterAgreementFragment : BaseFragment() {
         bwtb_next.setOnClickListener {
             mViewModel.goNext()
         }
+
     }
 
     companion object {
