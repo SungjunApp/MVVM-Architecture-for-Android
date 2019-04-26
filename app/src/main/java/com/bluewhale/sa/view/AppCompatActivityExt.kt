@@ -1,9 +1,6 @@
 package com.bluewhale.sa.view
 
 import android.app.Activity
-import android.text.TextUtils.replace
-import android.util.Log
-import androidx.annotation.IdRes
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -13,7 +10,6 @@ import androidx.fragment.app.FragmentTransaction
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProviders
 import com.bluewhale.sa.R
-import com.bluewhale.sa.ViewModelFactory
 
 const val ADD_EDIT_RESULT_OK = Activity.RESULT_FIRST_USER + 1
 const val DELETE_RESULT_OK = Activity.RESULT_FIRST_USER + 2
@@ -58,8 +54,8 @@ fun AppCompatActivity.setupActionBar(toolbar: Toolbar, action: ActionBar.() -> U
     }
 }
 
-fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
-    ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(viewModelClass)
+//fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
+//    ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(viewModelClass)
 
 /**
  * Runs a FragmentTransaction, then calls commit().
@@ -70,6 +66,6 @@ private inline fun FragmentManager.transact(action: FragmentTransaction.() -> Un
     }.commit()
 }
 
-fun Fragment.getIdentifier():String{
+fun Fragment.getIdentifier(): String {
     return this::class.java.canonicalName
 }

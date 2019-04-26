@@ -37,8 +37,6 @@ class RegisterAgreementFragment : BaseFragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-//        _disposables.add(mViewModel.nextButton)
-
         mViewModel.nextButton.observe(this, Observer {
             bwtb_next.isEnabled = it
         })

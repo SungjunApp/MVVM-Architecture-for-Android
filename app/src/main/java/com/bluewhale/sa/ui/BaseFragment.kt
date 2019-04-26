@@ -9,11 +9,11 @@ import io.reactivex.disposables.CompositeDisposable
 abstract class BaseFragment : Fragment() {
     abstract val titleResource: Int
 
-    protected var _disposables: CompositeDisposable? = null
+    protected lateinit var disposables: CompositeDisposable
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        _disposables = CompositeDisposable()
+        disposables = CompositeDisposable()
     }
 
     override fun onDestroyView() {
@@ -25,10 +25,9 @@ abstract class BaseFragment : Fragment() {
                 InputMethodManager.HIDE_NOT_ALWAYS
             )
 
-        if (_disposables != null) {
-            _disposables!!.clear()
-            _disposables!!.dispose()
-        }
+        disposables.clear()
+        disposables.dispose()
+
         super.onDestroyView()
     }
 }

@@ -28,7 +28,7 @@ class RegisterSMSFragment : BaseFragment() {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                     return RegisterSMSViewModel(
                         RegisterNavigator(Injection.createNavigationProvider(activity!!)),
-                        Injection.provideRegisterSMSRepository(activity!!.application),
+                        Injection.provideRegisterRepository(activity!!.application),
                         getMarketClause(),
                         getRequestToken() as DRequestToken
                     ) as T

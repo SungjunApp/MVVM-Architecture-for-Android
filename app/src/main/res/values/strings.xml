@@ -28,7 +28,4 @@
     <string name="permission_denied_explanation">Location Permission was denied, but is needed for core functionality.</string>
     <string name="permission_rationale">Location permission is needed for core functionality</string>
     <string name="no_location_detected">No location detected. Make sure location is enabled on the device.</string>
-
-    <!-- Register -->
-    <string name="register_invalid_information">입력하신 개인정보가 올바르지 않습니다</string>
 </resources>

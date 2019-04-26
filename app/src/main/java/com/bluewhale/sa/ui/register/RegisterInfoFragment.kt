@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
@@ -29,7 +28,7 @@ class RegisterInfoFragment : BaseFragment() {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T {
                     return RegisterInfoViewModel(
                         RegisterNavigator(Injection.createNavigationProvider(activity!!)),
-                        Injection.provideRegisterInfoRepository(activity!!.application),
+                        Injection.provideRegisterRepository(activity!!.application),
                         getMarketClause()
                     ) as T
                 }
@@ -48,7 +47,10 @@ class RegisterInfoFragment : BaseFragment() {
         })
 
         bwtb_next.setOnClickListener {
-            mViewModel.requestSMS()
+            disposables.add(mViewModel.requestSMS()
+                .subscribe({}, {})
+            )
+
         }
     }
 

@@ -2,17 +2,17 @@ package com.bluewhale.sa.ui.register
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.bluewhale.sa.constant.MobileProvider
-import com.bluewhale.sa.data.source.register.DRequestToken
-import com.bluewhale.sa.data.source.register.RegisterInfoDataSource
-import com.bluewhale.sa.data.source.register.RegisterInfoRepository
+import com.bluewhale.sa.network.NetworkErrorHandler
 import com.bluewhale.sa.ui.BaseViewModel
+import com.example.demo.network.APIRegister
+import io.reactivex.Completable
+import io.reactivex.Single
 
 
 class RegisterInfoViewModel(
     val navigator: RegisterNavigator,
-    val registerRepository: RegisterInfoRepository,
+    val registerRepository: APIRegister,
     val marketingClause: Boolean
 ) : BaseViewModel() {
 
@@ -49,25 +49,29 @@ class RegisterInfoViewModel(
         _nextButton.value = items.value?.isInfoFilledUp()
     }
 
-    fun requestSMS() {
-        if (items.value?.isInfoFilledUp()!!) {
-            registerRepository.requestSMS(
-                items.value!!.personalCode1,
-                items.value!!.personalCode2,
-                items.value!!.name,
-                items.value!!.provider.providerCode,
-                items.value!!.phone,
-                object : RegisterInfoDataSource.CompletableCallback {
-                    override fun onComplete(requestToken: DRequestToken) {
-                        navigator.goRegisterSMSFragment(marketingClause, requestToken)
-                    }
+    fun requestSMS(): Completable {
+        _loading.value = true
+        _nextButton.value = false
 
-                    override fun onError(message: Int) {
-                        _errorPopup.apply { value = message }
-                    }
-                }
-            )
-        }
+        return registerRepository.requestSMS(
+            items.value?.personalCode1 + items.value?.personalCode2,
+            items.value?.name!!,
+            items.value?.provider?.providerCode!!,
+            items.value?.phone!!
+        ).flatMap {
+            navigator.goRegisterSMSFragment(marketingClause, it)
+
+            Single.just(it)
+        }.doOnSuccess {
+            _loading.value = false
+        }.doOnError {
+            val stringRes = NetworkErrorHandler.handleError(it)
+            if (stringRes > 0)
+                _errorPopup.value = stringRes
+
+            _loading.value = false
+            _nextButton.value = items.value?.isInfoFilledUp()
+        }.ignoreElement()
     }
 
     data class RegisterInfoData(

@@ -2,21 +2,19 @@ package com.bluewhale.sa.ui.register
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.bluewhale.sa.Injection.provideRegisterSMSRepository
 import com.bluewhale.sa.LiveDataTestUtil
 import com.bluewhale.sa.R
-import com.bluewhale.sa.data.FakeRegisterSMSDataSource
-import com.bluewhale.sa.data.FakeRegisterSMSDataSource.Companion.testToken
+import com.bluewhale.sa.data.FakeRegisterRepository
+import com.bluewhale.sa.data.FakeRegisterRepository.Companion.testToken
 import com.bluewhale.sa.data.source.register.DRequestToken
-import com.bluewhale.sa.data.source.register.DUser
-import com.bluewhale.sa.data.source.register.RegisterSMSDataSource
-import com.bluewhale.sa.data.source.register.RegisterSMSRepository
+import com.libs.meuuslibs.network.FakeBaseRepository
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
+import retrofit2.HttpException
 
 class RegisterSMSViewModelTest {
     @get:Rule
@@ -29,7 +27,7 @@ class RegisterSMSViewModelTest {
     private lateinit var application: Application
 
     //@Mock
-    private lateinit var registerSMSRepository: RegisterSMSRepository
+    private lateinit var registerRepository: FakeRegisterRepository
 
     private lateinit var registerSMSViewModel: RegisterSMSViewModel
 
@@ -39,10 +37,10 @@ class RegisterSMSViewModelTest {
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this)
 
-        registerSMSRepository = provideRegisterSMSRepository(application)
+        registerRepository = FakeRegisterRepository()
 
         // Get a reference to the class under test
-        registerSMSViewModel = RegisterSMSViewModel(navigator, registerSMSRepository, false, DRequestToken(testToken))
+        registerSMSViewModel = RegisterSMSViewModel(navigator, registerRepository, false, DRequestToken(testToken))
     }
 
     /**
@@ -71,97 +69,79 @@ class RegisterSMSViewModelTest {
     }
 
     /**
+     * default
+     *
      * token : DRequestToken(testToken)
      * marketingClause : false
      * authCode : null
      *
      * nextButton -> false
      *
-     * callback -> error(R.string.register_invalid_information)
+     * response -> error(R.string.ERROR_NICE_INVALID_TOKEN)
      */
     @Test
     fun authTest1() {
-        registerSMSViewModel = RegisterSMSViewModel(navigator, registerSMSRepository, false, DRequestToken(testToken))
+        registerSMSViewModel = RegisterSMSViewModel(navigator, registerRepository, false, DRequestToken(testToken))
 
         Assert.assertFalse(LiveDataTestUtil.getValue(registerSMSViewModel.nextButton))
 
-        registerSMSViewModel.verifyCode()
-
+        val testObserver = registerSMSViewModel.verifyCode().test()
         printAuthCallback("authTest1")
-
         println("nextButton : ${registerSMSViewModel.nextButton.value}\n")
-        Assert.assertEquals(
-            LiveDataTestUtil.getValue(registerSMSViewModel.errorPopup),
-            R.string.register_invalid_information
-        )
+
+        testObserver.assertNotComplete()
+//        Assert.assertEquals(LiveDataTestUtil.getValue(registerSMSViewModel.errorPopup), R.string.ERROR_NICE_AUTH_FAILED)
     }
 
     /**
+     * Wrong Token
+     *
      * token : DRequestToken(testToken)
      * marketingClause : false
      * authCode : "test"
      *
      * nextButton -> false
      *
-     * callback -> error(R.string.register_invalid_information)
+     * response -> error(R.string.ERROR_NICE_INVALID_TOKEN)
      */
     @Test
     fun authTest2() {
-        registerSMSViewModel = RegisterSMSViewModel(navigator, registerSMSRepository, false, DRequestToken(testToken))
+        registerSMSViewModel = RegisterSMSViewModel(navigator, registerRepository, false, DRequestToken(testToken))
 
         registerSMSViewModel.setAuthCode("test")
         Assert.assertFalse(LiveDataTestUtil.getValue(registerSMSViewModel.nextButton))
 
-        registerSMSViewModel.verifyCode()
-
+        val testObserver = registerSMSViewModel.verifyCode().test()
         printAuthCallback("authTest2")
-
         println("nextButton : ${registerSMSViewModel.nextButton.value}\n")
-        Assert.assertEquals(
-            LiveDataTestUtil.getValue(registerSMSViewModel.errorPopup),
-            R.string.register_invalid_information
-        )
+
+        testObserver.assertNotComplete()
+//        Assert.assertEquals(LiveDataTestUtil.getValue(registerSMSViewModel.errorPopup), R.string.ERROR_NICE_AUTH_FAILED)
     }
 
     /**
+     * Collect Token
+     *
      * token : DRequestToken(testToken)
      * marketingClause : false
      * authCode : "test00"
      *
      * nextButton -> true
      *
-     * callback -> complete(FakeRegisterSMSDataSource.testUser)
+     * response -> complete(FakeRegisterSMSDataSource.testUser)
      */
     @Test
     fun authTest3() {
-        registerSMSViewModel = RegisterSMSViewModel(navigator, registerSMSRepository, false, DRequestToken(testToken))
+        registerSMSViewModel = RegisterSMSViewModel(navigator, registerRepository, false, DRequestToken(testToken))
 
         registerSMSViewModel.setAuthCode("test00")
         Assert.assertTrue(LiveDataTestUtil.getValue(registerSMSViewModel.nextButton))
 
-        var testUser: DUser? = null
-        registerSMSRepository.verifyCode(
-            registerSMSViewModel.requestToken.token,
-            registerSMSViewModel.marketingClause,
-            registerSMSViewModel.authCode.value!!,
-            object : RegisterSMSDataSource.CompletableCallback {
-                override fun onComplete(dUser: DUser) {
-                    testUser = dUser
-                }
-
-                override fun onError(message: Int) {
-                }
-            }
-        )
-
-
-        printAuthCallback("authTest1")
-
+        val testObserver = registerSMSViewModel.verifyCode().test()
+        printAuthCallback("authTest3")
         println("nextButton : ${registerSMSViewModel.nextButton.value}\n")
-        Assert.assertEquals(
-            testUser,
-            FakeRegisterSMSDataSource.testUser
-        )
+
+        testObserver.assertComplete()
     }
 
 

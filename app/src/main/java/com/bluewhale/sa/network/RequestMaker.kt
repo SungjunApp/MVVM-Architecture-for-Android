@@ -107,7 +107,6 @@ class RequestMaker(private var networkSetting: NetworkSetting) {
         if (responseOri.code() != HttpURLConnection.HTTP_OK)
             networkSetting.setErrorHandler(bodyStrOri)
 
-
         return getResponse(responseOri, responseBodyOri, bodyStrOri)
     }
 

@@ -4,6 +4,7 @@ import android.app.Application
 import android.content.Context
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import com.bluewhale.sa.constant.DomainInfo
 import com.google.common.base.Preconditions
 import io.reactivex.Completable
 import io.reactivex.Single
@@ -12,7 +13,7 @@ import io.reactivex.schedulers.Schedulers
 import okhttp3.Request
 import okhttp3.Response
 
-open class BaseRepository(val rootApplication: Application) {
+abstract class BaseRepository(private val rootApplication: Application) {
     init {
         Preconditions.checkNotNull(rootApplication, "RootApplication cannot be null")
     }
@@ -32,13 +33,14 @@ open class BaseRepository(val rootApplication: Application) {
         return mRequestMaker!!.createService(serviceClass)
     }
 
-    fun <T> makeSingleResponse(service: Single<T>, response: SingleProvider<T>): Single<T> {
+    fun <T> makeSingleResponse(service: Single<T>, customResponse: SingleProvider<T>?): Single<T> {
         return service
             .subscribeOn(Schedulers.io())
             .map {
-                response.onService(it) ?: it
-            }
-            .observeOn(AndroidSchedulers.mainThread())
+                if (customResponse != null)
+                    customResponse.onService(it)
+                else it
+            }.observeOn(AndroidSchedulers.mainThread())
     }
 
     fun makeCompletableResponse(service: Completable): Completable {
@@ -47,10 +49,10 @@ open class BaseRepository(val rootApplication: Application) {
             .observeOn(AndroidSchedulers.mainThread())
     }
 
-    open fun setNetworkSetting(): NetworkSetting {
+    private fun setNetworkSetting(): NetworkSetting {
         return object : NetworkSetting {
             override fun setServerUrl(): String {
-                return "http://BEP-dev.ap-northeast-2.elasticbeanstalk.com"
+                return DomainInfo.URL
             }
 
             override fun setPrintLog(): Boolean {
