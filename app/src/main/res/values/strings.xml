@@ -2,12 +2,16 @@
     <string name="app_name">SA</string>
     <string name="action_settings">Settings</string>
 
+    <!-- Title -->
     <string name="title_work">@string/app_name</string>
     <string name="title_work_detail">Detail</string>
     <string name="title_history">History</string>
-    <string name="title_registerAgreement">registerAgreement</string>
-    <string name="title_registerInfo">registerInfo</string>
-    <string name="title_registerSMS">registerSMS</string>
+    <string name="title_registerAgreement">약관 동의</string>
+    <string name="title_registerInfo">개인정보 입력</string>
+    <string name="title_registerSMS">문자 인증</string>
+    <string name="title_trade">거래</string>
+    <string name="title_my_asset">트레이드</string>
+
 
     <string name="error_cannot_start_shift">Please end your ongoing shift first.</string>
     <string name="error_cannot_end_shift">There is no ongoing shift.</string>
@@ -28,4 +32,10 @@
     <string name="permission_denied_explanation">Location Permission was denied, but is needed for core functionality.</string>
     <string name="permission_rationale">Location permission is needed for core functionality</string>
     <string name="no_location_detected">No location detected. Make sure location is enabled on the device.</string>
+
+
+
+
+
+
 </resources>
