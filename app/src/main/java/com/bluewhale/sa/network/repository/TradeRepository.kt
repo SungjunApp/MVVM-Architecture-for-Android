@@ -11,10 +11,10 @@ class TradeRepository(
     navi: BaseSchedulerProvider,
     val apiTrade:APITrade) : BaseRepository(navi), APITrade {
     override fun getStockList(page: Int, pageSize: Int): Single<DStockList> {
-        return makeSingleResponse(apiTrade.getStockList(page, pageSize), null)
+        return makeSingleResponse(apiTrade.getStockList(page, pageSize))
     }
 
     override fun getFilteredStockList(name: String): Single<DStockList> {
-        return makeSingleResponse(apiTrade.getFilteredStockList(name), null)
+        return makeSingleResponse(apiTrade.getFilteredStockList(name))
     }
 }

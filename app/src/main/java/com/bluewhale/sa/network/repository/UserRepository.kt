@@ -13,11 +13,11 @@ class UserRepository(
     private val apiUser: APIUser
 ) : BaseRepository(navi), APIUser {
     override fun postUser(dSignUp: DSignUp): Single<DUser> {
-        return makeSingleResponse(apiUser.postUser(dSignUp), null)
+        return makeSingleResponse(apiUser.postUser(dSignUp))
     }
 
     override fun getUserWithId(id: String): Single<DUser> {
-        return makeSingleResponse(apiUser.getUserWithId(id), null)
+        return makeSingleResponse(apiUser.getUserWithId(id))
     }
 
     override fun deleteUser(password: DPassword): Completable {

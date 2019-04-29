@@ -11,7 +11,7 @@ abstract class BaseRepository constructor(val navi: BaseSchedulerProvider) {
         fun onService(it: T): T
     }
 
-    fun <T> makeSingleResponse(service: Single<T>, customResponse: SingleProvider<T>?): Single<T> {
+    fun <T> makeSingleResponse(service: Single<T>, customResponse: SingleProvider<T>? = null): Single<T> {
         return service
             .subscribeOn(navi.io())
             .map {

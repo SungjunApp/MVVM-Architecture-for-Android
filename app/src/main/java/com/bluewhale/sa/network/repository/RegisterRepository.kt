@@ -21,10 +21,10 @@ class RegisterRepository(
                 name,
                 mobileProvider,
                 mobileNumber
-            ),null)
+            ))
     }
 
     override fun verifySMS(authNo: String, token: String): Single<DIsUser> {
-        return makeSingleResponse(apiRegister.verifySMS(authNo, token), null)
+        return makeSingleResponse(apiRegister.verifySMS(authNo, token))
     }
 }
