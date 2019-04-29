@@ -4,13 +4,15 @@ import android.app.Activity
 import android.app.Application
 import com.bluewhale.sa.data.FakeRegisterInfoDataSource
 import com.bluewhale.sa.data.FakeShiftRemoteDataSource
+import com.bluewhale.sa.data.source.ShiftDataSource
 import com.bluewhale.sa.data.source.BaseNavigator
 import com.bluewhale.sa.data.source.Navigator
 import com.bluewhale.sa.data.source.ShiftRepository
+import com.bluewhale.sa.network.api.ShiftAPI
 import com.bluewhale.sa.data.source.register.RegisterInfoRepository
 
 object Injection {
-    fun provideShiftRepository(application: Application): ShiftRepository {
+    fun provideShiftDataSource(api: ShiftAPI): ShiftDataSource {
         //val api = (application as AppApplication).requestMaker.createService(ShiftAPI::class.java)
         return ShiftRepository.getInstance(
             FakeShiftRemoteDataSource()

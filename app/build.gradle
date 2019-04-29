@@ -3,15 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
 
-androidExtensions {
-    experimental = true
-}
-
 android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.bluewhale.sa"
-        minSdkVersion 17
+        minSdkVersion 16
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -97,10 +93,18 @@ dependencies {
     /**
      * Network
      */
-    implementation "com.squareup.retrofit2:retrofit:2.3.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
-    implementation "com.squareup.okhttp3:okhttp:3.10.0"
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    implementation "com.squareup.retrofit2:retrofit:$rootProject.ext.retrofit2"
+    implementation "com.squareup.retrofit2:converter-gson:$rootProject.ext.retrofit2"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:$rootProject.ext.retrofit2"
+    implementation "com.squareup.okhttp3:okhttp:$rootProject.ext.okhttp3"
+    implementation "com.squareup.okhttp3:logging-interceptor:$rootProject.ext.okhttp3"
+
+    /**
+     * Rx
+     */
+    implementation "io.reactivex.rxjava2:rxjava:$rootProject.ext.rxJava"
+    implementation "io.reactivex.rxjava2:rxandroid:$rootProject.ext.rxAndroid"
+    implementation "io.reactivex.rxjava2:rxkotlin:$rootProject.ext.rxkotlin"
 
     /**
      * Glide(Image library)

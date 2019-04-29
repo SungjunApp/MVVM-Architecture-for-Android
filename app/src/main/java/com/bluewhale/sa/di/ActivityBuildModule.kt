@@ -1,0 +1,13 @@
+package com.bluewhale.sa.di
+
+import com.bluewhale.sa.MainActivity
+import dagger.Module
+import dagger.android.ContributesAndroidInjector
+
+@Module
+abstract class ActivityBuildModule{
+    @ActivityScope
+    @ContributesAndroidInjector(modules = [TestC::class, ViewModule::class])
+    abstract fun bindSplashModule(): MainActivity
+
+}

@@ -15,7 +15,8 @@ import com.bluewhale.sa.ui.BaseFragment
 import com.bluewhale.sa.ui.shift.ShiftViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_work.*
-
+import androidx.recyclerview.widget.RecyclerView
+import javax.inject.Inject
 
 class WorkDetailFragment : BaseFragment() {
     override val titleResource: Int
@@ -27,10 +28,14 @@ class WorkDetailFragment : BaseFragment() {
 
     private lateinit var model: ShiftViewModel
 
+    @Inject
+    lateinit var factory: ViewModelFactory
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         model = activity?.run {
-            ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(ShiftViewModel::class.java)
+            ViewModelProviders.of(this, factory)
+                .get(ShiftViewModel::class.java)
         } ?: throw Exception("Invalid Activity")
 
         model.loadShifts()
@@ -127,8 +132,8 @@ class WorkDetailFragment : BaseFragment() {
             }
         }
 
-        context?.also {
-            mAdapter = WorkAdapter(it, GlideApp.with(this).asDrawable()) {
+        context?.also{
+            mAdapter = WorkAdapter(it, GlideApp.with(this).asDrawable()){
 
             }
             recyclerView.adapter = mAdapter
