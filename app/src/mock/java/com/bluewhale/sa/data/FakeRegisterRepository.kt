@@ -37,6 +37,20 @@ class FakeRegisterRepository : FakeBaseRepository(), APIRegister {
 
     companion object {
         const val testToken = "PASS"
+
+        private var INSTANCE: FakeRegisterRepository? = null
+
+        @JvmStatic
+        fun getInstance() =
+            INSTANCE ?: synchronized(FakeRegisterRepository::class.java) {
+                INSTANCE ?: FakeRegisterRepository()
+                    .also { INSTANCE = it }
+            }
+
+        @JvmStatic
+        fun destroyInstance() {
+            INSTANCE = null
+        }
     }
 }
 

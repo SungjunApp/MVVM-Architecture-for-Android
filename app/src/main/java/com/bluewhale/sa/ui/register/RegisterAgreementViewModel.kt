@@ -6,7 +6,7 @@ import com.bluewhale.sa.ui.BaseViewModel
 
 
 class RegisterAgreementViewModel constructor(
-    val navigator: RegisterNavigator
+    private val mNavigator: RegisterNavigator
 ) : BaseViewModel() {
     private val _items = MutableLiveData<RegisterAgreementData>()
         .apply { value = RegisterAgreementData(clause1 = false, clause2 = false, clause3 = false) }
@@ -39,7 +39,7 @@ class RegisterAgreementViewModel constructor(
 
     fun goNext() {
         if (_items.value?.isPassable()!!)
-            _items.value?.clause3?.let { navigator.goRegisterInfoFragment(it) }
+            _items.value?.clause3?.let { mNavigator.goRegisterInfoFragment(it) }
     }
 
     data class RegisterAgreementData(

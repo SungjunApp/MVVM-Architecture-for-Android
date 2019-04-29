@@ -2,10 +2,11 @@ package com.bluewhale.sa
 
 import android.app.Activity
 import android.app.Application
+import com.bluewhale.sa.data.FakeRegisterRepository
 import com.bluewhale.sa.data.FakeShiftRemoteDataSource
+import com.bluewhale.sa.data.FakeTradeRepository
 import com.bluewhale.sa.data.source.ShiftRepository
 import com.bluewhale.sa.navigator.BaseNavigator
-import com.example.demo.network.RegisterRepository
 
 object Injection {
     fun provideShiftRepository(application: Application): ShiftRepository {
@@ -14,8 +15,12 @@ object Injection {
         )
     }
 
-    fun provideRegisterRepository(application: Application): RegisterRepository {
-        return RegisterRepository.getInstance(application)
+    fun provideRegisterRepository(application: Application): FakeRegisterRepository {
+        return FakeRegisterRepository.getInstance()
+    }
+
+    fun provideTradeRepository(application: Application): FakeTradeRepository {
+        return FakeTradeRepository.getInstance()
     }
 
     fun createNavigationProvider(activity: Activity): BaseNavigator {

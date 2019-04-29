@@ -2,34 +2,32 @@ package com.bluewhale.sa.ui.register
 
 import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.bluewhale.sa.Injection
 import com.bluewhale.sa.LiveDataTestUtil
-import com.bluewhale.sa.R
-import com.bluewhale.sa.data.FakeRegisterRepository
 import com.bluewhale.sa.data.FakeRegisterRepository.Companion.testToken
 import com.bluewhale.sa.data.source.register.DRequestToken
-import com.libs.meuuslibs.network.FakeBaseRepository
+import com.example.demo.network.APIRegister
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.mockito.Mock
 import org.mockito.MockitoAnnotations
-import retrofit2.HttpException
 
 class RegisterSMSViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    @Mock
-    private lateinit var navigator: RegisterNavigator
+    private lateinit var mViewModel: RegisterSMSViewModel
 
     @Mock
-    private lateinit var application: Application
+    private lateinit var mNavigator: RegisterNavigator
 
     //@Mock
-    private lateinit var registerRepository: FakeRegisterRepository
+    private lateinit var mRepository: APIRegister
 
-    private lateinit var registerSMSViewModel: RegisterSMSViewModel
+    @Mock
+    private lateinit var mApplication: Application
 
     @Before
     fun setupShiftViewModel() {
@@ -37,10 +35,10 @@ class RegisterSMSViewModelTest {
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this)
 
-        registerRepository = FakeRegisterRepository()
+        mRepository = Injection.provideRegisterRepository(mApplication)
 
         // Get a reference to the class under test
-        registerSMSViewModel = RegisterSMSViewModel(navigator, registerRepository, false, DRequestToken(testToken))
+        mViewModel = RegisterSMSViewModel(mNavigator, mRepository, false, DRequestToken(testToken))
     }
 
     /**
@@ -52,7 +50,7 @@ class RegisterSMSViewModelTest {
     fun passableTest1() {
         printNextButton("passableTest1")
 
-        Assert.assertFalse(LiveDataTestUtil.getValue(registerSMSViewModel.nextButton))
+        Assert.assertFalse(LiveDataTestUtil.getValue(mViewModel.nextButton))
     }
 
     /**
@@ -62,10 +60,10 @@ class RegisterSMSViewModelTest {
      */
     @Test
     fun passableTest2() {
-        registerSMSViewModel.setAuthCode("test")
+        mViewModel.setAuthCode("test")
 
         printNextButton("passableTest2")
-        Assert.assertFalse(LiveDataTestUtil.getValue(registerSMSViewModel.nextButton))
+        Assert.assertFalse(LiveDataTestUtil.getValue(mViewModel.nextButton))
     }
 
     /**
@@ -81,16 +79,16 @@ class RegisterSMSViewModelTest {
      */
     @Test
     fun authTest1() {
-        registerSMSViewModel = RegisterSMSViewModel(navigator, registerRepository, false, DRequestToken(testToken))
+        mViewModel = RegisterSMSViewModel(mNavigator, mRepository, false, DRequestToken(testToken))
 
-        Assert.assertFalse(LiveDataTestUtil.getValue(registerSMSViewModel.nextButton))
+        Assert.assertFalse(LiveDataTestUtil.getValue(mViewModel.nextButton))
 
-        val testObserver = registerSMSViewModel.verifyCode().test()
+        val testObserver = mViewModel.verifyCode().test()
         printAuthCallback("authTest1")
-        println("nextButton : ${registerSMSViewModel.nextButton.value}\n")
+        println("nextButton : ${mViewModel.nextButton.value}\n")
 
         testObserver.assertNotComplete()
-//        Assert.assertEquals(LiveDataTestUtil.getValue(registerSMSViewModel.errorPopup), R.string.ERROR_NICE_AUTH_FAILED)
+//        Assert.assertEquals(LiveDataTestUtil.getValue(mViewModel.errorPopup), R.string.ERROR_NICE_AUTH_FAILED)
     }
 
     /**
@@ -106,17 +104,17 @@ class RegisterSMSViewModelTest {
      */
     @Test
     fun authTest2() {
-        registerSMSViewModel = RegisterSMSViewModel(navigator, registerRepository, false, DRequestToken(testToken))
+        mViewModel = RegisterSMSViewModel(mNavigator, mRepository, false, DRequestToken(testToken))
 
-        registerSMSViewModel.setAuthCode("test")
-        Assert.assertFalse(LiveDataTestUtil.getValue(registerSMSViewModel.nextButton))
+        mViewModel.setAuthCode("test")
+        Assert.assertFalse(LiveDataTestUtil.getValue(mViewModel.nextButton))
 
-        val testObserver = registerSMSViewModel.verifyCode().test()
+        val testObserver = mViewModel.verifyCode().test()
         printAuthCallback("authTest2")
-        println("nextButton : ${registerSMSViewModel.nextButton.value}\n")
+        println("nextButton : ${mViewModel.nextButton.value}\n")
 
         testObserver.assertNotComplete()
-//        Assert.assertEquals(LiveDataTestUtil.getValue(registerSMSViewModel.errorPopup), R.string.ERROR_NICE_AUTH_FAILED)
+//        Assert.assertEquals(LiveDataTestUtil.getValue(mViewModel.errorPopup), R.string.ERROR_NICE_AUTH_FAILED)
     }
 
     /**
@@ -132,14 +130,14 @@ class RegisterSMSViewModelTest {
      */
     @Test
     fun authTest3() {
-        registerSMSViewModel = RegisterSMSViewModel(navigator, registerRepository, false, DRequestToken(testToken))
+        mViewModel = RegisterSMSViewModel(mNavigator, mRepository, false, DRequestToken(testToken))
 
-        registerSMSViewModel.setAuthCode("test00")
-        Assert.assertTrue(LiveDataTestUtil.getValue(registerSMSViewModel.nextButton))
+        mViewModel.setAuthCode("test00")
+        Assert.assertTrue(LiveDataTestUtil.getValue(mViewModel.nextButton))
 
-        val testObserver = registerSMSViewModel.verifyCode().test()
+        val testObserver = mViewModel.verifyCode().test()
         printAuthCallback("authTest3")
-        println("nextButton : ${registerSMSViewModel.nextButton.value}\n")
+        println("nextButton : ${mViewModel.nextButton.value}\n")
 
         testObserver.assertComplete()
     }
@@ -147,15 +145,15 @@ class RegisterSMSViewModelTest {
 
     fun printNextButton(title: String) {
         println(title)
-        println("nextButton : ${registerSMSViewModel.nextButton.value}")
+        println("nextButton : ${mViewModel.nextButton.value}")
         println("\n")
     }
 
     fun printAuthCallback(title: String) {
         println(title)
-        println("token : ${registerSMSViewModel.requestToken.token}")
-        println("marketingClause : ${registerSMSViewModel.marketingClause}")
-        println("authCode : ${registerSMSViewModel.authCode.value}")
+        println("token : ${mViewModel.requestToken.token}")
+        println("marketingClause : ${mViewModel.marketingClause}")
+        println("authCode : ${mViewModel.authCode.value}")
         println("\n")
     }
 }

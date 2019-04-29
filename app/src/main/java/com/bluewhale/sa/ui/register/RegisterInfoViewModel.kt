@@ -11,9 +11,9 @@ import io.reactivex.Single
 
 
 class RegisterInfoViewModel(
-    val navigator: RegisterNavigator,
-    val registerRepository: APIRegister,
-    val marketingClause: Boolean
+    private val mNavigator: RegisterNavigator,
+    private val mRepository: APIRegister,
+    private val marketingClause: Boolean
 ) : BaseViewModel() {
 
     private val _items = MutableLiveData<RegisterInfoData>()
@@ -53,13 +53,13 @@ class RegisterInfoViewModel(
         _loading.value = true
         _nextButton.value = false
 
-        return registerRepository.requestSMS(
+        return mRepository.requestSMS(
             items.value?.personalCode1 + items.value?.personalCode2,
             items.value?.name!!,
             items.value?.provider?.providerCode!!,
             items.value?.phone!!
         ).flatMap {
-            navigator.goRegisterSMSFragment(marketingClause, it)
+            mNavigator.goRegisterSMSFragment(marketingClause, it)
 
             Single.just(it)
         }.doOnSuccess {

@@ -13,10 +13,10 @@ class RegisterAgreementViewModelTest {
     @get:Rule
     var instantExecutorRule = InstantTaskExecutorRule()
 
-    private lateinit var registerAgreementViewModel: RegisterAgreementViewModel
+    private lateinit var mViewModel: RegisterAgreementViewModel
 
     @Mock
-    private lateinit var navigator: RegisterNavigator
+    private lateinit var mNavigator: RegisterNavigator
 
     @Before
     fun setupShiftViewModel() {
@@ -25,7 +25,7 @@ class RegisterAgreementViewModelTest {
         MockitoAnnotations.initMocks(this)
 
         // Get a reference to the class under test
-        registerAgreementViewModel = RegisterAgreementViewModel(navigator)
+        mViewModel = RegisterAgreementViewModel(mNavigator)
     }
 
     /**
@@ -41,7 +41,7 @@ class RegisterAgreementViewModelTest {
     fun passableTest1() {
         printResult("passableTest1")
 
-        Assert.assertFalse(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
+        Assert.assertFalse(LiveDataTestUtil.getValue(mViewModel.nextButton))
     }
 
     /**
@@ -53,11 +53,11 @@ class RegisterAgreementViewModelTest {
      */
     @Test
     fun passableTest2() {
-        registerAgreementViewModel.setClauseAll(true)
+        mViewModel.setClauseAll(true)
 
         printResult("passableTest2")
 
-        Assert.assertTrue(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
+        Assert.assertTrue(LiveDataTestUtil.getValue(mViewModel.nextButton))
     }
 
     /**
@@ -69,12 +69,12 @@ class RegisterAgreementViewModelTest {
      */
     @Test
     fun passableTest3() {
-        registerAgreementViewModel.setClauseAll(true)
-        registerAgreementViewModel.setClauseAll(false)
+        mViewModel.setClauseAll(true)
+        mViewModel.setClauseAll(false)
 
         printResult("passableTest3")
 
-        Assert.assertFalse(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
+        Assert.assertFalse(LiveDataTestUtil.getValue(mViewModel.nextButton))
     }
 
     /**
@@ -86,12 +86,12 @@ class RegisterAgreementViewModelTest {
      */
     @Test
     fun passableTest4() {
-        registerAgreementViewModel.setClauseAll(true)
-        registerAgreementViewModel.setClause3(false)
+        mViewModel.setClauseAll(true)
+        mViewModel.setClause3(false)
 
         printResult("passableTest4")
 
-        Assert.assertTrue(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
+        Assert.assertTrue(LiveDataTestUtil.getValue(mViewModel.nextButton))
     }
 
     /**
@@ -103,12 +103,12 @@ class RegisterAgreementViewModelTest {
      */
     @Test
     fun passableTest5() {
-        registerAgreementViewModel.setClauseAll(false)
-        registerAgreementViewModel.setClause3(true)
+        mViewModel.setClauseAll(false)
+        mViewModel.setClause3(true)
 
         printResult("passableTest5")
 
-        Assert.assertFalse(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
+        Assert.assertFalse(LiveDataTestUtil.getValue(mViewModel.nextButton))
     }
 
     /**
@@ -120,11 +120,11 @@ class RegisterAgreementViewModelTest {
      */
     @Test
     fun passableTest6() {
-        registerAgreementViewModel.setClause1(true)
+        mViewModel.setClause1(true)
 
         printResult("passableTest6")
 
-        Assert.assertFalse(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
+        Assert.assertFalse(LiveDataTestUtil.getValue(mViewModel.nextButton))
     }
 
     /**
@@ -136,11 +136,11 @@ class RegisterAgreementViewModelTest {
      */
     @Test
     fun passableTest7() {
-        registerAgreementViewModel.setClause2(true)
+        mViewModel.setClause2(true)
 
         printResult("passableTest7")
 
-        Assert.assertFalse(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
+        Assert.assertFalse(LiveDataTestUtil.getValue(mViewModel.nextButton))
     }
 
     /**
@@ -152,12 +152,12 @@ class RegisterAgreementViewModelTest {
      */
     @Test
     fun passableTest8() {
-        registerAgreementViewModel.setClause1(true)
-        registerAgreementViewModel.setClause2(true)
+        mViewModel.setClause1(true)
+        mViewModel.setClause2(true)
 
         printResult("passableTest8")
 
-        Assert.assertTrue(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
+        Assert.assertTrue(LiveDataTestUtil.getValue(mViewModel.nextButton))
     }
 
     /**
@@ -169,20 +169,20 @@ class RegisterAgreementViewModelTest {
      */
     @Test
     fun passableTest9() {
-        registerAgreementViewModel.setClause1(true)
-        registerAgreementViewModel.setClause2(true)
-        registerAgreementViewModel.setClauseAll(false)
+        mViewModel.setClause1(true)
+        mViewModel.setClause2(true)
+        mViewModel.setClauseAll(false)
 
         printResult("passableTest9")
 
-        Assert.assertFalse(LiveDataTestUtil.getValue(registerAgreementViewModel.nextButton))
+        Assert.assertFalse(LiveDataTestUtil.getValue(mViewModel.nextButton))
     }
 
     fun printResult(title: String) {
         println(title)
-        println("clause1 : ${registerAgreementViewModel.items.value?.clause1}")
-        println("clause2 : ${registerAgreementViewModel.items.value?.clause2}")
-        println("clause3 : ${registerAgreementViewModel.items.value?.clause3}")
+        println("clause1 : ${mViewModel.items.value?.clause1}")
+        println("clause2 : ${mViewModel.items.value?.clause2}")
+        println("clause3 : ${mViewModel.items.value?.clause3}")
         println("\n")
     }
 }
