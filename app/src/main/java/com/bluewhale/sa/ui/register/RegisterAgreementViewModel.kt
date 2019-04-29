@@ -37,6 +37,8 @@ class RegisterAgreementViewModel constructor(
         _items.value?.clause3 = check
     }
 
+
+
     fun goNext() {
         if (_items.value?.isPassable()!!)
             _items.value?.clause3?.let { navigator.goRegisterInfoFragment(it) }

@@ -5,17 +5,17 @@ import androidx.lifecycle.MutableLiveData
 import com.bluewhale.sa.data.source.register.DRequestToken
 import com.bluewhale.sa.ui.BaseViewModel
 import com.example.demo.network.APIRegister
-import com.example.demo.network.RegisterRepository
 import io.reactivex.Completable
 import io.reactivex.Single
 
 
 class RegisterSMSViewModel(
     val navigator: RegisterNavigator,
-    val registerRepository: APIRegister,
-    val marketingClause: Boolean,
-    val requestToken: DRequestToken
+    val apiRegister: APIRegister
 ) : BaseViewModel() {
+
+    var marketingClause = false
+    var requestToken: DRequestToken? = null
 
     private val _authCode = MutableLiveData<String>().apply { value = "" }
     val authCode: LiveData<String>
@@ -28,8 +28,8 @@ class RegisterSMSViewModel(
     }
 
     fun verifyCode(): Completable {
-        return registerRepository.verifySMS(
-            authCode.value!!, requestToken.token
+        return apiRegister.verifySMS(
+            authCode.value!!, requestToken!!.token
         ).flatMap {
             Single.just(it)
         }.ignoreElement()

@@ -10,14 +10,16 @@ import com.bluewhale.sa.data.Shift
 import com.bluewhale.sa.data.ShiftHalf
 import com.bluewhale.sa.data.source.ShiftDataSource
 import com.bluewhale.sa.data.source.ShiftRepository
+import com.bluewhale.sa.network.api.ShiftAPI
+import com.bluewhale.sa.ui.BaseViewModel
 import com.bluewhale.sa.ui.shift.work.UserStatus
 import java.text.SimpleDateFormat
 import java.util.*
 
 
 class ShiftViewModel(
-    private val shiftRepository: ShiftDataSource
-) : ViewModel() {
+    private val shiftRepository: ShiftAPI
+) : BaseViewModel() {
 
     //private val _items = MutableLiveData<List<Shift>>().apply { value = emptyList() }
     private val _items = MutableLiveData<List<Shift>>().apply { value = emptyList() }
@@ -65,7 +67,7 @@ class ShiftViewModel(
         _dataLoading.value = true
         _shiftButton.value = UserStatus.LOADING
         _shiftAvailable.value = false
-        shiftRepository.getShifts(object : ShiftDataSource.LoadShiftCallback {
+        /*shiftRepository.getShifts(object : ShiftDataSource.LoadShiftCallback {
             override fun onShiftsLoaded(shifts: List<Shift>) {
                 _dataLoading.value = false
                 _retryAvailable.value = false
@@ -78,7 +80,7 @@ class ShiftViewModel(
                 _dataLoading.value = false
                 updateShiftButton()
             }
-        })
+        })*/
     }
 
     fun startShift() {
@@ -89,7 +91,7 @@ class ShiftViewModel(
             location?.also {
                 _shiftButton.value = UserStatus.LOADING
                 _shiftAvailable.value = false
-                shiftRepository.startShift(
+                /*shiftRepository.startShift(
                     ShiftHalf(
                         getCurrentTime(),
                         it.latitude.toString(),
@@ -106,7 +108,7 @@ class ShiftViewModel(
                             //updateShiftButton()
                             message?.also { _snackbarString.value = Event(it) }
                         }
-                    })
+                    })*/
             }
 
         } else {
@@ -122,7 +124,7 @@ class ShiftViewModel(
             location?.also {
                 _shiftButton.value = UserStatus.LOADING
                 _shiftAvailable.value = false
-                shiftRepository.endShift(
+                /*shiftRepository.endShift(
                     ShiftHalf(
                         getCurrentTime(),
                         it.latitude.toString(),
@@ -139,7 +141,7 @@ class ShiftViewModel(
                             //updateShiftButton()
                             message?.also { showSnackbarText(it) }
                         }
-                    })
+                    })*/
             }
 
         } else {

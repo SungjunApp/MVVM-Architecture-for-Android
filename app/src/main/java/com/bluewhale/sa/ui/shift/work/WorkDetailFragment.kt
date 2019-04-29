@@ -10,12 +10,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bluewhale.sa.GlideApp
 import com.bluewhale.sa.R
-import com.bluewhale.sa.ViewModelFactory
+import com.bluewhale.sa.ui.shift.ShiftViewModelFactory
 import com.bluewhale.sa.ui.BaseFragment
 import com.bluewhale.sa.ui.shift.ShiftViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_work.*
-import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 
 class WorkDetailFragment : BaseFragment() {
@@ -29,7 +28,7 @@ class WorkDetailFragment : BaseFragment() {
     private lateinit var model: ShiftViewModel
 
     @Inject
-    lateinit var factory: ViewModelFactory
+    lateinit var factory: ShiftViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

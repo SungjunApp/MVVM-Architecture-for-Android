@@ -3,10 +3,7 @@ package com.bluewhale.sa.network.repository
 import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
-import com.bluewhale.sa.network.DomainInfo
-import dagger.Module
-import dagger.Provides
-import javax.inject.Singleton
+import com.bluewhale.sa.constant.DomainInfo
 
 class UserPreferenceRepository constructor(val context: Context){
     val PREF_File = "User"

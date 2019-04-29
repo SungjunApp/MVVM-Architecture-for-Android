@@ -1,19 +1,43 @@
 package com.bluewhale.sa
 
+import android.app.Activity
 import android.app.Application
 import com.bluewhale.sa.data.source.ShiftDataSource
 import com.bluewhale.sa.data.source.ShiftRepository
 import com.bluewhale.sa.data.source.remote.ShiftRemoteDataSource
+import com.bluewhale.sa.navigator.BaseNavigator
+import com.bluewhale.sa.navigator.BaseSchedulerProvider
+import com.bluewhale.sa.navigator.Navigator
+import com.bluewhale.sa.navigator.SchedulerProvider
 import com.bluewhale.sa.network.api.ShiftAPI
+import com.example.demo.network.APIRegister
+import com.example.demo.network.APIUser
+import com.example.demo.network.RegisterRepository
+import com.example.demo.network.UserRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
+@Module
 object Injection {
+    @Provides
+    @Singleton
+    fun provideSchedulerProvider(): BaseSchedulerProvider {
+        return SchedulerProvider()
+    }
+
+    @Provides
     fun provideShiftDataSource(api:ShiftAPI): ShiftDataSource {
-        //val api = (application as AppApplication).requestMaker.createService(ShiftAPI::class.java)
-        return ShiftRepository.getInstance(
-            ShiftRemoteDataSource(api)
-        )
+        return ShiftRemoteDataSource(api)
+    }
+
+    @Provides
+    fun provideUserRepository(navi: BaseSchedulerProvider, api:APIUser): APIUser {
+        return UserRepository(navi, api)
+    }
+
+    @Provides
+    fun provideRegisterRepository(navi: BaseSchedulerProvider, api:APIRegister): APIRegister {
+        return RegisterRepository(navi, api)
     }
 }

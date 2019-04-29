@@ -6,8 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -19,7 +17,8 @@ import androidx.recyclerview.widget.RecyclerView
 import javax.inject.Inject
 import dagger.android.support.AndroidSupportInjection
 
-
+import com.bluewhale.sa.GlideApp
+import com.bluewhale.sa.ui.shift.ShiftViewModelFactory
 
 
 class WorkFragment : BaseFragment() {
@@ -31,7 +30,7 @@ class WorkFragment : BaseFragment() {
     }
 
     @Inject
-    lateinit var factory: ViewModelFactory
+    lateinit var factory: ShiftViewModelFactory
 
     private lateinit var model: ShiftViewModel
 

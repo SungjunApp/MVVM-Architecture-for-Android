@@ -1,4 +1,4 @@
-package com.bluewhale.sa
+package com.bluewhale.sa.ui
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
@@ -15,15 +15,14 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bluewhale.sa.BuildConfig.APPLICATION_ID
+import com.bluewhale.sa.R
+import com.bluewhale.sa.ui.shift.ShiftViewModelFactory
 import com.bluewhale.sa.model.DWallet
-import com.bluewhale.sa.ui.BaseFragment
+import com.bluewhale.sa.ui.register.RegisterAgreementFragment
 import com.bluewhale.sa.ui.shift.ShiftViewModel
 import com.bluewhale.sa.ui.shift.work.WorkFragment
-import com.bluewhale.sa.util.KS
 import com.bluewhale.sa.view.replaceFragmentInActivity
 import com.bluewhale.sa.view.setupActionBar
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -32,16 +31,10 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE
 import dagger.android.AndroidInjection
 import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
-import dagger.android.DispatchingAndroidInjector
-import io.reactivex.Single
-import io.reactivex.schedulers.Schedulers
-import org.ethereum.geth.Geth
-import org.ethereum.geth.KeyStore
-import java.io.File
-import java.security.SecureRandom
 
 
 class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
@@ -49,14 +42,16 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
     override fun supportFragmentInjector(): AndroidInjector<Fragment>  = fragmentInjector
 
-    @Inject
-    lateinit var factory: ViewModelFactory
+    val frameLayoutId = R.id.contentFrame
+
+    /*@Inject
+    lateinit var factory: ShiftViewModelFactory*/
 
     val TAG = "MainActivity"
 
-    @Inject lateinit var dWallet: DWallet
+    //@Inject lateinit var dWallet: DWallet
 
-    lateinit var model: ShiftViewModel
+    //lateinit var model: ShiftViewModel
 
     /*private val model: ShiftViewModel by lazyInject {
         ViewModelProviders.of(this,
@@ -76,25 +71,22 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
         setContentView(R.layout.activity_main)
 
 
-        model = ViewModelProviders.of(this, factory)
-            .get(ShiftViewModel::class.java)
+        /*model = ViewModelProviders.of(this, factory)
+            .get(ShiftViewModel::class.java)*/
 
-        model.disableShiftButton()
-        println("wallet.address: ${dWallet.address}")
+//        model.disableShiftButton()
+//        println("wallet.address: ${dWallet.address}")
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         supportFragmentManager.addOnBackStackChangedListener(mOnBackStackChangedListener)
 
-        replaceFragmentInActivity(R.id.contentFrame, findOrCreateViewFragment())
-
-
-
-
+        replaceFragmentInActivity(frameLayoutId, findOrCreateViewFragment())
     }
 
     private fun findOrCreateViewFragment() =
-        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: WorkFragment.newInstance()
+        //supportFragmentManager.findFragmentById(R.id.contentFrame) ?: WorkFragment.newInstance()
+        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: RegisterAgreementFragment()
 
     private val mOnBackStackChangedListener = FragmentManager.OnBackStackChangedListener {
         try {
@@ -183,7 +175,7 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful && task.result != null) {
                     task.result?.also {
-                        model.setLocation(it)
+                        //model.setLocation(it)
                         Log.w(TAG, "getLastLocation\tlatitude: $it.latitude, longitude: $it.longitude")
 
                     }
@@ -191,7 +183,7 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
                 } else {
                     Log.w(TAG, "getLastLocation:exception", task.exception)
                     showSnackbar(R.string.no_location_detected)
-                    model.disableShiftButton()
+                    //model.disableShiftButton()
                 }
             }
     }

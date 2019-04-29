@@ -2,27 +2,28 @@ package com.bluewhale.sa.di
 
 import android.content.Context
 import android.util.Log
-import com.google.gson.GsonBuilder
-import com.orhanobut.logger.Logger
 import com.bluewhale.sa.BuildConfig
-import com.bluewhale.sa.network.DomainInfo
+import com.bluewhale.sa.constant.DomainInfo
 import com.bluewhale.sa.network.repository.UserPreferenceRepository
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.orhanobut.logger.Logger
 import dagger.Module
 import dagger.Provides
-import okhttp3.*
+import okhttp3.Interceptor
+import okhttp3.OkHttpClient
+import okhttp3.ResponseBody
 import okhttp3.logging.HttpLoggingInterceptor
 import org.json.JSONArray
 import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.io.IOException
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
-class RequestMaker {
+class NetworkModule {
     private val timeout_read = 5L
     private val timeout_connect = 20L
     private val timeout_write = 30L

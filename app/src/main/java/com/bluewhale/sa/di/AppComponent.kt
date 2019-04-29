@@ -1,6 +1,7 @@
 package com.bluewhale.sa.di
 
 import com.bluewhale.sa.AppApplication
+import com.bluewhale.sa.Injection
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
@@ -10,14 +11,12 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
-        ActivityBuildModule::class,
-        FragmentBuildModule::class,
         AppModule::class,
-        RequestMaker::class,
-        APIMaker::class
-        /*RequestMaker::class,
-        ViewModule::class*/
-        /*AppModule::class, *//*RequestMaker::class, ViewModule::class, APIMaker::class*/]
+        NetworkModule::class,
+        APIModule::class,
+        ActivityBuildModule::class,
+        Injection::class
+    ]
 )
 interface AppComponent {
 

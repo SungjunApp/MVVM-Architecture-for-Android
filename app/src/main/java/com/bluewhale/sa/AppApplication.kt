@@ -2,6 +2,8 @@ package com.bluewhale.sa
 
 import android.app.Activity
 import android.app.Application
+import android.content.Context
+import androidx.multidex.MultiDex
 import com.bluewhale.sa.di.DaggerAppComponent
 import com.facebook.stetho.Stetho
 import com.orhanobut.logger.AndroidLogAdapter
@@ -11,11 +13,18 @@ import dagger.android.DispatchingAndroidInjector
 import dagger.android.HasActivityInjector
 import javax.inject.Inject
 
-class AppApplication : Application() , HasActivityInjector {
+class AppApplication : Application(), HasActivityInjector {
+    @Inject
+    lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
 
-    @Inject lateinit var dispatchingAndroidInjector: DispatchingAndroidInjector<Activity>
-    override fun onCreate()
-    {
+    override fun activityInjector(): AndroidInjector<Activity> = dispatchingAndroidInjector
+
+    override fun attachBaseContext(base: Context) {
+        super.attachBaseContext(base)
+        MultiDex.install(this)
+    }
+
+    override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG)
             Stetho.initializeWithDefaults(this)
@@ -28,8 +37,4 @@ class AppApplication : Application() , HasActivityInjector {
             .build()
             .inject(this)
     }
-
-
-    override fun activityInjector(): AndroidInjector<Activity> = dispatchingAndroidInjector
-
 }
