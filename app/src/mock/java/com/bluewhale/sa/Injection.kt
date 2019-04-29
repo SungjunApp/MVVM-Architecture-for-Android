@@ -9,29 +9,30 @@ import com.example.demo.network.APIRegister
 import com.example.demo.network.APIUser
 import com.example.demo.network.RegisterRepository
 import com.example.demo.network.UserRepository
+import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-@dagger.Module
-object Injection {
+@Module
+class Injection {
     @Provides
     @Singleton
-    fun provideSchedulerProvider(): BaseSchedulerProvider {
+    fun provideBaseSchedulerProvider(): BaseSchedulerProvider {
         return ImmediateSchedulerProvider()
     }
 
     @Provides
     fun provideShiftDataSource(api:ShiftAPI): ShiftDataSource {
-        return FakeShiftRemoteDataSource()
+        return FakeShiftRemoteDataSource(api)
     }
 
     @Provides
-    fun provideUserRepository(navi:BaseSchedulerProvider, api: APIUser): APIUser {
+    fun provideUserRepository(navi: BaseSchedulerProvider, api:APIUser): UserRepository {
         return UserRepository(navi, api)
     }
 
     @Provides
-    fun provideRegisterRepository(navi:BaseSchedulerProvider, api: APIRegister): APIRegister {
+    fun provideRegisterRepository(navi: BaseSchedulerProvider, api:APIRegister): RegisterRepository {
         return RegisterRepository(navi, api)
     }
 }

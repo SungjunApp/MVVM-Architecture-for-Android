@@ -9,7 +9,10 @@ import com.bluewhale.sa.ui.register.RegisterAgreementViewModelFactory
 import com.bluewhale.sa.ui.register.RegisterInfoViewModelFactory
 import com.bluewhale.sa.ui.register.RegisterNavigator
 import com.bluewhale.sa.ui.register.RegisterSMSViewModelFactory
+import com.bluewhale.sa.ui.trade.TradeHomeViewModelFactory
+import com.bluewhale.sa.ui.trade.TradeNavigator
 import com.example.demo.network.APIRegister
+import com.example.demo.network.APITrade
 import dagger.Module
 import dagger.Provides
 
@@ -18,11 +21,6 @@ class ViewModelFactoryModule {
     @Provides
     fun createNavigationProvider(activity: MainActivity): Navigator {
         return BaseNavigator(activity)
-    }
-
-    @Provides
-    fun provideRegisterNavigator(navi: Navigator): RegisterNavigator {
-        return RegisterNavigator(navi)
     }
 
     @Provides
@@ -40,17 +38,26 @@ class ViewModelFactoryModule {
     @Provides
     fun provideRegisterSMSViewModelFactory(
         navigator: RegisterNavigator,
-        apiRegister: APIRegister
+        api: APIRegister
     ): RegisterSMSViewModelFactory {
-        return RegisterSMSViewModelFactory(navigator, apiRegister)
+        return RegisterSMSViewModelFactory(navigator, api)
     }
 
     @Provides
     fun provideRegisterInfoViewModelFactory(
         navigator: RegisterNavigator,
-        apiRegister: APIRegister
+        api: APIRegister
     ): RegisterInfoViewModelFactory {
-        return RegisterInfoViewModelFactory(navigator, apiRegister)
+        return RegisterInfoViewModelFactory(navigator, api)
     }
+
+    @Provides
+    fun provideTradeHomeViewModelFactory(
+        navigator: TradeNavigator,
+        api: APITrade
+    ): TradeHomeViewModelFactory {
+        return TradeHomeViewModelFactory(navigator, api)
+    }
+
 
 }

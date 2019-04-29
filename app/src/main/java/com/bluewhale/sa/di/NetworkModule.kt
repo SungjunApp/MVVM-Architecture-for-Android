@@ -90,11 +90,6 @@ class NetworkModule {
             .build()
     }
 
-    /*@Provides
-    fun <T> createService(retrofit:Retrofit, serviceClass: Class<T>): T {
-        return retrofit.create(serviceClass)
-    }*/
-
     @Provides
     @Singleton
     fun getRequestInterceptor(userRepository: UserPreferenceRepository): Interceptor {

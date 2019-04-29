@@ -10,6 +10,7 @@ import com.bluewhale.sa.navigator.SchedulerProvider
 import com.bluewhale.sa.network.api.ShiftAPI
 import com.bluewhale.sa.ui.MainActivity
 import com.bluewhale.sa.ui.register.RegisterNavigator
+import com.bluewhale.sa.ui.trade.TradeNavigator
 import com.example.demo.network.APIRegister
 import com.example.demo.network.APIUser
 import com.example.demo.network.RegisterRepository
@@ -18,15 +19,15 @@ import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
-//@Module
+@Module
 class NavigatorModule {
-//    @Provides
-//    fun createNavigationProvider(activity: MainActivity): Navigator {
-//        return BaseNavigator(activity)
-//    }
-//
-//    @Provides
-//    fun provideRegisterNavigator(navi: Navigator): RegisterNavigator {
-//        return RegisterNavigator(navi)
-//    }
+    @Provides
+    fun provideRegisterNavigator(navi: Navigator): RegisterNavigator {
+        return RegisterNavigator(navi)
+    }
+
+    @Provides
+    fun provideTradeNavigator(navi: Navigator): TradeNavigator {
+        return TradeNavigator(navi)
+    }
 }

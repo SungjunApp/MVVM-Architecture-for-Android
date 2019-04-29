@@ -19,10 +19,10 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-object Injection {
+class Injection {
     @Provides
     @Singleton
-    fun provideSchedulerProvider(): BaseSchedulerProvider {
+    fun provideBaseSchedulerProvider(): BaseSchedulerProvider {
         return SchedulerProvider()
     }
 
@@ -32,12 +32,12 @@ object Injection {
     }
 
     @Provides
-    fun provideUserRepository(navi: BaseSchedulerProvider, api:APIUser): APIUser {
+    fun provideUserRepository(navi: BaseSchedulerProvider, api:APIUser): UserRepository {
         return UserRepository(navi, api)
     }
 
     @Provides
-    fun provideRegisterRepository(navi: BaseSchedulerProvider, api:APIRegister): APIRegister {
+    fun provideRegisterRepository(navi: BaseSchedulerProvider, api:APIRegister): RegisterRepository {
         return RegisterRepository(navi, api)
     }
 }
