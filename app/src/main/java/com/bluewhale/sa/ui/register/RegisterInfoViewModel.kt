@@ -12,10 +12,9 @@ import io.reactivex.Single
 
 class RegisterInfoViewModel(
     val navigator: RegisterNavigator,
-    val registerRepository: APIRegister
+    val registerRepository: APIRegister,
+    val marketingClause: Boolean
 ) : BaseViewModel() {
-
-    var marketingClause = false
 
     private val _items = MutableLiveData<RegisterInfoData>()
         .apply { value = RegisterInfoData("", "", "", "", MobileProvider.UNSELECTED) }
