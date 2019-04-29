@@ -12,27 +12,28 @@ import com.example.demo.network.UserRepository
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
+import com.bluewhale.sa.util.InjectorInterface
 
 @Module
-class Injection {
+class Injection : InjectorInterface {
     @Provides
     @Singleton
-    fun provideBaseSchedulerProvider(): BaseSchedulerProvider {
+    override fun provideBaseSchedulerProvider(): BaseSchedulerProvider {
         return ImmediateSchedulerProvider()
     }
 
     @Provides
-    fun provideShiftDataSource(api:ShiftAPI): ShiftDataSource {
+    override fun provideShiftDataSource(api: ShiftAPI): ShiftDataSource {
         return FakeShiftRemoteDataSource(api)
     }
 
     @Provides
-    fun provideUserRepository(navi: BaseSchedulerProvider, api:APIUser): UserRepository {
+    override fun provideUserRepository(navi: BaseSchedulerProvider, api: APIUser): UserRepository {
         return UserRepository(navi, api)
     }
 
     @Provides
-    fun provideRegisterRepository(navi: BaseSchedulerProvider, api:APIRegister): RegisterRepository {
+    override fun provideRegisterRepository(navi: BaseSchedulerProvider, api: APIRegister): RegisterRepository {
         return RegisterRepository(navi, api)
     }
 }

@@ -14,30 +14,31 @@ import com.example.demo.network.APIRegister
 import com.example.demo.network.APIUser
 import com.example.demo.network.RegisterRepository
 import com.example.demo.network.UserRepository
+import com.bluewhale.sa.util.InjectorInterface
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class Injection {
+class Injection :InjectorInterface{
     @Provides
     @Singleton
-    fun provideBaseSchedulerProvider(): BaseSchedulerProvider {
+    override fun provideBaseSchedulerProvider(): BaseSchedulerProvider {
         return SchedulerProvider()
     }
 
     @Provides
-    fun provideShiftDataSource(api:ShiftAPI): ShiftDataSource {
+    override fun provideShiftDataSource(api:ShiftAPI): ShiftDataSource {
         return ShiftRemoteDataSource(api)
     }
 
     @Provides
-    fun provideUserRepository(navi: BaseSchedulerProvider, api:APIUser): UserRepository {
+    override fun provideUserRepository(navi: BaseSchedulerProvider, api:APIUser): UserRepository {
         return UserRepository(navi, api)
     }
 
     @Provides
-    fun provideRegisterRepository(navi: BaseSchedulerProvider, api:APIRegister): RegisterRepository {
+    override fun provideRegisterRepository(navi: BaseSchedulerProvider, api:APIRegister): RegisterRepository {
         return RegisterRepository(navi, api)
     }
 }
