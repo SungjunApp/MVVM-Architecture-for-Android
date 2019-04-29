@@ -6,6 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -32,6 +34,17 @@ class WorkFragment : BaseFragment() {
     lateinit var factory: ViewModelFactory
 
     private lateinit var model: ShiftViewModel
+
+    /*private val model: ShiftViewModel by lazyInject(isActivity = true) {
+        ViewModelProviders.of(this,
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return ShiftViewModel(
+                        Injection.provideShiftRepository(activity!!.application)
+                    ) as T
+                }
+            }).get(ShiftViewModel::class.java)
+    }*/
 
     override fun onAttach(context: Context) {
         AndroidSupportInjection.inject(this)

@@ -8,6 +8,7 @@ import androidx.test.espresso.matcher.ViewMatchers
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
 import androidx.test.runner.AndroidJUnit4
+import com.bluewhale.sa.ui.MainActivity
 import com.bluewhale.sa.ui.shift.work.WorkFragment
 import org.junit.Before
 import org.junit.Rule

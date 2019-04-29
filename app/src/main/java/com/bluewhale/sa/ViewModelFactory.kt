@@ -19,7 +19,7 @@ class ViewModelFactory constructor(val api: ShiftAPI): ViewModelProvider.Factory
             }
         } as T
 
-        //return Injection.provideShiftDataSource(api) as T
+    //return Injection.provideShiftDataSource(api) as T
 
     /*companion object {
 

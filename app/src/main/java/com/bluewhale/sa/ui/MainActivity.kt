@@ -15,6 +15,8 @@ import androidx.core.app.ActivityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bluewhale.sa.BuildConfig.APPLICATION_ID
 import com.bluewhale.sa.model.DWallet
@@ -55,6 +57,19 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
     @Inject lateinit var dWallet: DWallet
 
     lateinit var model: ShiftViewModel
+
+    /*private val model: ShiftViewModel by lazyInject {
+        ViewModelProviders.of(this,
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return ShiftViewModel(
+                        Injection.provideShiftRepository(application)
+                    ) as T
+                }
+            }).get(ShiftViewModel::class.java)
+    }*/
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
@@ -130,7 +145,7 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
         super.onBackPressed()
     }
 
-    fun goToRootFragment(){
+    fun goToRootFragment() {
         val count = supportFragmentManager.backStackEntryCount
         if (count >= 2) {
             val be = supportFragmentManager.getBackStackEntryAt(0)
@@ -240,7 +255,8 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
                 // when permissions are denied. Otherwise, your app could appear unresponsive to
                 // touches or interactions which have required permissions.
                 else -> {
-                    showSnackbar(R.string.permission_denied_explanation, R.string.settings,
+                    showSnackbar(
+                        R.string.permission_denied_explanation, R.string.settings,
                         View.OnClickListener {
                             // Build intent that displays the App settings screen.
                             val intent = Intent().apply {

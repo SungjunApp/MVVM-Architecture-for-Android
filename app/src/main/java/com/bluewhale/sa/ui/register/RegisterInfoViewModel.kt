@@ -2,30 +2,19 @@ package com.bluewhale.sa.ui.register
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.bluewhale.sa.constant.MobileProvider
-import com.bluewhale.sa.data.source.register.DRequestToken
-import com.bluewhale.sa.data.source.register.RegisterInfoDataSource
-import com.bluewhale.sa.data.source.register.RegisterInfoRepository
+import com.bluewhale.sa.network.NetworkErrorHandler
+import com.bluewhale.sa.ui.BaseViewModel
+import com.example.demo.network.APIRegister
+import io.reactivex.Completable
+import io.reactivex.Single
 
 
 class RegisterInfoViewModel(
     val navigator: RegisterNavigator,
-    val registerRepository: RegisterInfoRepository,
+    val registerRepository: APIRegister,
     val marketingClause: Boolean
-) : ViewModel() {
-
-    private val _loading = MutableLiveData<Boolean>()
-    val loading: LiveData<Boolean>
-        get() = _loading
-
-    private val _errorPopup = MutableLiveData<String>()
-    val errorPopup: LiveData<String>
-        get() = _errorPopup
-
-    private val _nextButton = MutableLiveData<Boolean>().apply { value = false }
-    val nextButton: LiveData<Boolean>
-        get() = _nextButton
+) : BaseViewModel() {
 
     private val _items = MutableLiveData<RegisterInfoData>()
         .apply { value = RegisterInfoData("", "", "", "", MobileProvider.UNSELECTED) }
@@ -60,24 +49,61 @@ class RegisterInfoViewModel(
         _nextButton.value = items.value?.isInfoFilledUp()
     }
 
-    fun requestSMS() {
-        if (items.value?.isInfoFilledUp()!!) {
-            registerRepository.requestSMS(
-                items.value!!.personalCode1,
-                items.value!!.personalCode2,
-                items.value!!.name,
-                items.value!!.provider.providerCode,
-                items.value!!.phone,
-                object : RegisterInfoDataSource.CompletableCallback {
-                    override fun onComplete(requestToken: DRequestToken) {
-                        navigator.goRegisterSMSFragment(marketingClause, requestToken)
-                    }
+    fun requestSMS(): Completable {
+        _loading.value = true
+        _nextButton.value = false
 
-                    override fun onError(message: String?) {
-                        _errorPopup.apply { value = message }
-                    }
-                }
-            )
+        return registerRepository.requestSMS(
+            items.value?.personalCode1 + items.value?.personalCode2,
+            items.value?.name!!,
+            items.value?.provider?.providerCode!!,
+            items.value?.phone!!
+        ).flatMap {
+            navigator.goRegisterSMSFragment(marketingClause, it)
+
+            Single.just(it)
+        }.doOnSuccess {
+            _loading.value = false
+        }.doOnError {
+            val stringRes = NetworkErrorHandler.handleError(it)
+            if (stringRes > 0)
+                _errorPopup.value = stringRes
+
+            _loading.value = false
+            _nextButton.value = items.value?.isInfoFilledUp()
+        }.ignoreElement()
+    }
+
+    data class RegisterInfoData(
+        var name: String,
+        var personalCode1: String,
+        var personalCode2: String,
+        var phone: String,
+        var provider: MobileProvider
+    ) {
+
+        fun isNameFull(): Boolean {
+            return name.isNotEmpty()
+        }
+
+        fun isPersonalCode1Full(): Boolean {
+            return personalCode1.isNotEmpty() && personalCode1.length == 6
+        }
+
+        fun isPersonalCode2Full(): Boolean {
+            return personalCode2.isNotEmpty() && personalCode2.length == 1
+        }
+
+        fun isPhoneFull(): Boolean {
+            return phone.isNotEmpty() && phone.length == 11
+        }
+
+        fun isProviderSelected(): Boolean {
+            return provider != MobileProvider.UNSELECTED
+        }
+
+        fun isInfoFilledUp(): Boolean {
+            return isNameFull() && isPersonalCode1Full() && isPersonalCode2Full() && isPhoneFull() && isProviderSelected()
         }
     }
 }

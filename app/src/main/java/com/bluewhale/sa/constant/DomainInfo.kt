@@ -1,8 +1,8 @@
-package com.bluewhale.sa.network
+package com.bluewhale.sa.constant
 
 class DomainInfo{
     companion object {
-        const val URL = "https://apjoqdqpi3.execute-api.us-west-2.amazonaws.com/dmc/"
+        const val URL = "http://BEP-dev.ap-northeast-2.elasticbeanstalk.com"
         const val CLIENT_SHASUM = "d395031c07b0a80122d987147f5ad9efe4d3e9af"
     }
 }

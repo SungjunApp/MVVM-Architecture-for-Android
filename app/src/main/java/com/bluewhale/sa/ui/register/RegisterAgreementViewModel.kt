@@ -2,17 +2,12 @@ package com.bluewhale.sa.ui.register
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
+import com.bluewhale.sa.ui.BaseViewModel
 
 
 class RegisterAgreementViewModel constructor(
     val navigator: RegisterNavigator
-) : ViewModel() {
-
-    private val _nextButton = MutableLiveData<Boolean>().apply { value = false }
-    val nextButton: LiveData<Boolean>
-        get() = _nextButton
-
+) : BaseViewModel() {
     private val _items = MutableLiveData<RegisterAgreementData>()
         .apply { value = RegisterAgreementData(clause1 = false, clause2 = false, clause3 = false) }
     val items: LiveData<RegisterAgreementData>
@@ -45,5 +40,15 @@ class RegisterAgreementViewModel constructor(
     fun goNext() {
         if (_items.value?.isPassable()!!)
             _items.value?.clause3?.let { navigator.goRegisterInfoFragment(it) }
+    }
+
+    data class RegisterAgreementData(
+        var clause1: Boolean,
+        var clause2: Boolean,
+        var clause3: Boolean
+    ) {
+        fun isPassable(): Boolean {
+            return clause1 && clause2
+        }
     }
 }

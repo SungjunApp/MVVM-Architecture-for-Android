@@ -4,34 +4,35 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.bluewhale.sa.MainActivity
+import com.bluewhale.sa.Injection
 import com.bluewhale.sa.R
+import com.bluewhale.sa.ui.BaseFragment
 import kotlinx.android.synthetic.main.fragment_register_information.*
+import tech.thdev.lifecycle.extensions.lazyInject
 
-class RegisterInfoFragment : Fragment() {
+class RegisterInfoFragment : BaseFragment() {
+    override val titleResource: Int
+        get() = R.string.title_registerInfo
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_register_information, container, false)
     }
 
-    private lateinit var mViewModel: RegisterInfoViewModel
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-        mViewModel = activity?.run {
-            ViewModelProviders.of(
-                this,
-                RegisterInfoViewModelFactory.getInstance(
-                    activity = MainActivity(),
-                    application = application,
-                    marketingClause = getMarketClause()
-                )
-            )
-                .get(RegisterInfoViewModel::class.java)
-        } ?: throw Exception("Invalid Activity")
+    private val mViewModel: RegisterInfoViewModel by lazyInject(isActivity = true) {
+        ViewModelProviders.of(this,
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return RegisterInfoViewModel(
+                        RegisterNavigator(Injection.createNavigationProvider(activity!!)),
+                        Injection.provideRegisterRepository(activity!!.application),
+                        getMarketClause()
+                    ) as T
+                }
+            }).get(RegisterInfoViewModel::class.java)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -46,7 +47,10 @@ class RegisterInfoFragment : Fragment() {
         })
 
         bwtb_next.setOnClickListener {
-            mViewModel.requestSMS()
+            disposables.add(mViewModel.requestSMS()
+                .subscribe({}, {})
+            )
+
         }
     }
 
