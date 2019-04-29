@@ -2,6 +2,8 @@ package com.bluewhale.sa.ui.register
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.bluewhale.sa.constant.MobileProvider
 import com.bluewhale.sa.network.NetworkErrorHandler
 import com.bluewhale.sa.ui.BaseViewModel
@@ -14,6 +16,13 @@ class RegisterInfoViewModel(
     val navigator: RegisterNavigator,
     val registerRepository: APIRegister
 ) : BaseViewModel() {
+    class RegisterInfoViewModelFactory constructor(
+        val navigator: RegisterNavigator,
+        val apiRegister: APIRegister
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>) =
+            RegisterInfoViewModel(navigator, apiRegister) as T
+    }
 
     var marketingClause = false
     private val _items = MutableLiveData<RegisterInfoData>()

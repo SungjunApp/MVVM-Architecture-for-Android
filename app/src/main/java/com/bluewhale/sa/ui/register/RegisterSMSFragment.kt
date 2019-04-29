@@ -39,7 +39,7 @@ class RegisterSMSFragment : BaseFragment() {
     }*/
 
     @Inject
-    lateinit var factory: RegisterSMSViewModelFactory
+    lateinit var factory: RegisterSMSViewModel.RegisterSMSViewModelFactory
     val mViewModel: RegisterSMSViewModel by lazy {
         val viewModel = ViewModelProviders.of(this, factory)
             .get(RegisterSMSViewModel::class.java)

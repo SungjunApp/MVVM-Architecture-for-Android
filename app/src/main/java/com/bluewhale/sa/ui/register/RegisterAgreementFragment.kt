@@ -22,8 +22,20 @@ class RegisterAgreementFragment : BaseFragment() {
         super.onCreate(savedInstanceState)
     }
 
+
+    /*private val mViewModel: RegisterAgreementViewModel by lazyInject(isActivity = true) {
+        ViewModelProviders.of(this,
+            object : ViewModelProvider.Factory {
+                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
+                    return RegisterAgreementViewModel(
+                        RegisterNavigator(Injection.createNavigationProvider(activity!!))
+                    ) as T
+                }
+            }).get(RegisterAgreementViewModel::class.java)
+    }*/
+
     @Inject
-    lateinit var factory: RegisterAgreementViewModelFactory
+    lateinit var factory: RegisterAgreementViewModel.RegisterAgreementViewModelFactory
     val mViewModel: RegisterAgreementViewModel by lazy {
         ViewModelProviders.of(this, factory)
             .get(RegisterAgreementViewModel::class.java)
@@ -35,7 +47,6 @@ class RegisterAgreementFragment : BaseFragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
 
         mViewModel.nextButton.observe(this, Observer {
             bwtb_next.isEnabled = it

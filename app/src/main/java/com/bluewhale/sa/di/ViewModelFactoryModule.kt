@@ -2,14 +2,14 @@ package com.bluewhale.sa.di
 
 import com.bluewhale.sa.navigator.BaseNavigator
 import com.bluewhale.sa.navigator.Navigator
-import com.bluewhale.sa.ui.shift.ShiftViewModelFactory
 import com.bluewhale.sa.network.api.ShiftAPI
 import com.bluewhale.sa.ui.MainActivity
-import com.bluewhale.sa.ui.register.RegisterAgreementViewModelFactory
-import com.bluewhale.sa.ui.register.RegisterInfoViewModelFactory
+import com.bluewhale.sa.ui.register.RegisterAgreementViewModel
+import com.bluewhale.sa.ui.register.RegisterInfoViewModel
 import com.bluewhale.sa.ui.register.RegisterNavigator
-import com.bluewhale.sa.ui.register.RegisterSMSViewModelFactory
-import com.bluewhale.sa.ui.trade.TradeHomeViewModelFactory
+import com.bluewhale.sa.ui.register.RegisterSMSViewModel
+import com.bluewhale.sa.ui.shift.ShiftViewModelFactory
+import com.bluewhale.sa.ui.trade.TradeHomeViewModel
 import com.bluewhale.sa.ui.trade.TradeNavigator
 import com.example.demo.network.APIRegister
 import com.example.demo.network.APITrade
@@ -31,33 +31,31 @@ class ViewModelFactoryModule {
     @Provides
     fun provideRegisterAgreementViewModelFactory(
         navigator: RegisterNavigator
-    ): RegisterAgreementViewModelFactory {
-        return RegisterAgreementViewModelFactory(navigator)
+    ): RegisterAgreementViewModel.RegisterAgreementViewModelFactory {
+        return RegisterAgreementViewModel.RegisterAgreementViewModelFactory(navigator)
     }
 
     @Provides
     fun provideRegisterSMSViewModelFactory(
         navigator: RegisterNavigator,
         api: APIRegister
-    ): RegisterSMSViewModelFactory {
-        return RegisterSMSViewModelFactory(navigator, api)
+    ): RegisterSMSViewModel.RegisterSMSViewModelFactory {
+        return RegisterSMSViewModel.RegisterSMSViewModelFactory(navigator, api)
     }
 
     @Provides
     fun provideRegisterInfoViewModelFactory(
         navigator: RegisterNavigator,
         api: APIRegister
-    ): RegisterInfoViewModelFactory {
-        return RegisterInfoViewModelFactory(navigator, api)
+    ): RegisterInfoViewModel.RegisterInfoViewModelFactory {
+        return RegisterInfoViewModel.RegisterInfoViewModelFactory(navigator, api)
     }
 
     @Provides
     fun provideTradeHomeViewModelFactory(
         navigator: TradeNavigator,
         api: APITrade
-    ): TradeHomeViewModelFactory {
-        return TradeHomeViewModelFactory(navigator, api)
+    ): TradeHomeViewModel.TradeHomeViewModelFactory {
+        return TradeHomeViewModel.TradeHomeViewModelFactory(navigator, api)
     }
-
-
 }

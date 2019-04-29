@@ -24,7 +24,7 @@ class TradeHomeFragment : BaseFragment() {
     }
 
     @Inject
-    lateinit var factory: TradeHomeViewModelFactory
+    lateinit var factory: TradeHomeViewModel.TradeHomeViewModelFactory
     val mViewModel: TradeHomeViewModel by lazy {
         ViewModelProviders.of(this, factory)
             .get(TradeHomeViewModel::class.java)

@@ -26,7 +26,7 @@ class RegisterInfoFragment : BaseFragment() {
     }
 
     @Inject
-    lateinit var factory: RegisterInfoViewModelFactory
+    lateinit var factory: RegisterInfoViewModel.RegisterInfoViewModelFactory
     val mViewModel: RegisterInfoViewModel by lazy {
         val viewModel = ViewModelProviders.of(this, factory)
             .get(RegisterInfoViewModel::class.java)

@@ -2,12 +2,23 @@ package com.bluewhale.sa.ui.register
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.bluewhale.sa.ui.BaseViewModel
+import com.example.demo.network.APIRegister
 
 
 class RegisterAgreementViewModel constructor(
     private val mNavigator: RegisterNavigator
 ) : BaseViewModel() {
+
+    class RegisterAgreementViewModelFactory constructor(
+        val navigator: RegisterNavigator
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>) =
+            RegisterAgreementViewModel(navigator) as T
+    }
+
     private val _items = MutableLiveData<RegisterAgreementData>()
         .apply { value = RegisterAgreementData(clause1 = false, clause2 = false, clause3 = false) }
     val items: LiveData<RegisterAgreementData>
