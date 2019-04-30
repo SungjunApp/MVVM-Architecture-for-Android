@@ -1,8 +1,8 @@
 package com.bluewhale.sa.ui.asset
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.bluewhale.sa.network.api.APIMyAsset
 import com.bluewhale.sa.repository.FakeMyAssetRepository
-import com.example.demo.network.APIMyAsset
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

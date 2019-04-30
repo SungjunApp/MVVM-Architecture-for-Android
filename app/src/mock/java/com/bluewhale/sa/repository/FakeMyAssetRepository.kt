@@ -2,7 +2,7 @@ package com.bluewhale.sa.repository
 
 import com.bluewhale.sa.model.trade.DStock
 import com.bluewhale.sa.model.trade.DStockList
-import com.example.demo.network.APIMyAsset
+import com.bluewhale.sa.network.api.APIMyAsset
 import com.libs.meuuslibs.network.FakeBaseRepository
 import io.reactivex.Single
 

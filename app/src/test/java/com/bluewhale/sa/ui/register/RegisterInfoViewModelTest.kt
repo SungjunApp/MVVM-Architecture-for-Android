@@ -3,8 +3,8 @@ package com.bluewhale.sa.ui.register
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.bluewhale.sa.LiveDataTestUtil
 import com.bluewhale.sa.constant.MobileProvider
+import com.bluewhale.sa.network.api.APIRegister
 import com.bluewhale.sa.repository.FakeRegisterRepository
-import com.example.demo.network.APIRegister
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
