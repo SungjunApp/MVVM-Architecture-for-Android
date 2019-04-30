@@ -1,4 +1,4 @@
-package com.bluewhale.sa.ui.trade
+package com.bluewhale.sa.ui.asset
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,27 +12,29 @@ import com.bluewhale.sa.Injection
 import com.bluewhale.sa.R
 import com.bluewhale.sa.ui.BaseFragment
 import com.bluewhale.sa.ui.register.RegisterInfoFragment.Companion.MARKETING_CLAUSE
+import com.bluewhale.sa.ui.trade.TradeHomeViewModel
+import com.bluewhale.sa.ui.trade.TradeNavigator
 import kotlinx.android.synthetic.main.fragment_register_information.*
 import tech.thdev.lifecycle.extensions.lazyInject
 
-class TradeHomeFragment : BaseFragment() {
+class MyAssetFragment : BaseFragment() {
     override val titleResource: Int
         get() = R.string.title_registerInfo
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_trade, container, false)
+        return inflater.inflate(R.layout.fragment_asset, container, false)
     }
 
-    private val mViewModel: TradeHomeViewModel by lazyInject(isActivity = true) {
+    private val mViewModel: MyAssetViewModel by lazyInject(isActivity = true) {
         ViewModelProviders.of(this,
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                    return TradeHomeViewModel(
-                        TradeNavigator(Injection.createNavigationProvider(activity!!)),
-                        Injection.provideTradeRepository(activity!!.application)
+                    return MyAssetViewModel(
+                        MyAssetNavigator(Injection.createNavigationProvider(activity!!)),
+                        Injection.provideMyAssetRepository(activity!!.application)
                     ) as T
                 }
-            }).get(TradeHomeViewModel::class.java)
+            }).get(MyAssetViewModel::class.java)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -42,8 +44,8 @@ class TradeHomeFragment : BaseFragment() {
     }
 
     companion object {
-        fun getInstance(): TradeHomeFragment {
-            val f = TradeHomeFragment()
+        fun getInstance(): MyAssetFragment {
+            val f = MyAssetFragment()
             val bundle = Bundle()
             f.arguments = bundle
             return f

@@ -13,6 +13,9 @@ class RegisterAgreementViewModel constructor(
     val items: LiveData<RegisterAgreementData>
         get() = _items
 
+    /**
+     *
+     */
     fun setClauseAll(check: Boolean) {
         _items.value?.clause1 = check
         _items.value?.clause2 = check
