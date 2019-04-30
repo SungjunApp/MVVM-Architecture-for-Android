@@ -1,6 +1,6 @@
 package com.example.demo.network
 
-import com.bluewhale.sa.data.trade.DStockList
+import com.bluewhale.sa.model.trade.DStockList
 import com.bluewhale.sa.navigator.BaseSchedulerProvider
 import com.libs.meuuslibs.network.BaseRepository
 import io.reactivex.Single

@@ -6,10 +6,10 @@ import android.location.LocationManager
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.bluewhale.sa.LiveDataTestUtil
 import com.bluewhale.sa.R
-import com.bluewhale.sa.data.Shift
-import com.bluewhale.sa.data.ShiftHalf
-import com.bluewhale.sa.data.source.ShiftDataSource
-import com.bluewhale.sa.data.source.ShiftRepository
+import com.bluewhale.sa.model.Shift
+import com.bluewhale.sa.model.ShiftHalf
+import com.bluewhale.sa.model.source.ShiftDataSource
+import com.bluewhale.sa.model.source.ShiftRepository
 import com.bluewhale.sa.ui.shift.work.UserStatus
 import com.bluewhale.sa.util.any
 import com.bluewhale.sa.util.capture

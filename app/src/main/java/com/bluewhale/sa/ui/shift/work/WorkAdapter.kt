@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bluewhale.sa.GlideRequest
 import com.bluewhale.sa.R
-import com.bluewhale.sa.data.Shift
+import com.bluewhale.sa.model.Shift
 import java.util.*
 
 class WorkAdapter(

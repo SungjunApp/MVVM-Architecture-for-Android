@@ -1,7 +1,7 @@
-package com.bluewhale.sa.data.source
+package com.bluewhale.sa.model.source
 
-import com.bluewhale.sa.data.Shift
-import com.bluewhale.sa.data.ShiftHalf
+import com.bluewhale.sa.model.Shift
+import com.bluewhale.sa.model.ShiftHalf
 
 interface ShiftDataSource {
     interface LoadShiftCallback {
@@ -14,8 +14,8 @@ interface ShiftDataSource {
         fun onError(message:String?)
     }
 
-    fun startShift(marker: ShiftHalf, callback:CompletableCallback)
-    fun endShift(marker: ShiftHalf, callback:CompletableCallback)
+    fun startShift(marker: ShiftHalf, callback: CompletableCallback)
+    fun endShift(marker: ShiftHalf, callback: CompletableCallback)
     fun getShifts(callback: LoadShiftCallback)
 
 }

@@ -2,7 +2,8 @@ package com.bluewhale.sa.ui.register
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.bluewhale.sa.LiveDataTestUtil
-import com.bluewhale.sa.data.FakeRegisterRepository
+import com.bluewhale.sa.repository.FakeRegisterRepository
+import com.bluewhale.sa.model.register.DRequestToken
 import com.example.demo.network.APIRegister
 import org.junit.Assert
 import org.junit.Before
@@ -33,6 +34,8 @@ class RegisterSMSViewModelTest {
 
         // Get a reference to the class under test
         mViewModel = RegisterSMSViewModel(mNavigator, mRepository)
+        mViewModel.marketingClause = true
+        mViewModel.requestToken = DRequestToken(FakeRegisterRepository.testToken)
     }
 
     /**

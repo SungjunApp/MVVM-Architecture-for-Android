@@ -1,11 +1,8 @@
-package com.bluewhale.sa.data
+package com.bluewhale.sa.repository
 
-import com.bluewhale.sa.data.register.DPassword
-import com.bluewhale.sa.data.register.DSignUp
-import com.bluewhale.sa.data.register.DUser
-import com.bluewhale.sa.data.trade.DStock
-import com.bluewhale.sa.data.trade.DStockList
-import com.example.demo.network.APIMyAsset
+import com.bluewhale.sa.model.register.DPassword
+import com.bluewhale.sa.model.register.DSignUp
+import com.bluewhale.sa.model.register.DUser
 import com.example.demo.network.APIUser
 import com.libs.meuuslibs.network.FakeBaseRepository
 import io.reactivex.Completable

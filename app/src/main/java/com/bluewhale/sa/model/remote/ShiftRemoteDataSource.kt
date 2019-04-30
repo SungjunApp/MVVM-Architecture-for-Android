@@ -1,8 +1,8 @@
-package com.bluewhale.sa.data.remote
+package com.bluewhale.sa.model.remote
 
-import com.bluewhale.sa.data.Shift
-import com.bluewhale.sa.data.ShiftHalf
-import com.bluewhale.sa.data.source.ShiftDataSource
+import com.bluewhale.sa.model.Shift
+import com.bluewhale.sa.model.ShiftHalf
+import com.bluewhale.sa.model.source.ShiftDataSource
 import com.bluewhale.sa.network.api.ShiftAPI
 import retrofit2.Call
 import retrofit2.Response
@@ -17,7 +17,7 @@ class ShiftRemoteDataSource constructor(val shiftAPI: ShiftAPI) : ShiftDataSourc
                         callback.onError(it)
                     }
 
-                    getShifts(object:ShiftDataSource.LoadShiftCallback{
+                    getShifts(object: ShiftDataSource.LoadShiftCallback{
 
                         override fun onShiftsLoaded(shifts: List<Shift>) {
                             callback.onComplete(shifts)
@@ -47,7 +47,7 @@ class ShiftRemoteDataSource constructor(val shiftAPI: ShiftAPI) : ShiftDataSourc
                     response.body()?.also {
                         callback.onError(it)
                     }
-                    getShifts(object:ShiftDataSource.LoadShiftCallback{
+                    getShifts(object: ShiftDataSource.LoadShiftCallback{
                         override fun onShiftsLoaded(shifts: List<Shift>) {
                             callback.onComplete(shifts)
                         }

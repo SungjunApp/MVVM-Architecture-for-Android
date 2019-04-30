@@ -1,4 +1,4 @@
-package com.bluewhale.sa.data
+package com.bluewhale.sa.model
 
 data class ShiftHalf constructor(
     var time: String = "",

@@ -1,8 +1,8 @@
-package com.bluewhale.sa.data
+package com.bluewhale.sa.repository
 
 import com.bluewhale.sa.constant.MobileProvider
-import com.bluewhale.sa.data.register.DIsUser
-import com.bluewhale.sa.data.register.DRequestToken
+import com.bluewhale.sa.model.register.DIsUser
+import com.bluewhale.sa.model.register.DRequestToken
 import com.example.demo.network.APIRegister
 import com.libs.meuuslibs.network.FakeBaseRepository
 import io.reactivex.Single

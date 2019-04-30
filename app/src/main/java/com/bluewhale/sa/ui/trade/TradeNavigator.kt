@@ -10,7 +10,7 @@ class TradeNavigator constructor(val navi: Navigator) {
     }
 
     fun goTradeDetailFragment(tradeId: String) {
-//        navi.addFragment(RegisterInfoFragment.getInstance(marketingClause))
+        navi.addFragment(TradeDetailFragment.getInstance(tradeId))
     }
 
     fun goHomeFragment() {

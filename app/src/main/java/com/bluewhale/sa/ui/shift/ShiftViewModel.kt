@@ -4,12 +4,8 @@ import android.location.Location
 import androidx.annotation.StringRes
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import com.bluewhale.sa.R
-import com.bluewhale.sa.data.Shift
-import com.bluewhale.sa.data.ShiftHalf
-import com.bluewhale.sa.data.source.ShiftDataSource
-import com.bluewhale.sa.data.source.ShiftRepository
+import com.bluewhale.sa.model.Shift
 import com.bluewhale.sa.network.api.ShiftAPI
 import com.bluewhale.sa.ui.BaseViewModel
 import com.bluewhale.sa.ui.shift.work.UserStatus

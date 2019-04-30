@@ -1,6 +1,6 @@
 package com.example.demo.network
 
-import com.bluewhale.sa.data.trade.DStockList
+import com.bluewhale.sa.model.trade.DStockList
 import io.reactivex.Single
 import retrofit2.http.GET
 
