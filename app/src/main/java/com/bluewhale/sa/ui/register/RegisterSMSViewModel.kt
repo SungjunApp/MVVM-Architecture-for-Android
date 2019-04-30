@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.bluewhale.sa.data.source.register.DRequestToken
+import com.bluewhale.sa.data.register.DRequestToken
 import com.bluewhale.sa.ui.BaseViewModel
 import com.example.demo.network.APIRegister
 import io.reactivex.Completable

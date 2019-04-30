@@ -1,8 +1,8 @@
 package com.bluewhale.sa.ui.trade
 
-import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.bluewhale.sa.Injection
+import com.bluewhale.sa.data.FakeTradeRepository
 import com.example.demo.network.APITrade
 import org.junit.Before
 import org.junit.Rule
@@ -22,16 +22,13 @@ class TradeHomeViewModelTest {
     //@Mock
     private lateinit var mRepository: APITrade
 
-    @Mock
-    private lateinit var mApplication: Application
-
     @Before
-    fun setupShiftViewModel() {
+    fun setupViewModel() {
         // Mockito has a very convenient way to inject mocks by using the @Mock annotation. To
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this)
 
-        mRepository = Injection.provideTradeRepository(mApplication)
+        mRepository = FakeTradeRepository()
 
         // Get a reference to the class under test
         mViewModel = TradeHomeViewModel(mNavigator, mRepository)

@@ -19,7 +19,7 @@ class RegisterAgreementViewModelTest {
     private lateinit var mNavigator: RegisterNavigator
 
     @Before
-    fun setupShiftViewModel() {
+    fun setupViewModel() {
         // Mockito has a very convenient way to inject mocks by using the @Mock annotation. To
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this)

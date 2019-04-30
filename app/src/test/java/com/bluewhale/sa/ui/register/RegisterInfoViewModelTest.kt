@@ -1,10 +1,10 @@
 package com.bluewhale.sa.ui.register
 
-import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.bluewhale.sa.Injection
 import com.bluewhale.sa.LiveDataTestUtil
 import com.bluewhale.sa.constant.MobileProvider
+import com.bluewhale.sa.data.FakeRegisterRepository
 import com.example.demo.network.APIRegister
 import org.junit.Assert
 import org.junit.Before
@@ -25,19 +25,16 @@ class RegisterInfoViewModelTest {
     //@Mock
     private lateinit var mRepository: APIRegister
 
-    @Mock
-    private lateinit var mApplication: Application
-
     @Before
-    fun setupShiftViewModel() {
+    fun setupViewModel() {
         // Mockito has a very convenient way to inject mocks by using the @Mock annotation. To
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this)
 
-        mRepository = Injection.provideRegisterRepository(mApplication)
+        mRepository = FakeRegisterRepository()
 
         // Get a reference to the class under test
-        mViewModel = RegisterInfoViewModel(mNavigator, mRepository, false)
+        mViewModel = RegisterInfoViewModel(mNavigator, mRepository)
     }
 
     /**

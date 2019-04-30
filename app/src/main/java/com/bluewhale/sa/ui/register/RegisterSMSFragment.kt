@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.bluewhale.sa.R
-import com.bluewhale.sa.data.source.register.DRequestToken
+import com.bluewhale.sa.data.register.DRequestToken
 import com.bluewhale.sa.ui.BaseFragment
 import dagger.android.support.AndroidSupportInjection
 import javax.inject.Inject

@@ -1,7 +1,7 @@
 package com.bluewhale.sa.data
 
-import com.bluewhale.sa.data.source.trade.DStock
-import com.bluewhale.sa.data.source.trade.DStockList
+import com.bluewhale.sa.data.trade.DStock
+import com.bluewhale.sa.data.trade.DStockList
 import com.example.demo.network.APIMyAsset
 import com.libs.meuuslibs.network.FakeBaseRepository
 import io.reactivex.Single

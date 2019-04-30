@@ -1,7 +1,7 @@
 package com.example.demo.network
 
-import com.bluewhale.sa.data.source.register.DRequestToken
-import com.bluewhale.sa.data.source.register.DIsUser
+import com.bluewhale.sa.data.register.DRequestToken
+import com.bluewhale.sa.data.register.DIsUser
 import io.reactivex.Single
 import retrofit2.http.Field
 import retrofit2.http.FormUrlEncoded

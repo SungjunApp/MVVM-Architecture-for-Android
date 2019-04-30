@@ -1,9 +1,7 @@
 package com.example.demo.network
 
-import android.app.Application
-import com.bluewhale.sa.data.source.trade.DStockList
+import com.bluewhale.sa.data.trade.DStockList
 import com.bluewhale.sa.navigator.BaseSchedulerProvider
-import com.bluewhale.sa.ui.register.RegisterNavigator
 import com.libs.meuuslibs.network.BaseRepository
 import io.reactivex.Single
 

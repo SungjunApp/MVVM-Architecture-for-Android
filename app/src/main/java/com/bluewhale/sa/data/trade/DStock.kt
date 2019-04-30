@@ -1,4 +1,4 @@
-package com.bluewhale.sa.data.source.trade
+package com.bluewhale.sa.data.trade
 
 import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize

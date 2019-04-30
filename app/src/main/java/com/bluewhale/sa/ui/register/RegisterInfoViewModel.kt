@@ -25,6 +25,7 @@ class RegisterInfoViewModel(
     }
 
     var marketingClause = false
+
     private val _items = MutableLiveData<RegisterInfoData>()
         .apply { value = RegisterInfoData("", "", "", "", MobileProvider.UNSELECTED) }
     val items: LiveData<RegisterInfoData>

@@ -1,4 +1,4 @@
-package com.bluewhale.sa.data.source.remote
+package com.bluewhale.sa.data.remote
 
 import com.bluewhale.sa.data.Shift
 import com.bluewhale.sa.data.ShiftHalf

@@ -1,8 +1,8 @@
 package com.example.demo.network
 
-import com.bluewhale.sa.data.source.register.DPassword
-import com.bluewhale.sa.data.source.register.DSignUp
-import com.bluewhale.sa.data.source.register.DUser
+import com.bluewhale.sa.data.register.DPassword
+import com.bluewhale.sa.data.register.DSignUp
+import com.bluewhale.sa.data.register.DUser
 import io.reactivex.Completable
 import io.reactivex.Single
 import retrofit2.http.*

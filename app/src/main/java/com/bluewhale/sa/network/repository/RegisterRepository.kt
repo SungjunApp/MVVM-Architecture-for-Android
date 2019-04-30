@@ -1,7 +1,7 @@
 package com.example.demo.network
 
-import com.bluewhale.sa.data.source.register.DIsUser
-import com.bluewhale.sa.data.source.register.DRequestToken
+import com.bluewhale.sa.data.register.DIsUser
+import com.bluewhale.sa.data.register.DRequestToken
 import com.bluewhale.sa.navigator.BaseSchedulerProvider
 import com.libs.meuuslibs.network.BaseRepository
 import io.reactivex.Single

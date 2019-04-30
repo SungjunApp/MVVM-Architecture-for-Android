@@ -1,11 +1,8 @@
 package com.bluewhale.sa.ui.register
 
-import android.app.Application
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.bluewhale.sa.Injection
 import com.bluewhale.sa.LiveDataTestUtil
-import com.bluewhale.sa.data.FakeRegisterRepository.Companion.testToken
-import com.bluewhale.sa.data.source.register.DRequestToken
+import com.bluewhale.sa.data.FakeRegisterRepository
 import com.example.demo.network.APIRegister
 import org.junit.Assert
 import org.junit.Before
@@ -26,19 +23,16 @@ class RegisterSMSViewModelTest {
     //@Mock
     private lateinit var mRepository: APIRegister
 
-    @Mock
-    private lateinit var mApplication: Application
-
     @Before
-    fun setupShiftViewModel() {
+    fun setupViewModel() {
         // Mockito has a very convenient way to inject mocks by using the @Mock annotation. To
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this)
 
-        mRepository = Injection.provideRegisterRepository(mApplication)
+        mRepository = FakeRegisterRepository()
 
         // Get a reference to the class under test
-        mViewModel = RegisterSMSViewModel(mNavigator, mRepository, false, DRequestToken(testToken))
+        mViewModel = RegisterSMSViewModel(mNavigator, mRepository)
     }
 
     /**
@@ -79,8 +73,6 @@ class RegisterSMSViewModelTest {
      */
     @Test
     fun authTest1() {
-        mViewModel = RegisterSMSViewModel(mNavigator, mRepository, false, DRequestToken(testToken))
-
         Assert.assertFalse(LiveDataTestUtil.getValue(mViewModel.nextButton))
 
         val testObserver = mViewModel.verifyCode().test()
@@ -104,8 +96,6 @@ class RegisterSMSViewModelTest {
      */
     @Test
     fun authTest2() {
-        mViewModel = RegisterSMSViewModel(mNavigator, mRepository, false, DRequestToken(testToken))
-
         mViewModel.setAuthCode("test")
         Assert.assertFalse(LiveDataTestUtil.getValue(mViewModel.nextButton))
 
@@ -130,8 +120,6 @@ class RegisterSMSViewModelTest {
      */
     @Test
     fun authTest3() {
-        mViewModel = RegisterSMSViewModel(mNavigator, mRepository, false, DRequestToken(testToken))
-
         mViewModel.setAuthCode("test00")
         Assert.assertTrue(LiveDataTestUtil.getValue(mViewModel.nextButton))
 
@@ -143,15 +131,15 @@ class RegisterSMSViewModelTest {
     }
 
 
-    fun printNextButton(title: String) {
+    private fun printNextButton(title: String) {
         println(title)
         println("nextButton : ${mViewModel.nextButton.value}")
         println("\n")
     }
 
-    fun printAuthCallback(title: String) {
+    private fun printAuthCallback(title: String) {
         println(title)
-        println("token : ${mViewModel.requestToken.token}")
+        println("token : ${mViewModel.requestToken?.token}")
         println("marketingClause : ${mViewModel.marketingClause}")
         println("authCode : ${mViewModel.authCode.value}")
         println("\n")

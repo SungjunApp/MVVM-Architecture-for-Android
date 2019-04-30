@@ -6,9 +6,8 @@ import com.example.demo.network.APIRegister
 import com.example.demo.network.APITrade
 import com.example.demo.network.APIUser
 import dagger.Module
-import retrofit2.Retrofit
 import dagger.Provides
-import io.reactivex.Single
+import retrofit2.Retrofit
 
 
 @Module
