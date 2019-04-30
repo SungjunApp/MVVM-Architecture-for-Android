@@ -1,5 +1,6 @@
 package com.bluewhale.sa.di
 
+import com.bluewhale.sa.ui.asset.MyAssetFragment
 import com.bluewhale.sa.ui.register.RegisterAgreementFragment
 import com.bluewhale.sa.ui.register.RegisterInfoFragment
 import com.bluewhale.sa.ui.register.RegisterNavigator
@@ -31,4 +32,8 @@ interface FragmentBuildModule {
     @FragmentScope
     @ContributesAndroidInjector(modules = [ViewModelFactoryModule::class, NavigatorModule::class])
     fun bindTradeHomeFragment(): TradeHomeFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [ViewModelFactoryModule::class, NavigatorModule::class])
+    fun bindMyAssetFragment(): MyAssetFragment
 }

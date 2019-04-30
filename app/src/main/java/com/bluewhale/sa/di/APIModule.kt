@@ -1,6 +1,7 @@
 package com.bluewhale.sa.di
 
 import com.bluewhale.sa.network.api.ShiftAPI
+import com.example.demo.network.APIMyAsset
 import com.example.demo.network.APIRegister
 import com.example.demo.network.APITrade
 import com.example.demo.network.APIUser
@@ -30,6 +31,11 @@ class APIModule {
     @Provides
     fun provideAPITrade(retrofit: Retrofit): APITrade {
         return retrofit.create(APITrade::class.java)
+    }
+
+    @Provides
+    fun provideAPIMyAsset(retrofit: Retrofit): APIMyAsset {
+        return retrofit.create(APIMyAsset::class.java)
     }
 
 }

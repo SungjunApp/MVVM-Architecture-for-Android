@@ -2,10 +2,15 @@ package com.bluewhale.sa.ui.asset
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.bluewhale.sa.data.source.trade.DStock
 import com.bluewhale.sa.network.NetworkErrorHandler
 import com.bluewhale.sa.ui.BaseViewModel
+import com.bluewhale.sa.ui.trade.TradeHomeViewModel
+import com.bluewhale.sa.ui.trade.TradeNavigator
 import com.example.demo.network.APIMyAsset
+import com.example.demo.network.APITrade
 import io.reactivex.Single
 
 
@@ -13,6 +18,13 @@ class MyAssetViewModel(
     val mNavigator: MyAssetNavigator,
     val mRepository: APIMyAsset
 ) : BaseViewModel() {
+    class MyAssetViewModelFactory constructor(
+        val navigator: MyAssetNavigator,
+        val api: APIMyAsset
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>) =
+            MyAssetViewModel(navigator, api) as T
+    }
 
     private val _assetList = MutableLiveData<ArrayList<DStock>>().apply { value = arrayListOf() }
     val assetList: LiveData<ArrayList<DStock>>

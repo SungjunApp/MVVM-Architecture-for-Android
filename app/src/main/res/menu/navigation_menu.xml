@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_trading"
+        android:icon="@drawable/navi_wallet"
+        android:title="@string/menu_trading" />
+    <item
+        android:id="@+id/nav_my_asset"
+        android:icon="@drawable/navi_coupon"
+        android:title="@string/menu_my_asset" />
+    <item
+        android:id="@+id/nav_tx"
+        android:icon="@drawable/navi_setting"
+        android:title="@string/menu_tx" />
+
+    <item
+        android:id="@+id/nav_account"
+        android:icon="@drawable/navi_setting"
+        android:title="@string/menu_account" />
+</menu>

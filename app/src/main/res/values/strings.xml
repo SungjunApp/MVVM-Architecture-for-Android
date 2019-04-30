@@ -12,6 +12,12 @@
     <string name="title_trade">거래</string>
     <string name="title_my_asset">트레이드</string>
 
+    <string name="menu_trading">트레이딩</string>
+    <string name="menu_my_asset">마이에셋</string>
+    <string name="menu_tx">입/출금</string>
+    <string name="menu_account">계정</string>
+
+
 
     <string name="error_cannot_start_shift">Please end your ongoing shift first.</string>
     <string name="error_cannot_end_shift">There is no ongoing shift.</string>

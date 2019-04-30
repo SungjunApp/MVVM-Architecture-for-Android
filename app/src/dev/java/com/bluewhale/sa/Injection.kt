@@ -6,10 +6,7 @@ import com.bluewhale.sa.navigator.BaseSchedulerProvider
 import com.bluewhale.sa.navigator.SchedulerProvider
 import com.bluewhale.sa.network.api.ShiftAPI
 import com.bluewhale.sa.util.InjectorInterface
-import com.example.demo.network.APIRegister
-import com.example.demo.network.APIUser
-import com.example.demo.network.RegisterRepository
-import com.example.demo.network.UserRepository
+import com.example.demo.network.*
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -36,4 +33,10 @@ class Injection : InjectorInterface {
     override fun provideRegisterRepository(navi: BaseSchedulerProvider, api:APIRegister): RegisterRepository {
         return RegisterRepository(navi, api)
     }
+
+    @Provides
+    override fun provideMyAssetRepository(navi: BaseSchedulerProvider, api:APIMyAsset): MyAssetRepository {
+        return MyAssetRepository(navi, api)
+    }
+
 }
