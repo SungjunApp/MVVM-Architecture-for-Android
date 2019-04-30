@@ -1,14 +1,11 @@
 package com.bluewhale.sa
 
+import com.bluewhale.sa.model.source.ShiftDataSource
 import com.bluewhale.sa.navigator.BaseSchedulerProvider
 import com.bluewhale.sa.navigator.ImmediateSchedulerProvider
-import com.bluewhale.sa.network.api.ShiftAPI
+import com.bluewhale.sa.network.api.*
 import com.bluewhale.sa.repository.*
-import com.bluewhale.sa.model.source.ShiftDataSource
 import com.bluewhale.sa.util.InjectorInterface
-import com.example.demo.network.APIMyAsset
-import com.example.demo.network.APIRegister
-import com.bluewhale.sa.network.api.APIUser
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
@@ -37,7 +34,7 @@ class Injection : InjectorInterface {
     }
 
     @Provides
-    override fun provideTradeRepository(navi: BaseSchedulerProvider, api: APIMyAsset): FakeTradeRepository {
+    override fun provideTradeRepository(navi: BaseSchedulerProvider, api: APITrade): FakeTradeRepository {
         return FakeTradeRepository()
     }
 
