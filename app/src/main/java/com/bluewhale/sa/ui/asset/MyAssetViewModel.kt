@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bluewhale.sa.model.trade.DStock
 import com.bluewhale.sa.network.NetworkErrorHandler
+import com.bluewhale.sa.network.api.APIMyAsset
 import com.bluewhale.sa.ui.BaseViewModel
-import com.example.demo.network.APIMyAsset
 import io.reactivex.Single
 
 

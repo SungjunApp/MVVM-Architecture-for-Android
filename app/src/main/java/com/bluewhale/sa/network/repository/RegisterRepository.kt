@@ -3,6 +3,7 @@ package com.example.demo.network
 import com.bluewhale.sa.model.register.DIsUser
 import com.bluewhale.sa.model.register.DRequestToken
 import com.bluewhale.sa.navigator.BaseSchedulerProvider
+import com.bluewhale.sa.network.api.APIRegister
 import com.libs.meuuslibs.network.BaseRepository
 import io.reactivex.Single
 

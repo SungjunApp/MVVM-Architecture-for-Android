@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bluewhale.sa.ui.BaseViewModel
-import com.example.demo.network.APIRegister
 
 
 class RegisterAgreementViewModel constructor(

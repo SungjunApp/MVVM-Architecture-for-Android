@@ -2,6 +2,9 @@ package com.bluewhale.sa.di
 
 import com.bluewhale.sa.navigator.BaseNavigator
 import com.bluewhale.sa.navigator.Navigator
+import com.bluewhale.sa.network.api.APIMyAsset
+import com.bluewhale.sa.network.api.APIRegister
+import com.bluewhale.sa.network.api.APITrade
 import com.bluewhale.sa.network.api.ShiftAPI
 import com.bluewhale.sa.ui.MainActivity
 import com.bluewhale.sa.ui.asset.MyAssetNavigator
@@ -11,11 +14,9 @@ import com.bluewhale.sa.ui.register.RegisterInfoViewModel
 import com.bluewhale.sa.ui.register.RegisterNavigator
 import com.bluewhale.sa.ui.register.RegisterSMSViewModel
 import com.bluewhale.sa.ui.shift.ShiftViewModelFactory
+import com.bluewhale.sa.ui.trade.TradeDetailViewModel
 import com.bluewhale.sa.ui.trade.TradeHomeViewModel
 import com.bluewhale.sa.ui.trade.TradeNavigator
-import com.example.demo.network.APIMyAsset
-import com.example.demo.network.APIRegister
-import com.bluewhale.sa.network.api.APITrade
 import dagger.Module
 import dagger.Provides
 
@@ -68,6 +69,14 @@ class ViewModelFactoryModule {
         api: APIMyAsset
     ): MyAssetViewModel.MyAssetViewModelFactory {
         return MyAssetViewModel.MyAssetViewModelFactory(navigator, api)
+    }
+
+    @Provides
+    fun provideTradeDetailViewModelFactory(
+        navigator: TradeNavigator,
+        api: APITrade
+    ): TradeDetailViewModel.TradeDetailViewModelFactory {
+        return TradeDetailViewModel.TradeDetailViewModelFactory(navigator, api)
     }
 
 }

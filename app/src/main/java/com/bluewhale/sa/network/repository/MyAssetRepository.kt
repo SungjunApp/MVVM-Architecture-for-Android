@@ -2,6 +2,7 @@ package com.example.demo.network
 
 import com.bluewhale.sa.model.trade.DStockList
 import com.bluewhale.sa.navigator.BaseSchedulerProvider
+import com.bluewhale.sa.network.api.APIMyAsset
 import com.libs.meuuslibs.network.BaseRepository
 import io.reactivex.Single
 

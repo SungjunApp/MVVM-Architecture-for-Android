@@ -6,6 +6,7 @@ import com.bluewhale.sa.ui.register.RegisterInfoFragment
 import com.bluewhale.sa.ui.register.RegisterNavigator
 import com.bluewhale.sa.ui.register.RegisterSMSFragment
 import com.bluewhale.sa.ui.shift.work.WorkFragment
+import com.bluewhale.sa.ui.trade.TradeDetailFragment
 import com.bluewhale.sa.ui.trade.TradeHomeFragment
 import com.bluewhale.sa.ui.trade.TradeNavigator
 import dagger.Module
@@ -35,5 +36,10 @@ interface FragmentBuildModule {
 
     @FragmentScope
     @ContributesAndroidInjector(modules = [ViewModelFactoryModule::class, NavigatorModule::class])
+    fun bindTradeDetailFragment(): TradeDetailFragment
+
+    @FragmentScope
+    @ContributesAndroidInjector(modules = [ViewModelFactoryModule::class, NavigatorModule::class])
     fun bindMyAssetFragment(): MyAssetFragment
+
 }

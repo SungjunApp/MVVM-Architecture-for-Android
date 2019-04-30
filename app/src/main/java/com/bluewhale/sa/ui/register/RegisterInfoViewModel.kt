@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.bluewhale.sa.constant.MobileProvider
 import com.bluewhale.sa.network.NetworkErrorHandler
+import com.bluewhale.sa.network.api.APIRegister
 import com.bluewhale.sa.ui.BaseViewModel
-import com.example.demo.network.APIRegister
 import io.reactivex.Completable
 import io.reactivex.Single
 

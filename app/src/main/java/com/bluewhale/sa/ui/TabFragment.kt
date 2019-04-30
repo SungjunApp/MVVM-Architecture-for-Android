@@ -43,9 +43,6 @@ class TabFragment : BaseFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        /*savedInstanceState?.also {
-            menuId = arguments!!.getInt(TAB_INDEX)
-        }*/
         arguments?.also {
             menuId = it.getInt(TAB_INDEX)
         }
