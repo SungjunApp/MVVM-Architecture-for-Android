@@ -6,12 +6,14 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import com.bluewhale.sa.R
+import com.bluewhale.sa.ui.account.AccountFragment
+import com.bluewhale.sa.ui.asset.MyAssetFragment
 import com.bluewhale.sa.ui.trade.TradeHomeFragment
 import com.bluewhale.sa.view.replaceFragmentInActivity
 import kotlinx.android.synthetic.main.fragment_tab.*
 
-class TabFragment: BaseFragment() {
-    companion object{
+class TabFragment : BaseFragment() {
+    companion object {
         const val TAB_INDEX = "TAB_INDEX"
         fun openithTrading(): TabFragment {
             return getInstance(R.id.nav_trading)
@@ -39,6 +41,17 @@ class TabFragment: BaseFragment() {
         }
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        /*savedInstanceState?.also {
+            menuId = arguments!!.getInt(TAB_INDEX)
+        }*/
+        arguments?.also {
+            menuId = it.getInt(TAB_INDEX)
+        }
+
+    }
+
     override val titleResource: Int
         get() = R.string.title_history
 
@@ -54,28 +67,27 @@ class TabFragment: BaseFragment() {
         rFragmentManager = childFragmentManager
         rFragmentManager?.addOnBackStackChangedListener(mOnBackStackChangedListener)
 
-        menuId = when (arguments!!.getInt(TAB_INDEX)) {
-            R.id.nav_trading -> 0
-            R.id.nav_my_asset -> 1
-            R.id.nav_tx -> 2
-            R.id.nav_account -> 3
-            else -> 0
+        savedInstanceState?.also {
+            menuId = it.getInt(TAB_INDEX)
         }
+
+        if (menuId == 0)
+            menuId = R.id.nav_trading
 
         bottom_navigation.setOnNavigationItemSelectedListener {
             menuId = it.itemId
             when (it.itemId) {
                 R.id.nav_trading -> {
-                    (activity as MainActivity).replaceFragmentInActivity(R.id.fragment_main_tab, TradeHomeFragment())
+                    setFragment(TradeHomeFragment())
                 }
                 R.id.nav_my_asset -> {
-                    setFragment(TradeHomeFragment())
+                    setFragment(MyAssetFragment())
                 }
                 R.id.nav_tx -> {
                     setFragment(TradeHomeFragment())
                 }
                 R.id.nav_account -> {
-                    setFragment(TradeHomeFragment())
+                    setFragment(AccountFragment())
                 }
 
             }
@@ -85,12 +97,15 @@ class TabFragment: BaseFragment() {
         bottom_navigation.selectedItemId = menuId
     }
 
-
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(TAB_INDEX, menuId)
+    }
 
     private var rFragment: BaseFragment? = null
     private fun setFragment(baseFragment: BaseFragment) {
         rFragment = baseFragment
-        (activity as MainActivity).replaceFragmentInActivity(R.id.fragment_main_tab, baseFragment)
+        replaceFragmentInActivity(R.id.fragment_main_tab, baseFragment)
     }
 
     fun getFragmentcount(): Int {

@@ -86,17 +86,18 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
 
     private fun findOrCreateViewFragment() =
         //supportFragmentManager.findFragmentById(R.id.contentFrame) ?: WorkFragment.newInstance()
-        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: RegisterAgreementFragment()
+        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: TabFragment.openithTrading()
 
     private val mOnBackStackChangedListener = FragmentManager.OnBackStackChangedListener {
         try {
             val fragmentCount = supportFragmentManager.backStackEntryCount
-            var title = ""
-            if (fragmentCount > 0) {
+            val title :String
+            if (fragmentCount > 1) {
                 val backEntry = supportFragmentManager.getBackStackEntryAt(fragmentCount - 1)
                 val fragment = supportFragmentManager.findFragmentByTag(backEntry.name) as BaseFragment
                 title = getString(fragment.titleResource)
-            }
+            }else
+                title = getString(R.string.app_name)
 
             if (fragmentCount > 1) {
                 setupActionBar(toolbar) {
