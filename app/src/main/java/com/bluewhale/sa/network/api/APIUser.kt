@@ -1,4 +1,4 @@
-package com.example.demo.network
+package com.bluewhale.sa.network.api
 
 import com.bluewhale.sa.model.register.DPassword
 import com.bluewhale.sa.model.register.DSignUp

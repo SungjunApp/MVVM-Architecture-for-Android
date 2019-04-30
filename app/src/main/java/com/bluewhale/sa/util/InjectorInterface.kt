@@ -2,8 +2,9 @@ package com.bluewhale.sa.util
 
 import com.bluewhale.sa.model.source.ShiftDataSource
 import com.bluewhale.sa.navigator.BaseSchedulerProvider
+import com.bluewhale.sa.network.api.APITrade
+import com.bluewhale.sa.network.api.APIUser
 import com.bluewhale.sa.network.api.ShiftAPI
-import com.example.demo.network.*
 
 interface InjectorInterface {
     fun provideBaseSchedulerProvider(): BaseSchedulerProvider

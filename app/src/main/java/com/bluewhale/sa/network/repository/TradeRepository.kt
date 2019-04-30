@@ -2,7 +2,7 @@ package com.example.demo.network
 
 import com.bluewhale.sa.model.trade.*
 import com.bluewhale.sa.navigator.BaseSchedulerProvider
-import com.bluewhale.sa.repository.trade.*
+import com.bluewhale.sa.network.api.APITrade
 import com.libs.meuuslibs.network.BaseRepository
 import io.reactivex.Single
 
@@ -18,28 +18,16 @@ class TradeRepository(
         return makeSingleResponse(apiTrade.getFilteredStockList(name))
     }
 
-    override fun getPriceList(tradeId: String): Single<DPriceList> {
-        return makeSingleResponse(apiTrade.getPriceList(tradeId))
+    override fun getPriceList(address: String): Single<DPriceList> {
+        return makeSingleResponse(apiTrade.getPriceList(address))
     }
 
     override fun getTransactionList(tradeId: String): Single<DTransactionList> {
         return makeSingleResponse(apiTrade.getTransactionList(tradeId))
     }
 
-    override fun sellStock(tradeUnit: DTradeSelect): Single<DPrice> {
-        return makeSingleResponse(apiTrade.sellStock(tradeUnit))
-    }
-
-    override fun sellStockMarketPrice(tradeUnit: DTradeMarketPrice): Single<DPrice> {
-        return makeSingleResponse(apiTrade.sellStockMarketPrice(tradeUnit))
-    }
-
-    override fun purchaseStock(tradeUnit: DTradeSelect): Single<DPrice> {
-        return makeSingleResponse(apiTrade.purchaseStock(tradeUnit))
-    }
-
-    override fun purchaseStockMarketPrice(tradeUnit: DTradeMarketPrice): Single<DPrice> {
-        return makeSingleResponse(apiTrade.purchaseStockMarketPrice(tradeUnit))
+    override fun orderStock(tradeUnit: DOrder): Single<DPrice> {
+        return makeSingleResponse(apiTrade.orderStock(tradeUnit))
     }
 
 }

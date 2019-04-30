@@ -4,6 +4,7 @@ import com.bluewhale.sa.model.register.DPassword
 import com.bluewhale.sa.model.register.DSignUp
 import com.bluewhale.sa.model.register.DUser
 import com.bluewhale.sa.navigator.BaseSchedulerProvider
+import com.bluewhale.sa.network.api.APIUser
 import com.libs.meuuslibs.network.BaseRepository
 import io.reactivex.Completable
 import io.reactivex.Single

@@ -1,9 +1,10 @@
 package com.bluewhale.sa.ui.trade
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+import com.bluewhale.sa.constant.Side
 import com.bluewhale.sa.model.trade.DPrice
 import com.bluewhale.sa.repository.FakeTradeRepository
-import com.example.demo.network.APITrade
+import com.bluewhale.sa.network.api.APITrade
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -44,13 +45,13 @@ class TradeDetailViewModelTest {
      *
      * first price : 390
      * first amount : 10
-     * first status : SELL
+     * first num : SELL
      *
      * :
      *
      * last price : 100
      * last amount : 39
-     * last status : PURCHASE
+     * last num : PURCHASE
      */
     @Test
     fun getPriceListTest() {
@@ -61,17 +62,17 @@ class TradeDetailViewModelTest {
 
         println("first price ${mViewModel.priceList.value?.first()?.price}")
         println("first amount ${mViewModel.priceList.value?.first()?.amount}")
-        println("first status ${mViewModel.priceList.value?.first()?.status?.status}")
+        println("first num ${mViewModel.priceList.value?.first()?.side?.num}")
         Assert.assertEquals(mViewModel.priceList.value?.first()?.price, BigDecimal(390))
         Assert.assertEquals(mViewModel.priceList.value?.first()?.amount, BigDecimal(10))
-        Assert.assertEquals(mViewModel.priceList.value?.first()?.status, DPrice.PriceStatus.SELL)
+        Assert.assertEquals(mViewModel.priceList.value?.first()?.side, Side.SELL)
 
         println("last price ${mViewModel.priceList.value?.last()?.price}")
         println("last amount ${mViewModel.priceList.value?.last()?.amount}")
-        println("last status ${mViewModel.priceList.value?.last()?.status?.status}")
+        println("last num ${mViewModel.priceList.value?.last()?.side?.num}")
         Assert.assertEquals(mViewModel.priceList.value?.last()?.price, BigDecimal(100))
         Assert.assertEquals(mViewModel.priceList.value?.last()?.amount, BigDecimal(39))
-        Assert.assertEquals(mViewModel.priceList.value?.last()?.status, DPrice.PriceStatus.PURCHASE)
+        Assert.assertEquals(mViewModel.priceList.value?.last()?.side, Side.BUY)
         println("\n")
     }
 
@@ -140,36 +141,14 @@ class TradeDetailViewModelTest {
     /**
      * purchase stock
      *
-     * price : 200 -> auto(190)
+     * price : 200
      * amount : 10
      */
     @Test
     fun purchaseStockTest() {
         mViewModel.setTradePrice("200")
         mViewModel.setTradeAmount("10")
-        val testObserver1 = mViewModel.purchaseStock().test()
+        val testObserver1 = mViewModel.orderStock().test()
         testObserver1.assertComplete()
-
-        mViewModel.setTradeAuto()
-        val testObserver2 = mViewModel.purchaseStock().test()
-        testObserver2.assertComplete()
-    }
-
-    /**
-     * sell stock
-     *
-     * price : 200 -> auto(190)
-     * amount : 10
-     */
-    @Test
-    fun sellStockTest() {
-        mViewModel.setTradePrice("200")
-        mViewModel.setTradeAmount("10")
-        val testObserver1 = mViewModel.sellStock().test()
-        testObserver1.assertComplete()
-
-        mViewModel.setTradeAuto()
-        val testObserver2 = mViewModel.sellStock().test()
-        testObserver2.assertComplete()
     }
 }

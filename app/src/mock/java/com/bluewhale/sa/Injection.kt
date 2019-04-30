@@ -8,7 +8,7 @@ import com.bluewhale.sa.model.source.ShiftDataSource
 import com.bluewhale.sa.util.InjectorInterface
 import com.example.demo.network.APIMyAsset
 import com.example.demo.network.APIRegister
-import com.example.demo.network.APIUser
+import com.bluewhale.sa.network.api.APIUser
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

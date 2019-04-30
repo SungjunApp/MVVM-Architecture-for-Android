@@ -4,13 +4,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.bluewhale.sa.network.NetworkErrorHandler
+import com.bluewhale.sa.constant.Side
+import com.bluewhale.sa.model.trade.DOrder
 import com.bluewhale.sa.model.trade.DPrice
-import com.bluewhale.sa.model.trade.DTradeMarketPrice
-import com.bluewhale.sa.model.trade.DTradeSelect
 import com.bluewhale.sa.model.trade.DTransaction
+import com.bluewhale.sa.network.NetworkErrorHandler
+import com.bluewhale.sa.network.api.APITrade
 import com.bluewhale.sa.ui.BaseViewModel
-import com.example.demo.network.APITrade
 import io.reactivex.Single
 import java.math.BigDecimal
 
@@ -83,42 +83,30 @@ class TradeDetailViewModel(
         _tradeAmount.value = BigDecimal(amount)
     }
 
-    fun purchaseStock(): Single<DPrice> {
+    fun orderStock(): Single<DPrice> {
 
-        return if (tradePrice.value!! < BigDecimal(0)) mRepository.purchaseStock(
-            DTradeSelect(
-                tradeId,
-                tradePrice.value!!,
-                tradeAmount.value!!
-            )
-        )
-        else mRepository.purchaseStockMarketPrice(
-            DTradeMarketPrice(
-                tradeId,
-                tradeAmount.value!!
-            )
-        ).flatMap {
-            Single.just(it)
-        }.doOnError {
-            val stringRes = NetworkErrorHandler.handleError(it)
-            if (stringRes > 0)
-                _errorPopup.value = stringRes
-        }
-    }
+        return mRepository.orderStock(
+            DOrder(
+                0,
+                "",
+                "",
+                "",
+                0,
+                0,
+                Side.BUY,
+                0
 
-    fun sellStock(): Single<DPrice> {
+                //todo : set data
 
-        return if (tradePrice.value!! < BigDecimal(0)) mRepository.sellStock(
-            DTradeSelect(
-                tradeId,
-                tradePrice.value!!,
-                tradeAmount.value!!
-            )
-        )
-        else mRepository.sellStockMarketPrice(
-            DTradeMarketPrice(
-                tradeId,
-                tradeAmount.value!!
+//                val userId: Int,
+//            val trader: String,
+//        val baseTokenAddress: String,
+//        val quoteTokenAddress: String,
+//        val baseTokenAmount: Int,
+//        val quoteTokenAmount: Int,
+//        val side: Side,
+//
+//        val expireAt: Int
             )
         ).flatMap {
             Single.just(it)

@@ -3,8 +3,8 @@ package com.bluewhale.sa.di
 import com.bluewhale.sa.network.api.ShiftAPI
 import com.example.demo.network.APIMyAsset
 import com.example.demo.network.APIRegister
-import com.example.demo.network.APITrade
-import com.example.demo.network.APIUser
+import com.bluewhale.sa.network.api.APITrade
+import com.bluewhale.sa.network.api.APIUser
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit

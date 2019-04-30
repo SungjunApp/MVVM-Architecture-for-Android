@@ -15,7 +15,7 @@ import com.bluewhale.sa.ui.trade.TradeHomeViewModel
 import com.bluewhale.sa.ui.trade.TradeNavigator
 import com.example.demo.network.APIMyAsset
 import com.example.demo.network.APIRegister
-import com.example.demo.network.APITrade
+import com.bluewhale.sa.network.api.APITrade
 import dagger.Module
 import dagger.Provides
 

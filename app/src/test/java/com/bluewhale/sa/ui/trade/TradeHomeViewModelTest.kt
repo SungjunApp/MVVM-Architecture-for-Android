@@ -2,7 +2,7 @@ package com.bluewhale.sa.ui.trade
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.bluewhale.sa.repository.FakeTradeRepository
-import com.example.demo.network.APITrade
+import com.bluewhale.sa.network.api.APITrade
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

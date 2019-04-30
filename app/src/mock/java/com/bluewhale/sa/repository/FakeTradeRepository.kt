@@ -1,7 +1,8 @@
 package com.bluewhale.sa.repository
 
+import com.bluewhale.sa.constant.Side
 import com.bluewhale.sa.model.trade.*
-import com.example.demo.network.APITrade
+import com.bluewhale.sa.network.api.APITrade
 import com.libs.meuuslibs.network.FakeBaseRepository
 import io.reactivex.Single
 import java.math.BigDecimal
@@ -46,18 +47,18 @@ class FakeTradeRepository : FakeBaseRepository(), APITrade {
         return Single.just(dStockList)
     }
 
-    override fun getPriceList(tradeId: String): Single<DPriceList> {
+    override fun getPriceList(address: String): Single<DPriceList> {
         val tempList = arrayListOf<DPrice>()
         for (i in 0..29) {
 
-            val tempStock = DPrice(
-                "id(tradeId$i)",
-                "testStock($i)",
-                BigDecimal(390 - 10 * i),
-                BigDecimal(10 + i),
-                if (i < 15) DPrice.PriceStatus.SELL else DPrice.PriceStatus.PURCHASE
-            )
-            tempList.add(tempStock)
+//            val tempStock = DPrice(
+//                "id(address$i)",
+//                "testStock($i)",
+//                BigDecimal(390 - 10 * i),
+//                BigDecimal(10 + i),
+//                if (i < 15) DPrice.PriceStatus.SELL else DPrice.PriceStatus.BUY
+//            )
+//            tempList.add(tempStock)
         }
 
         val dPriceList = DPriceList(tempList)
@@ -84,51 +85,24 @@ class FakeTradeRepository : FakeBaseRepository(), APITrade {
     }
 
     private val testPrice1 = DPrice(
-        "000200", "test000200",
         BigDecimal(200),
         BigDecimal(100),
-        DPrice.PriceStatus.PURCHASE
+        Side.BUY
     )
 
     private val testPrice2 = DPrice(
-        "000190", "test000190",
         BigDecimal(190),
         BigDecimal(100),
-        DPrice.PriceStatus.SELL
+        Side.SELL
     )
 
-    override fun sellStock(tradeUnit: DTradeSelect): Single<DPrice> {
-        if (testPrice1.status == DPrice.PriceStatus.SELL)
-            testPrice1.amount.add(tradeUnit.amount)
-        else
-            testPrice1.amount.subtract(tradeUnit.amount)
+    override fun orderStock(tradeUnit: DOrder): Single<DPrice> {
+//        if (testPrice1.side == Side.SELL)
+//            testPrice1.amount.add(tradeUnit.amount)
+//        else
+//            testPrice1.amount.subtract(tradeUnit.amount)
         return Single.just(testPrice1)
     }
-
-    override fun sellStockMarketPrice(tradeUnit: DTradeMarketPrice): Single<DPrice> {
-        if (testPrice2.status == DPrice.PriceStatus.SELL)
-            testPrice2.amount.add(tradeUnit.amount)
-        else
-            testPrice2.amount.subtract(tradeUnit.amount)
-        return Single.just(testPrice2)
-    }
-
-    override fun purchaseStock(tradeUnit: DTradeSelect): Single<DPrice> {
-        if (testPrice1.status == DPrice.PriceStatus.PURCHASE)
-            testPrice1.amount.add(tradeUnit.amount)
-        else
-            testPrice1.amount.subtract(tradeUnit.amount)
-        return Single.just(testPrice1)
-    }
-
-    override fun purchaseStockMarketPrice(tradeUnit: DTradeMarketPrice): Single<DPrice> {
-        if (testPrice2.status == DPrice.PriceStatus.PURCHASE)
-            testPrice2.amount.add(tradeUnit.amount)
-        else
-            testPrice2.amount.subtract(tradeUnit.amount)
-        return Single.just(testPrice2)
-    }
-
 
     companion object {
         private var INSTANCE: FakeTradeRepository? = null

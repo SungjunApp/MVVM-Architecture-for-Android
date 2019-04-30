@@ -3,7 +3,7 @@ package com.bluewhale.sa.repository
 import com.bluewhale.sa.model.register.DPassword
 import com.bluewhale.sa.model.register.DSignUp
 import com.bluewhale.sa.model.register.DUser
-import com.example.demo.network.APIUser
+import com.bluewhale.sa.network.api.APIUser
 import com.libs.meuuslibs.network.FakeBaseRepository
 import io.reactivex.Completable
 import io.reactivex.Single

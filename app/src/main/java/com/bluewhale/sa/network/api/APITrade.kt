@@ -1,12 +1,8 @@
-package com.example.demo.network
+package com.bluewhale.sa.network.api
 
 import com.bluewhale.sa.model.trade.*
-import com.bluewhale.sa.repository.trade.*
 import io.reactivex.Single
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Query
+import retrofit2.http.*
 
 interface APITrade {
     @GET("/Trade")
@@ -15,21 +11,12 @@ interface APITrade {
     @GET("/Trade")
     fun getFilteredStockList(@Query("name") name: String): Single<DStockList>
 
-    @GET("/Trade/Price")
-    fun getPriceList(@Query("tradeId") tradeId: String): Single<DPriceList>
-
-    @GET("/Trade/Transactions")
+    @GET("/orders")
     fun getTransactionList(@Query("tradeId") tradeId: String): Single<DTransactionList>
 
-    @POST("/Trade/Sell")
-    fun sellStock(@Body tradeUnit: DTradeSelect): Single<DPrice>
+    @GET("/orders/:{address}/order-book")
+    fun getPriceList(@Path("address") address: String): Single<DPriceList>
 
-    @POST("/Trade/Sell/MarketPrice")
-    fun sellStockMarketPrice(@Body tradeUnit: DTradeMarketPrice): Single<DPrice>
-
-    @POST("/Trade/Purchase")
-    fun purchaseStock(@Body tradeUnit: DTradeSelect): Single<DPrice>
-
-    @POST("/Trade/Purchase/MarketPrice")
-    fun purchaseStockMarketPrice(@Body tradeUnit: DTradeMarketPrice): Single<DPrice>
+    @POST("/orders/match")
+    fun orderStock(@Body tradeUnit: DOrder): Single<DPrice>
 }
