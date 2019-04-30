@@ -1,6 +1,8 @@
-package com.bluewhale.sa.data
+package com.bluewhale.sa.repository
 
-import com.bluewhale.sa.data.source.ShiftDataSource
+import com.bluewhale.sa.model.Shift
+import com.bluewhale.sa.model.ShiftHalf
+import com.bluewhale.sa.model.source.ShiftDataSource
 import java.util.*
 
 class FakeShiftRemoteDataSource : ShiftDataSource {

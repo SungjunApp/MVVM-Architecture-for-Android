@@ -1,8 +1,9 @@
-package com.bluewhale.sa.data.source
+package com.bluewhale.sa.model.source
 
-import com.bluewhale.sa.data.ShiftHalf
+import com.bluewhale.sa.model.ShiftHalf
 
-class ShiftRepository (val shiftDataSource:ShiftDataSource): ShiftDataSource {
+class ShiftRepository (val shiftDataSource: ShiftDataSource):
+    ShiftDataSource {
     override fun startShift(marker: ShiftHalf, callback: ShiftDataSource.CompletableCallback) {
         shiftDataSource.startShift(marker, callback)
     }

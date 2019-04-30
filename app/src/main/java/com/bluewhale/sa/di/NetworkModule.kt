@@ -114,7 +114,7 @@ class NetworkModule {
             val response = it.proceed(requested)
             val body = response.body()
             val bodyStr = body?.string()
-            Log.e("pretty", "**http-status: ${response.code()}")
+            Log.e("pretty", "**http-num: ${response.code()}")
             Log.e("pretty", "**http-body: $body")
             val builder = response.newBuilder()
 

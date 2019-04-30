@@ -1,4 +1,4 @@
-package com.bluewhale.sa.data
+package com.bluewhale.sa.model
 
 import java.text.SimpleDateFormat
 

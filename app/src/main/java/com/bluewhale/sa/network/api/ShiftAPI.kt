@@ -1,7 +1,7 @@
 package com.bluewhale.sa.network.api
 
-import com.bluewhale.sa.data.Shift
-import com.bluewhale.sa.data.ShiftHalf
+import com.bluewhale.sa.model.Shift
+import com.bluewhale.sa.model.ShiftHalf
 import retrofit2.Call
 import retrofit2.http.Body
 import retrofit2.http.GET
