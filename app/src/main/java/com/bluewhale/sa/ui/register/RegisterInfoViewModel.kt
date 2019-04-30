@@ -2,6 +2,8 @@ package com.bluewhale.sa.ui.register
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.bluewhale.sa.constant.MobileProvider
 import com.bluewhale.sa.network.NetworkErrorHandler
 import com.bluewhale.sa.ui.BaseViewModel
@@ -11,11 +13,18 @@ import io.reactivex.Single
 
 
 class RegisterInfoViewModel(
-    private val mNavigator: RegisterNavigator,
-    private val mRepository: APIRegister,
-    private val marketingClause: Boolean
+    val navigator: RegisterNavigator,
+    val registerRepository: APIRegister
 ) : BaseViewModel() {
+    class RegisterInfoViewModelFactory constructor(
+        val navigator: RegisterNavigator,
+        val apiRegister: APIRegister
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>) =
+            RegisterInfoViewModel(navigator, apiRegister) as T
+    }
 
+    var marketingClause = false
     private val _items = MutableLiveData<RegisterInfoData>()
         .apply { value = RegisterInfoData("", "", "", "", MobileProvider.UNSELECTED) }
     val items: LiveData<RegisterInfoData>
@@ -53,13 +62,13 @@ class RegisterInfoViewModel(
         _loading.value = true
         _nextButton.value = false
 
-        return mRepository.requestSMS(
+        return registerRepository.requestSMS(
             items.value?.personalCode1 + items.value?.personalCode2,
             items.value?.name!!,
             items.value?.provider?.providerCode!!,
             items.value?.phone!!
         ).flatMap {
-            mNavigator.goRegisterSMSFragment(marketingClause, it)
+            navigator.goRegisterSMSFragment(marketingClause, it)
 
             Single.just(it)
         }.doOnSuccess {

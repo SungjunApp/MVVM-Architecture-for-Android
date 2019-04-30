@@ -12,14 +12,15 @@ import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.bluewhale.sa.BuildConfig.APPLICATION_ID
-import com.bluewhale.sa.Injection
 import com.bluewhale.sa.R
+import com.bluewhale.sa.ui.shift.ShiftViewModelFactory
+import com.bluewhale.sa.model.DWallet
+import com.bluewhale.sa.ui.register.RegisterAgreementFragment
 import com.bluewhale.sa.ui.shift.ShiftViewModel
 import com.bluewhale.sa.ui.shift.work.WorkFragment
 import com.bluewhale.sa.view.replaceFragmentInActivity
@@ -28,15 +29,31 @@ import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE
+import dagger.android.AndroidInjection
+import dagger.android.AndroidInjector
+import dagger.android.DispatchingAndroidInjector
+import dagger.android.support.HasSupportFragmentInjector
 import kotlinx.android.synthetic.main.toolbar.*
-import tech.thdev.lifecycle.extensions.lazyInject
-
-class MainActivity : AppCompatActivity() {
-    //    val TAG = "MainActivity"
-    val TAG = this.localClassName
+import javax.inject.Inject
 
 
-    private val model: ShiftViewModel by lazyInject {
+class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
+    @Inject
+    lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
+    override fun supportFragmentInjector(): AndroidInjector<Fragment>  = fragmentInjector
+
+    val frameLayoutId = R.id.contentFrame
+
+    /*@Inject
+    lateinit var factory: ShiftViewModelFactory*/
+
+    val TAG = "MainActivity"
+
+    //@Inject lateinit var dWallet: DWallet
+
+    //lateinit var model: ShiftViewModel
+
+    /*private val model: ShiftViewModel by lazyInject {
         ViewModelProviders.of(this,
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -45,23 +62,31 @@ class MainActivity : AppCompatActivity() {
                     ) as T
                 }
             }).get(ShiftViewModel::class.java)
-    }
+    }*/
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        model.disableShiftButton()
+
+        /*model = ViewModelProviders.of(this, factory)
+            .get(ShiftViewModel::class.java)*/
+
+//        model.disableShiftButton()
+//        println("wallet.address: ${dWallet.address}")
 
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
         supportFragmentManager.addOnBackStackChangedListener(mOnBackStackChangedListener)
 
-        replaceFragmentInActivity(R.id.contentFrame, findOrCreateViewFragment())
+        replaceFragmentInActivity(frameLayoutId, findOrCreateViewFragment())
     }
 
     private fun findOrCreateViewFragment() =
-        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: WorkFragment.newInstance()
+        //supportFragmentManager.findFragmentById(R.id.contentFrame) ?: WorkFragment.newInstance()
+        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: RegisterAgreementFragment()
 
     private val mOnBackStackChangedListener = FragmentManager.OnBackStackChangedListener {
         try {
@@ -150,7 +175,7 @@ class MainActivity : AppCompatActivity() {
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful && task.result != null) {
                     task.result?.also {
-                        model.setLocation(it)
+                        //model.setLocation(it)
                         Log.w(TAG, "getLastLocation\tlatitude: $it.latitude, longitude: $it.longitude")
 
                     }
@@ -158,7 +183,7 @@ class MainActivity : AppCompatActivity() {
                 } else {
                     Log.w(TAG, "getLastLocation:exception", task.exception)
                     showSnackbar(R.string.no_location_detected)
-                    model.disableShiftButton()
+                    //model.disableShiftButton()
                 }
             }
     }

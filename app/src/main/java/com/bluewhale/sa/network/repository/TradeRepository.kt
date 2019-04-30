@@ -2,31 +2,19 @@ package com.example.demo.network
 
 import android.app.Application
 import com.bluewhale.sa.data.source.trade.DStockList
+import com.bluewhale.sa.navigator.BaseSchedulerProvider
+import com.bluewhale.sa.ui.register.RegisterNavigator
 import com.libs.meuuslibs.network.BaseRepository
 import io.reactivex.Single
 
-class TradeRepository(val application: Application) : BaseRepository(application), APITrade {
+class TradeRepository(
+    navi: BaseSchedulerProvider,
+    val apiTrade:APITrade) : BaseRepository(navi), APITrade {
     override fun getStockList(page: Int, pageSize: Int): Single<DStockList> {
-        return makeSingleResponse(createService(APITrade::class.java).getStockList(page, pageSize), null)
+        return makeSingleResponse(apiTrade.getStockList(page, pageSize))
     }
 
     override fun getFilteredStockList(name: String): Single<DStockList> {
-        return makeSingleResponse(createService(APITrade::class.java).getFilteredStockList(name), null)
-    }
-
-    companion object {
-        private var INSTANCE: TradeRepository? = null
-
-        @JvmStatic
-        fun getInstance(rootApplication: Application) =
-            INSTANCE ?: synchronized(TradeRepository::class.java) {
-                INSTANCE ?: TradeRepository(rootApplication)
-                    .also { INSTANCE = it }
-            }
-
-        @JvmStatic
-        fun destroyInstance() {
-            INSTANCE = null
-        }
+        return makeSingleResponse(apiTrade.getFilteredStockList(name))
     }
 }

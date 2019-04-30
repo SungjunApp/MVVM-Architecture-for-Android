@@ -1,28 +1,30 @@
 package com.bluewhale.sa.ui.register
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.bluewhale.sa.Injection
 import com.bluewhale.sa.R
 import com.bluewhale.sa.data.source.register.DRequestToken
 import com.bluewhale.sa.ui.BaseFragment
-import tech.thdev.lifecycle.extensions.lazyInject
+import dagger.android.support.AndroidSupportInjection
+import javax.inject.Inject
 
 class RegisterSMSFragment : BaseFragment() {
     override val titleResource: Int
         get() = R.string.title_registerSMS
 
+    override fun onCreate(savedInstanceState:Bundle?){
+        AndroidSupportInjection.inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_register_sms, container, false)
     }
 
-    private val mViewModel: RegisterSMSViewModel by lazyInject(isActivity = true) {
+    /*private val mViewModel: RegisterSMSViewModel by lazyInject(isActivity = true) {
         ViewModelProviders.of(this,
             object : ViewModelProvider.Factory {
                 override fun <T : ViewModel?> create(modelClass: Class<T>): T {
@@ -34,14 +36,25 @@ class RegisterSMSFragment : BaseFragment() {
                     ) as T
                 }
             }).get(RegisterSMSViewModel::class.java)
+    }*/
+
+    @Inject
+    lateinit var factory: RegisterSMSViewModel.RegisterSMSViewModelFactory
+    val mViewModel: RegisterSMSViewModel by lazy {
+        val viewModel = ViewModelProviders.of(this, factory)
+            .get(RegisterSMSViewModel::class.java)
+
+        viewModel.marketingClause = getMarketClause()
+        viewModel.requestToken = getRequestToken()
+        viewModel
     }
 
     private fun getMarketClause(): Boolean {
         return arguments!!.getBoolean(RegisterInfoFragment.MARKETING_CLAUSE)
     }
 
-    private fun getRequestToken(): Parcelable? {
-        return arguments!!.getParcelable(REQUEST_TOKEN)
+    private fun getRequestToken(): DRequestToken? {
+        return arguments!!.getParcelable(REQUEST_TOKEN) as DRequestToken
     }
 
     companion object {

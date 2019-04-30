@@ -2,35 +2,46 @@ package com.bluewhale.sa
 
 import android.app.Activity
 import android.app.Application
-import com.bluewhale.sa.data.FakeMyAssetRepository
 import com.bluewhale.sa.data.FakeRegisterRepository
 import com.bluewhale.sa.data.FakeShiftRemoteDataSource
-import com.bluewhale.sa.data.FakeTradeRepository
-import com.bluewhale.sa.data.source.ShiftRepository
-import com.bluewhale.sa.navigator.BaseNavigator
+import com.bluewhale.sa.data.source.ShiftDataSource
+import com.bluewhale.sa.navigator.BaseSchedulerProvider
+import com.bluewhale.sa.navigator.ImmediateSchedulerProvider
+import com.bluewhale.sa.network.api.ShiftAPI
+import com.example.demo.network.APIRegister
+import com.example.demo.network.APIUser
+import com.example.demo.network.RegisterRepository
+import com.example.demo.network.UserRepository
+import dagger.Module
+import dagger.Provides
+import javax.inject.Singleton
+import com.bluewhale.sa.util.InjectorInterface
 
-object Injection {
-    fun provideShiftRepository(application: Application): ShiftRepository {
-        return ShiftRepository.getInstance(FakeShiftRemoteDataSource())
+@Module
+class Injection : InjectorInterface {
+    @Provides
+    @Singleton
+    override fun provideBaseSchedulerProvider(): BaseSchedulerProvider {
+        return ImmediateSchedulerProvider()
     }
 
-    fun provideRegisterRepository(application: Application): FakeRegisterRepository {
-        return FakeRegisterRepository.getInstance()
+    @Provides
+    override fun provideShiftDataSource(api: ShiftAPI): ShiftDataSource {
+        return FakeShiftRemoteDataSource(api)
     }
 
-    fun provideTradeRepository(application: Application): FakeTradeRepository {
-        return FakeTradeRepository.getInstance()
+    @Provides
+    override fun provideUserRepository(navi: BaseSchedulerProvider, api: APIUser): UserRepository {
+        return UserRepository(navi, api)
     }
 
+    @Provides
+    override fun provideRegisterRepository(navi: BaseSchedulerProvider, api: APIRegister): RegisterRepository {
+        return RegisterRepository(navi, api)
+    }
+
+    @Provides
     fun provideMyAssetRepository(application: Application): FakeMyAssetRepository {
         return FakeMyAssetRepository.getInstance()
     }
-
-    fun createNavigationProvider(activity: Activity): BaseNavigator {
-        return BaseNavigator(activity)
-    }
-
-//    fun provideSchedulerProvider(): BaseSchedulerProvider {
-//        return SchedulerProvider.getInstance()
-//    }
 }

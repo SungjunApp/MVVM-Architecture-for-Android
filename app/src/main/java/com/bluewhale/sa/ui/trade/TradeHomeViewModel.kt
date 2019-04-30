@@ -2,6 +2,8 @@ package com.bluewhale.sa.ui.trade
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
 import com.bluewhale.sa.data.source.trade.DStock
 import com.bluewhale.sa.network.NetworkErrorHandler
 import com.bluewhale.sa.ui.BaseViewModel
@@ -13,7 +15,13 @@ class TradeHomeViewModel(
     val mNavigator: TradeNavigator,
     val mRepository: APITrade
 ) : BaseViewModel() {
-
+    class TradeHomeViewModelFactory constructor(
+        val navigator: TradeNavigator,
+        val api: APITrade
+    ) : ViewModelProvider.Factory {
+        override fun <T : ViewModel?> create(modelClass: Class<T>) =
+            TradeHomeViewModel(navigator, api) as T
+    }
     private val _tradePage = MutableLiveData<Int>().apply { value = 0 }
     val tradePage: LiveData<Int>
         get() = _tradePage

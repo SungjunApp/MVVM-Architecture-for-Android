@@ -7,8 +7,6 @@ import androidx.appcompat.widget.Toolbar
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProviders
 import com.bluewhale.sa.R
 
 const val ADD_EDIT_RESULT_OK = Activity.RESULT_FIRST_USER + 1
@@ -54,8 +52,8 @@ fun AppCompatActivity.setupActionBar(toolbar: Toolbar, action: ActionBar.() -> U
     }
 }
 
-//fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
-//    ViewModelProviders.of(this, ViewModelFactory.getInstance(application)).get(viewModelClass)
+/*fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
+    ViewModelProviders.of(this, ShiftViewModelFactory.getInstance(application)).get(viewModelClass)*/
 
 /**
  * Runs a FragmentTransaction, then calls commit().
@@ -66,6 +64,6 @@ private inline fun FragmentManager.transact(action: FragmentTransaction.() -> Un
     }.commit()
 }
 
-fun Fragment.getIdentifier(): String {
+fun Fragment.getIdentifier():String{
     return this::class.java.canonicalName
 }

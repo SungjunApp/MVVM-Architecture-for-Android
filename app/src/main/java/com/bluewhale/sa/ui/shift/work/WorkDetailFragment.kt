@@ -5,20 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bluewhale.sa.GlideApp
-import com.bluewhale.sa.Injection
 import com.bluewhale.sa.R
+import com.bluewhale.sa.ui.shift.ShiftViewModelFactory
 import com.bluewhale.sa.ui.BaseFragment
 import com.bluewhale.sa.ui.shift.ShiftViewModel
 import com.google.android.material.snackbar.Snackbar
 import kotlinx.android.synthetic.main.fragment_work.*
-import tech.thdev.lifecycle.extensions.lazyInject
-
+import javax.inject.Inject
 
 class WorkDetailFragment : BaseFragment() {
     override val titleResource: Int
@@ -28,15 +25,19 @@ class WorkDetailFragment : BaseFragment() {
         fun newInstance() = WorkDetailFragment()
     }
 
-    private val model: ShiftViewModel by lazyInject(isActivity = true) {
-        ViewModelProviders.of(this,
-            object : ViewModelProvider.Factory {
-                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                    return ShiftViewModel(
-                        Injection.provideShiftRepository(activity!!.application)
-                    ) as T
-                }
-            }).get(ShiftViewModel::class.java)
+    private lateinit var model: ShiftViewModel
+
+    @Inject
+    lateinit var factory: ShiftViewModelFactory
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        model = activity?.run {
+            ViewModelProviders.of(this, factory)
+                .get(ShiftViewModel::class.java)
+        } ?: throw Exception("Invalid Activity")
+
+        model.loadShifts()
     }
 
     override fun onDestroyView() {
@@ -130,8 +131,8 @@ class WorkDetailFragment : BaseFragment() {
             }
         }
 
-        context?.also {
-            mAdapter = WorkAdapter(it, GlideApp.with(this).asDrawable()) {
+        context?.also{
+            mAdapter = WorkAdapter(it, GlideApp.with(this).asDrawable()){
 
             }
             recyclerView.adapter = mAdapter

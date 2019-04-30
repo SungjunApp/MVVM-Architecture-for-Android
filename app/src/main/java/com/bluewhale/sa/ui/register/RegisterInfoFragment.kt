@@ -5,34 +5,34 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
-import com.bluewhale.sa.Injection
 import com.bluewhale.sa.R
 import com.bluewhale.sa.ui.BaseFragment
+import dagger.android.support.AndroidSupportInjection
 import kotlinx.android.synthetic.main.fragment_register_information.*
-import tech.thdev.lifecycle.extensions.lazyInject
+import javax.inject.Inject
 
 class RegisterInfoFragment : BaseFragment() {
     override val titleResource: Int
         get() = R.string.title_registerInfo
 
+    override fun onCreate(savedInstanceState:Bundle?){
+        AndroidSupportInjection.inject(this)
+        super.onCreate(savedInstanceState)
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_register_information, container, false)
     }
 
-    private val mViewModel: RegisterInfoViewModel by lazyInject(isActivity = true) {
-        ViewModelProviders.of(this,
-            object : ViewModelProvider.Factory {
-                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                    return RegisterInfoViewModel(
-                        RegisterNavigator(Injection.createNavigationProvider(activity!!)),
-                        Injection.provideRegisterRepository(activity!!.application),
-                        getMarketClause()
-                    ) as T
-                }
-            }).get(RegisterInfoViewModel::class.java)
+    @Inject
+    lateinit var factory: RegisterInfoViewModel.RegisterInfoViewModelFactory
+    val mViewModel: RegisterInfoViewModel by lazy {
+        val viewModel = ViewModelProviders.of(this, factory)
+            .get(RegisterInfoViewModel::class.java)
+
+        viewModel.marketingClause = getMarketClause()
+        viewModel
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
