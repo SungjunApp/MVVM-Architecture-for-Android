@@ -40,7 +40,11 @@
     <string name="permission_rationale">Location permission is needed for core functionality</string>
     <string name="no_location_detected">No location detected. Make sure location is enabled on the device.</string>
 
-
+    <string name="register4_agree">약관 동의</string>
+    <string name="register4_checkAll">본인인증 약관 전체 동의 </string>
+    <string name="register4_check1">서비스 이용약관 동의 (필수)</string>
+    <string name="register4_check2">개인정보 처리방침 동의 (필수)</string>
+    <string name="register4_check3">마케팅 활용 동의 (선택)</string>
 
 
 

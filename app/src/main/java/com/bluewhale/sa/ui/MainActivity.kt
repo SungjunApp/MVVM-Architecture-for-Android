@@ -2,6 +2,10 @@ package com.bluewhale.sa.ui
 
 import android.Manifest.permission.ACCESS_FINE_LOCATION
 import android.annotation.SuppressLint
+import android.app.usage.UsageEvents
+import android.app.usage.UsageStatsManager
+import android.app.usage.UsageStatsManager.INTERVAL_YEARLY
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.PERMISSION_GRANTED
@@ -37,10 +41,11 @@ import kotlinx.android.synthetic.main.toolbar.*
 import javax.inject.Inject
 
 
-class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
+class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
-    override fun supportFragmentInjector(): AndroidInjector<Fragment>  = fragmentInjector
+
+    override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 
     val frameLayoutId = R.id.contentFrame
 
@@ -64,11 +69,40 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
             }).get(ShiftViewModel::class.java)
     }*/
 
+    fun getForegroundPackageName(): String {
+        val sb = StringBuilder()
+        val usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
+        val endTime = System.currentTimeMillis()
+        val beginTime = endTime-10000
+        /*val usageEvents = usageStatsManager.queryEvents(0, endTime)
+        while (usageEvents.hasNextEvent()) {
+            val event = UsageEvents.Event()
+            usageEvents.getNextEvent(event)
+            if (event.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND) {
+                sb.append("name:${event.packageName}, timeStamp: ${event.timeStamp}").append("\n")
+            }
+        }*/
+        usageStatsManager
+        val usageEvents = usageStatsManager.queryUsageStats(INTERVAL_YEARLY, 0, endTime)
+        for(usage in usageEvents){
+            usage.packageName
+            sb.append("name:${usage.packageName}, totalTime: ${usage.totalTimeInForeground}").append("\n")
+            usage.totalTimeInForeground
+        }
+
+        return sb.toString()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        //val test = getForegroundPackageName()
+        //startActivityForResult(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS), 1)
+        //Log.e("test hong","test hong:" +  test)
+
+
 
 
         /*model = ViewModelProviders.of(this, factory)
@@ -85,18 +119,18 @@ class MainActivity : AppCompatActivity() , HasSupportFragmentInjector {
     }
 
     private fun findOrCreateViewFragment() =
-        //supportFragmentManager.findFragmentById(R.id.contentFrame) ?: WorkFragment.newInstance()
-        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: TabFragment.openithTrading()
+        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: RegisterAgreementFragment()
+//        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: TabFragment.openithTrading()
 
     private val mOnBackStackChangedListener = FragmentManager.OnBackStackChangedListener {
         try {
             val fragmentCount = supportFragmentManager.backStackEntryCount
-            val title :String
+            val title: String
             if (fragmentCount > 1) {
                 val backEntry = supportFragmentManager.getBackStackEntryAt(fragmentCount - 1)
                 val fragment = supportFragmentManager.findFragmentByTag(backEntry.name) as BaseFragment
                 title = getString(fragment.titleResource)
-            }else
+            } else
                 title = getString(R.string.app_name)
 
             if (fragmentCount > 1) {

@@ -1,12 +1,11 @@
-package com.bluewhale.sa
+package com.bluewhale.sa.util
 
 import android.util.Log
+import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import androidx.test.rule.ActivityTestRule
-import androidx.test.runner.AndroidJUnit4
 import com.bluewhale.sa.ui.MainActivity
 import com.bluewhale.sa.ui.shift.work.WorkFragment
-import com.bluewhale.sa.util.KS
 import org.ethereum.geth.Geth
 import org.ethereum.geth.KeyStore
 import org.junit.Assert.*
@@ -14,7 +13,6 @@ import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
-import org.web3j.crypto.MnemonicUtils
 import java.io.File
 import java.security.SecureRandom
 

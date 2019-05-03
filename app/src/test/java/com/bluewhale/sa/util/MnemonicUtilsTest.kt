@@ -1,29 +1,23 @@
 package com.bluewhale.sa.util
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
-import com.bluewhale.sa.network.api.APIMyAsset
-import com.bluewhale.sa.repository.FakeMyAssetRepository
-import com.bluewhale.sa.ui.asset.MyAssetNavigator
-import com.bluewhale.sa.ui.asset.MyAssetViewModel
 import com.google.gson.Gson
-import com.google.gson.JsonObject
 import org.bouncycastle.util.encoders.Hex
-import org.json.JSONObject
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
 import org.junit.runners.Parameterized
-import org.mockito.Mock
 import org.mockito.MockitoAnnotations
 import org.web3j.crypto.MnemonicUtils
-import java.io.File
 import java.io.IOException
 import java.net.URL
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
+import java.util.*
 import java.util.stream.Collectors
+import kotlin.collections.ArrayList
 
 class MnemonicUtilsTest {
     @get:Rule
@@ -65,13 +59,41 @@ class MnemonicUtilsTest {
     fun getListTest() {
         val json = getJson()
         for (texts in json.english) {
-            for (text in texts) {
+            val initialEntropy = Hex.decode(texts[0])
+            val genMnemonic = MnemonicUtils.generateMnemonic(initialEntropy)
+            println("==================")
+            //println("mnemonic.json: ${texts[1]}")
+            //println("mnemonic.created: ${genMnemonic}")
+
+            val genEntropy = MnemonicUtils.generateEntropy(texts[1])
+            //println("entropy.json: ${Arrays.toString(initialEntropy)}")
+            //println("entropy.created: ${Arrays.toString(genEntropy) }")
+
+            val genSeed = MnemonicUtils.generateSeed(texts[1], "TREZOR")
+            println("seed.json: ${texts[2]}")
+            println("seed.created: ${Arrays.toString(genSeed)}")
+
+            /*for ((i, text )in texts.withIndex()) {
                 try {
+                    val initialEntropy = Hex.decode(text)
+
                     val actualMnemonic = MnemonicUtils.generateMnemonic(Hex.decode(text))
-                    println("actualMnemonic: ${actualMnemonic}")
+                    println("$i, mnemonic: ${actualMnemonic}")
                 } catch (e: Exception) {
                 }
-            }
+
+                try {
+                    val Entropy = MnemonicUtils.generateEntropy(text)
+                    println("$i, Entropy: ${Entropy}")
+                } catch (e: Exception) {
+                }
+
+                try {
+                    val seed = MnemonicUtils.generateSeed(text, "TREZOR")
+                    println("$i, seed: ${seed}")
+                } catch (e: Exception) {
+                }
+            }*/
         }
 
 

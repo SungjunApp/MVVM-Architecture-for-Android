@@ -2,8 +2,6 @@ package com.bluewhale.sa.ui.trade
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.bluewhale.sa.constant.Side
-import com.bluewhale.sa.model.trade.DPrice
-import com.bluewhale.sa.repository.FakeTradeRepository
 import com.bluewhale.sa.network.api.APITrade
 import org.junit.Assert
 import org.junit.Before
@@ -31,7 +29,7 @@ class TradeDetailViewModelTest {
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this)
 
-        mRepository = FakeTradeRepository()
+        //mRepository = FakeTradeRepository()
 
         // Get a reference to the class under test
         mViewModel = TradeDetailViewModel(mNavigator, mRepository)

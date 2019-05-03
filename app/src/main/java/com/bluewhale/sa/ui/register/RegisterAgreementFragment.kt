@@ -56,9 +56,8 @@ class RegisterAgreementFragment : BaseFragment() {
             mViewModel.goNext()
         }
 
-
-        tv_clauseAll.setOnClickListener {
-            mViewModel.setClauseAll(true)
+        checkBox_all.setOnCheckedChangeListener { buttonView, isChecked ->
+            mViewModel.setClauseAll(isChecked)
         }
     }
 

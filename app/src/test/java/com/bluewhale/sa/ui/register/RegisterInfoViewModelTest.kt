@@ -4,7 +4,6 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.bluewhale.sa.LiveDataTestUtil
 import com.bluewhale.sa.constant.MobileProvider
 import com.bluewhale.sa.network.api.APIRegister
-import com.bluewhale.sa.repository.FakeRegisterRepository
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Rule
@@ -30,7 +29,7 @@ class RegisterInfoViewModelTest {
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this)
 
-        mRepository = FakeRegisterRepository()
+        //mRepository = FakeRegisterRepository()
 
         // Get a reference to the class under test
         mViewModel = RegisterInfoViewModel(mNavigator, mRepository)

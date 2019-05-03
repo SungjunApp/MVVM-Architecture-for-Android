@@ -2,7 +2,6 @@ package com.bluewhale.sa.ui.asset
 
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import com.bluewhale.sa.network.api.APIMyAsset
-import com.bluewhale.sa.repository.FakeMyAssetRepository
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -27,7 +26,7 @@ class MyAssetViewModelTest {
         // inject the mocks in the test the initMocks method needs to be called.
         MockitoAnnotations.initMocks(this)
 
-        mRepository = FakeMyAssetRepository()
+        //mRepository = FakeMyAssetRepository()
 
         // Get a reference to the class under test
         mViewModel = MyAssetViewModel(mNavigator, mRepository)

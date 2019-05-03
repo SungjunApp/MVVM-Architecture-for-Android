@@ -20,34 +20,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <RelativeLayout
+            <com.google.android.material.checkbox.MaterialCheckBox
+                android:id="@+id/checkBox_all"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageButton
-                    android:id="@+id/ib_checkBox_all"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_centerVertical="true"
-                    android:gravity="center"
-                    android:padding="5dp"
-                    tools:ignore="RtlHardcoded,RtlSymmetry"/>
-
-                <TextView
-                    android:id="@+id/tv_clauseAll"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginStart="15dp"
-                    android:layout_toEndOf="@+id/ib_checkBox_all"
-                    android:includeFontPadding="false"
-                    android:text="checkAll"
-                    android:textColor="@color/colorText"
-                    android:textSize="17sp"
-                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="15dp"
-                    android:layout_toRightOf="@+id/ib_checkBox_all"/>
-            </RelativeLayout>
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorText"
+                android:textSize="17sp"
+                android:text="@string/register4_checkAll" />
 
             <RelativeLayout
                 android:id="@+id/v_clause1"
@@ -74,10 +53,10 @@
                     android:layout_marginStart="15dp"
                     android:layout_toEndOf="@+id/checkBox_01"
                     android:includeFontPadding="false"
-                    android:text="check1"
+                    android:text="@string/register4_check1"
                     android:textColor="@color/colorText"
                     android:textSize="15sp"
-                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/checkBox_01"/>
 
                 <TextView
@@ -91,7 +70,7 @@
                     android:text="(required)"
                     android:textColor="@color/colorText"
                     android:textSize="12sp"
-                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/tv_clause1"/>
 
                 <foundation.bluewhale.splashviews.widget.IconImageButton
@@ -105,7 +84,8 @@
                     android:background="@color/transparent"
                     android:padding="5dp"
                     android:src="@drawable/icon_clamp_gray"
-                    app:imageColor="@color/colorText" android:layout_alignParentRight="true"
+                    app:imageColor="@color/colorText"
+                    android:layout_alignParentRight="true"
                     android:layout_marginLeft="15dp"/>
             </RelativeLayout>
 
@@ -136,7 +116,7 @@
                     android:text="check2"
                     android:textColor="@color/colorText"
                     android:textSize="15sp"
-                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/checkBox_02"/>
 
                 <TextView
@@ -150,7 +130,7 @@
                     android:text="(required)"
                     android:textColor="@color/colorText"
                     android:textSize="12sp"
-                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/tv_clause2"/>
 
                 <foundation.bluewhale.splashviews.widget.IconImageButton
@@ -164,7 +144,7 @@
                     android:background="@color/transparent"
                     android:padding="5dp"
                     android:src="@drawable/icon_clamp_gray"
-                    app:imageColor="@color/colorText" android:layout_alignParentRight="true"
+                    android:layout_alignParentRight="true"
                     android:layout_marginLeft="15dp"/>
             </RelativeLayout>
 
@@ -195,7 +175,7 @@
                     android:text="check3"
                     android:textColor="@color/colorText"
                     android:textSize="15sp"
-                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="15dp"
+                    android:layout_marginLeft="15dp"
                     android:layout_toRightOf="@+id/checkBox_03"/>
 
                 <TextView
@@ -209,7 +189,7 @@
                     android:text="(optional)"
                     android:textColor="@color/colorText"
                     android:textSize="12sp"
-                    app:fontFamily="@font/notosans_cjkkr_regular" android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/tv_clause3"/>
 
                 <foundation.bluewhale.splashviews.widget.IconImageButton
