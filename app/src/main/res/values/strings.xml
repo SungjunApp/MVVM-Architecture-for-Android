@@ -3,6 +3,8 @@
     <string name="action_settings">Settings</string>
 
     <!-- Title -->
+    <string name="button_next">다음</string>
+
     <string name="title_work">@string/app_name</string>
     <string name="title_work_detail">Detail</string>
     <string name="title_history">History</string>

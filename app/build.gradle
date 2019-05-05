@@ -11,7 +11,7 @@ android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
     defaultConfig {
-        applicationId "com.bluewhale.sa"
+        applicationId "com.sjsoft.app"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
@@ -196,9 +196,4 @@ dependencies {
      */
     implementation 'com.facebook.stetho:stetho:1.5.0'
     implementation 'com.facebook.stetho:stetho-okhttp3:1.5.0'
-
-    /**
-     * SplashViews
-     */
-    implementation 'com.github.BlueWhaleFoundation:SplashViews:2.1.17'
 }

@@ -5,7 +5,7 @@
                 android:id="@+id/layout_fragment"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorWhite">
+                android:background="@android:color/white">
 
     <RelativeLayout
         android:id="@+id/layout_sub"
@@ -15,7 +15,6 @@
         android:layout_alignParentTop="true" android:layout_alignParentLeft="true">
 
         <LinearLayout
-            style="@style/regPadding"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -37,12 +36,12 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp" android:paddingLeft="10dp">
 
-                <foundation.bluewhale.splashviews.widget.IconImageView
+                <com.sjsoft.app.widget.IconImageView
+                    android:src="@android:drawable/btn_plus"
                     android:id="@+id/checkBox_01"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/icon_check_white"
                     app:imageColor="@color/colorText"/>
 
                 <TextView
@@ -73,7 +72,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/tv_clause1"/>
 
-                <foundation.bluewhale.splashviews.widget.IconImageButton
+                <com.sjsoft.app.widget.IconImageView
+                    android:src="@android:drawable/btn_plus"
                     android:id="@+id/ib_clause1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -81,9 +81,7 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="15dp"
-                    android:background="@color/transparent"
                     android:padding="5dp"
-                    android:src="@drawable/icon_clamp_gray"
                     app:imageColor="@color/colorText"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="15dp"/>
@@ -97,12 +95,12 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp" android:paddingLeft="10dp">
 
-                <foundation.bluewhale.splashviews.widget.IconImageView
+                <com.sjsoft.app.widget.IconImageView
+                    android:src="@android:drawable/btn_plus"
                     android:id="@+id/checkBox_02"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/icon_check_white"
                     app:imageColor="@color/colorText"/>
 
                 <TextView
@@ -133,7 +131,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/tv_clause2"/>
 
-                <foundation.bluewhale.splashviews.widget.IconImageButton
+                <com.sjsoft.app.widget.IconImageView
+                    android:src="@android:drawable/btn_plus"
                     android:id="@+id/ib_clause2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -141,9 +140,7 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="15dp"
-                    android:background="@color/transparent"
                     android:padding="5dp"
-                    android:src="@drawable/icon_clamp_gray"
                     android:layout_alignParentRight="true"
                     android:layout_marginLeft="15dp"/>
             </RelativeLayout>
@@ -156,12 +153,12 @@
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp" android:paddingLeft="10dp">
 
-                <foundation.bluewhale.splashviews.widget.IconImageView
+                <com.sjsoft.app.widget.IconImageView
+                    android:src="@android:drawable/btn_plus"
                     android:id="@+id/checkBox_03"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/icon_check_white"
                     app:imageColor="@color/colorText"/>
 
                 <TextView
@@ -192,7 +189,8 @@
                     android:layout_marginLeft="5dp"
                     android:layout_toRightOf="@+id/tv_clause3"/>
 
-                <foundation.bluewhale.splashviews.widget.IconImageButton
+                <com.sjsoft.app.widget.IconImageView
+                    android:src="@android:drawable/btn_plus"
                     android:id="@+id/ib_clause3"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -200,25 +198,24 @@
                     android:layout_centerVertical="true"
                     android:layout_gravity="center_vertical"
                     android:layout_marginStart="15dp"
-                    android:background="@color/transparent"
                     android:padding="5dp"
-                    android:src="@drawable/icon_clamp_gray"
                     app:imageColor="@color/colorText" android:layout_alignParentRight="true"
                     android:layout_marginLeft="15dp"/>
             </RelativeLayout>
 
-            <foundation.bluewhale.splashviews.widget.BWTextButton
+            <com.google.android.material.button.MaterialButton
                 android:id="@+id/bwtb_next"
-                style="@style/BWTextButton_blue_bg"
-                android:layout_width="match_parent"
+                style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="45dp"
-                android:gravity="center"
+                android:clickable="true"
+                android:gravity="center_vertical"
+                android:paddingStart="16dp"
+                android:paddingEnd="16dp"
                 android:text="@string/button_next"
-                android:textSize="18sp"
-                app:fontFamily="@font/notosans_cjkkr_medium"
-                app:roundRadius="@dimen/button_radius_small"
-                tools:ignore="SpUsage"/>
+                android:textColor="@android:color/white"
+                app:rippleColor="@color/color_ripple" />
         </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

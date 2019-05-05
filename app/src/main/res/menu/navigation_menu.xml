@@ -3,19 +3,19 @@
 
     <item
         android:id="@+id/nav_trading"
-        android:icon="@drawable/navi_wallet"
+        android:icon="@drawable/check_on"
         android:title="@string/menu_trading" />
     <item
         android:id="@+id/nav_my_asset"
-        android:icon="@drawable/navi_coupon"
+        android:icon="@drawable/check_on"
         android:title="@string/menu_my_asset" />
     <item
         android:id="@+id/nav_tx"
-        android:icon="@drawable/navi_setting"
+        android:icon="@drawable/check_on"
         android:title="@string/menu_tx" />
 
     <item
         android:id="@+id/nav_account"
-        android:icon="@drawable/navi_setting"
+        android:icon="@drawable/check_on"
         android:title="@string/menu_account" />
 </menu>

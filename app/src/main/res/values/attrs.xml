@@ -13,4 +13,8 @@
         </attr>
         <attr name="lightMode" format="boolean" />
     </declare-styleable>
+
+    <declare-styleable name="IconImageView">
+        <attr name="imageColor" format="color" />
+    </declare-styleable>
 </resources>
