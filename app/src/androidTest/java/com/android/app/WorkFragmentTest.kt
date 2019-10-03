@@ -12,7 +12,7 @@ import androidx.test.rule.ActivityTestRule
 import com.sjsoft.app.R
 import com.sjsoft.app.ui.MainActivity
 import com.sjsoft.app.ui.shift.work.WorkFragment
-import com.sjsoft.app.view.replaceFragmentInActivity
+import com.sjsoft.app.util.replaceFragmentInActivity
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test

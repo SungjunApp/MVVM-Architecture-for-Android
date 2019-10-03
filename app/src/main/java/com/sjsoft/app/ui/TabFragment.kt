@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import com.sjsoft.app.R
-import com.sjsoft.app.view.replaceFragmentInActivity
+import com.sjsoft.app.util.replaceFragmentInActivity
 import kotlinx.android.synthetic.main.fragment_tab.*
 
 class TabFragment : BaseFragment() {
@@ -99,7 +99,7 @@ class TabFragment : BaseFragment() {
     private var rFragment: BaseFragment? = null
     private fun setFragment(baseFragment: BaseFragment) {
         rFragment = baseFragment
-        replaceFragmentInActivity(R.id.fragment_main_tab, baseFragment)
+        replaceFragmentInActivity(baseFragment)
     }
 
     fun getFragmentcount(): Int {
