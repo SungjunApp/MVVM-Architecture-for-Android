@@ -2,6 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/MVVM-Architecture-Android.iml" filepath="$PROJECT_DIR$/MVVM-Architecture-Android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/MVVM-Architecture-Android-app.iml" filepath="$PROJECT_DIR$/app/MVVM-Architecture-Android-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/Shareable-Asset-Android.iml" filepath="$PROJECT_DIR$/Shareable-Asset-Android.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/ShareableAssetAndroid.iml" filepath="$PROJECT_DIR$/.idea/ShareableAssetAndroid.iml" />
       <module fileurl="file://$PROJECT_DIR$/StudyPlannerAndroid.iml" filepath="$PROJECT_DIR$/StudyPlannerAndroid.iml" />

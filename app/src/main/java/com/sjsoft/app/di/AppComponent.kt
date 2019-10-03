@@ -1,7 +1,8 @@
 package com.sjsoft.app.di
 
+import android.app.Application
+import android.content.Context
 import com.sjsoft.app.AppApplication
-import com.sjsoft.app.Injection
 import dagger.BindsInstance
 import dagger.Component
 import dagger.android.support.AndroidSupportInjectionModule
@@ -11,23 +12,22 @@ import javax.inject.Singleton
 @Component(
     modules = [
         AndroidSupportInjectionModule::class,
-        AppModule::class,
-        NetworkModule::class,
-        APIModule::class,
         ActivityBuildModule::class,
-        Injection::class
+        AppModule::class,
+        APIModule::class,
+        NetworkModule::class,
+        RepositoryModule::class
     ]
 )
 interface AppComponent {
-
     @Component.Builder
     interface Builder {
+        @BindsInstance
+        fun application(application: Application): Builder
 
         fun build(): AppComponent
-
-        @BindsInstance
-        fun applicationBind(application: AppApplication): Builder
     }
 
-    fun inject(application: AppApplication)
+    fun inject(githubApp: AppApplication)
+
 }

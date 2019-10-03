@@ -1,27 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.sjsoft.app">
+    package="com.sjsoft.app">
+
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <uses-feature android:name="android.hardware.location.gps" />
     <uses-permission xmlns:tools="http://schemas.android.com/tools"
-                     android:name="android.permission.PACKAGE_USAGE_STATS"
-                    tools:ignore="ProtectedPermissions" />
+        android:name="android.permission.PACKAGE_USAGE_STATS"
+        tools:ignore="ProtectedPermissions" />
     <application
-            android:allowBackup="true"
-            android:name="com.sjsoft.app.AppApplication"
-            android:icon="@mipmap/ic_launcher"
-            android:label="${appNameGradle}"
-            android:roundIcon="@mipmap/ic_launcher_round"
-            android:supportsRtl="true"
-            android:theme="@style/AppTheme">
+        android:name="com.sjsoft.app.AppApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="${appNameGradle}"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity
-                android:name="com.sjsoft.app.ui.MainActivity"
-                android:theme="@style/AppTheme">
+            android:name="com.sjsoft.app.ui.MainActivity"
+            android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
     </application>

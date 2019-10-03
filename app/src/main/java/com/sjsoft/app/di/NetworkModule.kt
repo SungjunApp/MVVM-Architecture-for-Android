@@ -2,12 +2,12 @@ package com.sjsoft.app.di
 
 import android.content.Context
 import android.util.Log
-import com.sjsoft.app.BuildConfig
-import com.sjsoft.app.constant.DomainInfo
-import com.sjsoft.app.network.repository.UserPreferenceRepository
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.orhanobut.logger.Logger
+import com.sjsoft.app.BuildConfig
+import com.sjsoft.app.network.repository.PreferenceDataSource
+import com.sjsoft.app.network.repository.PreferenceRepository
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
@@ -19,12 +19,13 @@ import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.HashSet
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 @Module
 class NetworkModule {
-    private val timeout_read = 5L
+    private val timeout_read = 30L
     private val timeout_connect = 20L
     private val timeout_write = 30L
 
@@ -84,7 +85,7 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(DomainInfo.URL)
+            .baseUrl(BuildConfig.authServer)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient)
             .build()
@@ -92,36 +93,59 @@ class NetworkModule {
 
     @Provides
     @Singleton
-    fun getRequestInterceptor(userRepository: UserPreferenceRepository): Interceptor {
+    fun getRequestInterceptor(storage: PreferenceDataSource): Interceptor {
         return Interceptor {
             val original = it.request()
-
+            Log.e("pretty", "Interceptor.url.host: ${original.url.host}")
+            Log.e("pretty", "Interceptor.url.path: ${original.url}")
             val requested = with(original) {
                 val builder = newBuilder()
 
-                userRepository.getCookie()?.also {
-                    builder.header("Cookie", "jwtToken=$it")
-                    builder.header("Authorization", "Deputy ${DomainInfo.CLIENT_SHASUM}")
+                builder.header("Accept", "application/json")
+                storage.getCookie()?.also { cookie ->
+                    builder.header("Authorization", "Bearer $cookie")
+
                 }
-
-
-                builder.header("Content-Type", "application/json")
-                builder.method(method(), body())
-
                 builder.build()
             }
 
             val response = it.proceed(requested)
-            val body = response.body()
+            val body = response.body
             val bodyStr = body?.string()
-            Log.e("pretty", "**http-num: ${response.code()}")
+            Log.e("pretty", "**http-num: ${response.code}")
             Log.e("pretty", "**http-body: $body")
+
+
+            val cookies = HashSet<String>()
+            for (header in response.headers("Set-Cookie")) {
+                cookies.add(header)
+
+                val key = "general-jwt="
+                if (header.contains(key)) {
+                    var token = header
+                    if (!token.isNullOrEmpty()) {
+                        token = token.substring(token.indexOf(key) + key.length, token.indexOf(";"))
+                        storage.setCookie(token)
+                    }
+                }
+            }
+
+            /*val isResponseOk = response.code / 100 == 2
+            if (!isResponseOk && bodyStr != null) {
+                val serverErrorState = NetworkErrorHandler.getServerErrorState(bodyStr)
+                if (serverErrorState != null) {
+                    if (serverErrorState.invalidSigniture()) {
+                        storage.logout()
+                    }
+                }
+            }*/
+
             val builder = response.newBuilder()
 
             builder.body(
                 ResponseBody.create(
                     body?.contentType()
-                    , bodyStr?.toByteArray()
+                    , bodyStr?.toByteArray()!!
                 )
             ).build()
         }
@@ -131,8 +155,8 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun getUserPreferenceRepository(context: Context): UserPreferenceRepository {
-        return UserPreferenceRepository(context)
+    fun getUserPreferenceRepository(context: Context): PreferenceRepository {
+        return PreferenceRepository(context)
     }
 
     /* fun clearAllCalls() {

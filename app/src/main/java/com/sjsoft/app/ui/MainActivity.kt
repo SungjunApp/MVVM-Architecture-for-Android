@@ -20,11 +20,9 @@ import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.sjsoft.app.BuildConfig.APPLICATION_ID
 import com.sjsoft.app.R
-import com.sjsoft.app.ui.register.RegisterAgreementFragment
+import com.sjsoft.app.ui.register.LoginFragment
 import com.sjsoft.app.view.replaceFragmentInActivity
 import com.sjsoft.app.view.setupActionBar
-import com.google.android.gms.location.FusedLocationProviderClient
-import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.snackbar.Snackbar.LENGTH_INDEFINITE
 import dagger.android.AndroidInjection
@@ -88,7 +86,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        AndroidInjection.inject(this)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
@@ -96,24 +93,13 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         //startActivityForResult(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS), 1)
         //Log.e("test hong","test hong:" +  test)
 
-
-
-
-        /*model = ViewModelProviders.of(this, factory)
-            .get(ShiftViewModel::class.java)*/
-
-//        model.disableShiftButton()
-//        println("wallet.address: ${dWallet.address}")
-
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
-
         supportFragmentManager.addOnBackStackChangedListener(mOnBackStackChangedListener)
 
         replaceFragmentInActivity(frameLayoutId, findOrCreateViewFragment())
     }
 
     private fun findOrCreateViewFragment() =
-        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: RegisterAgreementFragment()
+        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: LoginFragment()
 //        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: TabFragment.openithTrading()
 
     private val mOnBackStackChangedListener = FragmentManager.OnBackStackChangedListener {
@@ -178,134 +164,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
         beginTransaction().apply {
             action()
         }.commitAllowingStateLoss()
-    }
-
-    private val REQUEST_PERMISSIONS_REQUEST_CODE = 34
-
-    private lateinit var fusedLocationClient: FusedLocationProviderClient
-
-    override fun onStart() {
-        super.onStart()
-
-        if (!checkPermissions()) {
-            requestPermissions()
-        } else {
-            getLastLocation()
-        }
-    }
-
-
-    @SuppressLint("MissingPermission")
-    private fun getLastLocation() {
-        fusedLocationClient.lastLocation
-            .addOnCanceledListener {
-                Log.w(TAG, "addOnCanceledListener")
-            }
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful && task.result != null) {
-                    task.result?.also {
-                        //model.setLocation(it)
-                        Log.w(TAG, "getLastLocation\tlatitude: $it.latitude, longitude: $it.longitude")
-
-                    }
-
-                } else {
-                    Log.w(TAG, "getLastLocation:exception", task.exception)
-                    showSnackbar(R.string.no_location_detected)
-                    //model.disableShiftButton()
-                }
-            }
-    }
-
-    private fun checkPermissions() =
-        ActivityCompat.checkSelfPermission(this, ACCESS_FINE_LOCATION) == PERMISSION_GRANTED
-
-    private fun startLocationPermissionRequest() {
-        ActivityCompat.requestPermissions(
-            this, arrayOf(ACCESS_FINE_LOCATION),
-            REQUEST_PERMISSIONS_REQUEST_CODE
-        )
-    }
-
-    private fun requestPermissions() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, ACCESS_FINE_LOCATION)) {
-            // Provide an additional rationale to the user. This would happen if the user denied the
-            // request previously, but didn't check the "Don't ask again" checkbox.
-            Log.i(TAG, "Displaying permission rationale to provide additional context.")
-            showSnackbar(R.string.permission_rationale, android.R.string.ok, View.OnClickListener {
-                // Request permission
-                startLocationPermissionRequest()
-            })
-
-        } else {
-            // Request permission. It's possible this can be auto answered if device policy
-            // sets the permission in a given state or the user denied the permission
-            // previously and checked "Never ask again".
-            Log.i(TAG, "Requesting permission")
-            startLocationPermissionRequest()
-        }
-    }
-
-    /**
-     * Callback received when a permissions request has been completed.
-     */
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<String>,
-        grantResults: IntArray
-    ) {
-        Log.i(TAG, "onRequestPermissionResult")
-        if (requestCode == REQUEST_PERMISSIONS_REQUEST_CODE) {
-            when {
-                // If user interaction was interrupted, the permission request is cancelled and you
-                // receive empty arrays.
-                grantResults.isEmpty() -> Log.i(TAG, "User interaction was cancelled.")
-
-                // Permission granted.
-                (grantResults[0] == PackageManager.PERMISSION_GRANTED) -> getLastLocation()
-
-                // Permission denied.
-
-                // Notify the user via a SnackBar that they have rejected a core permission for the
-                // app, which makes the Activity useless. In a real app, core permissions would
-                // typically be best requested during a welcome-screen flow.
-
-                // Additionally, it is important to remember that a permission might have been
-                // rejected without asking the user for permission (device policy or "Never ask
-                // again" prompts). Therefore, a user interface affordance is typically implemented
-                // when permissions are denied. Otherwise, your app could appear unresponsive to
-                // touches or interactions which have required permissions.
-                else -> {
-                    showSnackbar(
-                        R.string.permission_denied_explanation, R.string.settings,
-                        View.OnClickListener {
-                            // Build intent that displays the App settings screen.
-                            val intent = Intent().apply {
-                                action = Settings.ACTION_APPLICATION_DETAILS_SETTINGS
-                                data = Uri.fromParts("package", APPLICATION_ID, null)
-                                flags = Intent.FLAG_ACTIVITY_NEW_TASK
-                            }
-                            startActivity(intent)
-                        })
-                }
-            }
-        }
-    }
-
-
-    private fun showSnackbar(
-        snackStrId: Int,
-        actionStrId: Int = 0,
-        listener: View.OnClickListener? = null
-    ) {
-        val snackbar = Snackbar.make(
-            findViewById(android.R.id.content), getString(snackStrId),
-            LENGTH_INDEFINITE
-        )
-        if (actionStrId != 0 && listener != null) {
-            snackbar.setAction(getString(actionStrId), listener)
-        }
-        snackbar.show()
     }
 
 }

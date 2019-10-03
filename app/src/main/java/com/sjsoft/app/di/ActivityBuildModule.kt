@@ -4,10 +4,9 @@ import com.sjsoft.app.ui.MainActivity
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
 
+@Suppress("unused")
 @Module
-abstract class ActivityBuildModule{
-    @ActivityScope
-    @ContributesAndroidInjector(modules = [TestC::class, FragmentBuildModule::class])
-    abstract fun bindMainActivity(): MainActivity
-
+abstract class ActivityBuildModule {
+    @ContributesAndroidInjector(modules = [FragmentBuildModule::class])
+    abstract fun contributeMainActivity(): MainActivity
 }

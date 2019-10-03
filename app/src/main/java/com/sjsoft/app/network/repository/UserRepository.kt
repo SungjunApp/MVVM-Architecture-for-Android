@@ -1,27 +1,20 @@
-package com.example.demo.network
+package com.sjsoft.app.network.repository
 
-import com.sjsoft.app.model.register.DPassword
-import com.sjsoft.app.model.register.DSignUp
-import com.sjsoft.app.model.register.DUser
-import com.sjsoft.app.navigator.BaseSchedulerProvider
+import com.sjsoft.app.model.User
 import com.sjsoft.app.network.api.APIUser
-import com.libs.meuuslibs.network.BaseRepository
-import io.reactivex.Completable
-import io.reactivex.Single
+import com.sjsoft.app.network.api.LoginInfo
+import com.sjsoft.app.network.api.LoginResult
+import javax.inject.Inject
+import javax.inject.Singleton
 
-class UserRepository(
-    navi: BaseSchedulerProvider,
+interface UserDataSource{
+    suspend fun login(email:String, password:String): LoginResult
+}
+
+class UserRepository constructor(
     private val apiUser: APIUser
-) : BaseRepository(navi), APIUser {
-    override fun postUser(dSignUp: DSignUp): Single<DUser> {
-        return makeSingleResponse(apiUser.postUser(dSignUp))
-    }
-
-    override fun getUserWithId(id: String): Single<DUser> {
-        return makeSingleResponse(apiUser.getUserWithId(id))
-    }
-
-    override fun deleteUser(password: DPassword): Completable {
-        return makeCompletableResponse(apiUser.deleteUser(password))
+) : UserDataSource {
+    override suspend fun login(email:String, password:String): LoginResult {
+        return apiUser.login(email, password)
     }
 }

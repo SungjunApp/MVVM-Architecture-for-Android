@@ -4,18 +4,18 @@
     <item
         android:id="@+id/nav_trading"
         android:icon="@drawable/check_on"
-        android:title="@string/menu_trading" />
+        android:title="1" />
     <item
         android:id="@+id/nav_my_asset"
         android:icon="@drawable/check_on"
-        android:title="@string/menu_my_asset" />
+        android:title="2" />
     <item
         android:id="@+id/nav_tx"
         android:icon="@drawable/check_on"
-        android:title="@string/menu_tx" />
+        android:title="3" />
 
     <item
         android:id="@+id/nav_account"
         android:icon="@drawable/check_on"
-        android:title="@string/menu_account" />
+        android:title="4" />
 </menu>

@@ -6,9 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import com.sjsoft.app.R
-import com.sjsoft.app.ui.account.AccountFragment
-import com.sjsoft.app.ui.asset.MyAssetFragment
-import com.sjsoft.app.ui.trade.TradeHomeFragment
 import com.sjsoft.app.view.replaceFragmentInActivity
 import kotlinx.android.synthetic.main.fragment_tab.*
 
@@ -50,7 +47,7 @@ class TabFragment : BaseFragment() {
     }
 
     override val titleResource: Int
-        get() = R.string.title_history
+        get() = R.string.title_main
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_tab, container, false)
@@ -74,7 +71,7 @@ class TabFragment : BaseFragment() {
         bottom_navigation.setOnNavigationItemSelectedListener {
             menuId = it.itemId
             when (it.itemId) {
-                R.id.nav_trading -> {
+                /*R.id.nav_trading -> {
                     setFragment(TradeHomeFragment())
                 }
                 R.id.nav_my_asset -> {
@@ -85,7 +82,7 @@ class TabFragment : BaseFragment() {
                 }
                 R.id.nav_account -> {
                     setFragment(AccountFragment())
-                }
+                }*/
 
             }
             true

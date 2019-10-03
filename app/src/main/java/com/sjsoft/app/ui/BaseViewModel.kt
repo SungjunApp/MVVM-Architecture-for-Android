@@ -3,21 +3,25 @@ package com.sjsoft.app.ui
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 
 abstract class BaseViewModel : ViewModel() {
-    protected val _loading = MutableLiveData<Boolean>().apply { value = false }
-    val loading: LiveData<Boolean>
-        get() = _loading
-
-    protected val _errorPopup = MutableLiveData<Int>()
-    val errorPopup: LiveData<Int>
-        get() = _errorPopup
-
-    protected val _nextButton = MutableLiveData<Boolean>().apply { value = false }
-    val nextButton: LiveData<Boolean>
-        get() = _nextButton
 
 //    override fun onCleared() {
 //        super.onCleared()
 //    }
+
+
+    fun launchVMScope(block: suspend CoroutineScope.() -> Unit, errorReturn: (Throwable) -> Unit) {
+        val handler = CoroutineExceptionHandler { _, e ->
+            e.printStackTrace()
+            errorReturn(e)
+        }
+        viewModelScope.launch(handler) {
+            block()
+        }
+    }
 }

@@ -2,53 +2,9 @@
     <string name="app_name">Shareable Asset</string>
     <string name="action_settings">Settings</string>
 
-    <!-- Title -->
-    <string name="button_next">다음</string>
+    <string name="title_main">Main</string>
+    <string name="title_signin">Sign In</string>
 
-    <string name="title_work">@string/app_name</string>
-    <string name="title_work_detail">Detail</string>
-    <string name="title_history">History</string>
-    <string name="title_registerAgreement">약관 동의</string>
-    <string name="title_registerInfo">개인정보 입력</string>
-    <string name="title_registerSMS">문자 인증</string>
-    <string name="title_trade">거래</string>
-    <string name="title_my_asset">트레이드</string>
-    <string name="title_setting">설정</string>
-
-    <string name="menu_trading">트레이딩</string>
-    <string name="menu_my_asset">마이에셋</string>
-    <string name="menu_tx">입/출금</string>
-    <string name="menu_account">계정</string>
-
-
-
-    <string name="error_cannot_start_shift">Please end your ongoing shift first.</string>
-    <string name="error_cannot_end_shift">There is no ongoing shift.</string>
-
-    <string name="error_failed_sending_data">Please check your network connection and try again.</string>
-
-    <string name="start_shift">Start Shift</string>
-    <string name="end_shift">End Shift</string>
-    <string name="loading_shift">Loading ..</string>
-
-    <string name="retry">Retry</string>
-
-    <string name="check_in_at_x">Checked in at %s</string>
-    <string name="check_out_at_x">Checked out at %s</string>
-    <string name="worked_for_x">Worked for %s</string>
-
-    <string name="settings">Setting</string>
-    <string name="permission_denied_explanation">Location Permission was denied, but is needed for core functionality.</string>
-    <string name="permission_rationale">Location permission is needed for core functionality</string>
-    <string name="no_location_detected">No location detected. Make sure location is enabled on the device.</string>
-
-    <string name="register4_agree">약관 동의</string>
-    <string name="register4_checkAll">본인인증 약관 전체 동의 </string>
-    <string name="register4_check1">서비스 이용약관 동의 (필수)</string>
-    <string name="register4_check2">개인정보 처리방침 동의 (필수)</string>
-    <string name="register4_check3">마케팅 활용 동의 (선택)</string>
-
-
-
-
+    <string name="info_start_with_email">To sign up, please input your email\nor to sign in, please input the email you used when signing up our service.</string>
+    <string name="button_signin">Sign In</string>
 </resources>
