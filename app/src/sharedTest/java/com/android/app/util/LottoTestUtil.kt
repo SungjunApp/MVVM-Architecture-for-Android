@@ -1,12 +1,12 @@
 package com.android.app.util
 
 import com.sjsoft.app.room.Lotto
-import com.sjsoft.app.room.LottoDataType
+import com.sjsoft.app.room.LottoReturnType
 import com.sjsoft.app.util.LottoUtil
 
 class LottoTestUtil {
     companion object {
-        fun makeLotto(drwNo: Int, type: LottoDataType = LottoDataType.success): Lotto {
+        fun makeLotto(drwNo: Int, type: LottoReturnType = LottoReturnType.success): Lotto {
             val numbers = LottoUtil.generateWinNumbers().list
             return Lotto(
                 drwNo = drwNo,

@@ -14,7 +14,6 @@ class TrendViewModel
 @Inject constructor(val api: LottoDataSource) : BaseViewModel() {
     val list: MutableLiveData<List<Frequency>> = MutableLiveData()
 
-
     fun getList() {
         launchVMScope({
             val delay = async { delay(AppConfig.enteringDelay) }

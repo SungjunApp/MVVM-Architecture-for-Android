@@ -1,14 +1,19 @@
 package com.sjsoft.app.ui
 
+import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.ViewModelProvider
 import com.sjsoft.app.BuildConfig
 import com.sjsoft.app.R
 import com.sjsoft.app.constant.AppConfig
+import com.sjsoft.app.ui.home.HomeViewModel
 import com.sjsoft.app.ui.splash.SplashFragment
 import com.sjsoft.app.util.*
 import dagger.android.AndroidInjector
@@ -20,12 +25,19 @@ import javax.inject.Inject
 
 
 class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
+    val frameLayoutId = R.id.contentFrame
+
     @Inject
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
 
-    val frameLayoutId = R.id.contentFrame
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    val viewModel: MainViewModel by viewModels {
+        viewModelFactory
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +59,24 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
         supportFragmentManager.addOnBackStackChangedListener(mOnBackStackChangedListener)
 
+        goToFirstScreen(intent)
+    }
+
+    override fun onNewIntent(intent: Intent?) {
+        super.onNewIntent(intent)
+        goToFirstScreen(intent)
+    }
+
+
+    fun goToFirstScreen(intent: Intent?) {
+        //로또 회차 조회 : 임시저장 -> HomeFragment -> SearchFragment -> 임시저장 삭제
+        intent?.data?.also { uri ->
+            uri.queryDeepLinkParam(AppConfig.DeepLinkParams.drwNo)?.also{
+                viewModel.saveReservedDrwNo(it)
+                Timber.d("onCreate() -> deep link drwNo: $it")
+            }
+        }
+
         replaceFragmentInActivity(frameLayoutId, SplashFragment())
     }
 
@@ -57,8 +87,9 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             val title: String?
             title =
                 if (fragmentCount > 0) {
-                    val fragment = supportFragmentManager.fragments[supportFragmentManager.fragments.size - 1] as BaseFragment
-                    if(fragment is SplashFragment) showToolbar = false
+                    val fragment =
+                        supportFragmentManager.fragments[supportFragmentManager.fragments.size - 1] as BaseFragment
+                    if (fragment is SplashFragment) showToolbar = false
 
                     fragment.getCustomTitle() ?: getString(fragment.titleResource)
                 } else
@@ -70,7 +101,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
             Timber.d("fragmentCount: $fragmentCount")
             setupActionBar(toolbar) {
-                if(showToolbar) show() else hide()
+                if (showToolbar) show() else hide()
                 setTitle(title)
                 setDisplayHomeAsUpEnabled(fragmentCount > 1)
                 setDisplayShowHomeEnabled(fragmentCount > 1)

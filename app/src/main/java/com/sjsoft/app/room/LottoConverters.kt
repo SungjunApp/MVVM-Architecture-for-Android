@@ -5,13 +5,13 @@ import java.math.BigDecimal
 
 class LottoConverters{
     @TypeConverter
-    fun convertLottoDataTypeToString(value: LottoDataType): String {
+    fun convertLottoDataTypeToString(value: LottoReturnType): String {
         return value.value
     }
 
     @TypeConverter
-    fun convertStringToLottoDataType(value: String): LottoDataType {
-        return LottoDataType.from(value)
+    fun convertStringToLottoDataType(value: String): LottoReturnType {
+        return LottoReturnType.from(value)
     }
 
     @TypeConverter

@@ -11,14 +11,14 @@ import java.math.BigDecimal
 data class Lotto(
     @PrimaryKey
     val drwNo: Int,     //회차
-    val drwtNo1: Int,
-    val drwtNo2: Int,
-    val drwtNo3: Int,
-    val drwtNo4: Int,
-    val drwtNo5: Int,
-    val drwtNo6: Int,
-    val bnusNo: Int,    //보너스
-    val returnValue: LottoDataType,
+    var drwtNo1: Int,
+    var drwtNo2: Int,
+    var drwtNo3: Int,
+    var drwtNo4: Int,
+    var drwtNo5: Int,
+    var drwtNo6: Int,
+    var bnusNo: Int,    //보너스
+    val returnValue: LottoReturnType,
     val drwNoDate: String,
     val totSellamnt: BigDecimal,
     val firstWinamnt: BigDecimal,
@@ -48,7 +48,7 @@ data class Lotto(
     }
 }
 
-enum class LottoDataType constructor(val value: String) {
+enum class LottoReturnType constructor(val value: String) {
     @SerializedName("success")
     success("success"),
 
@@ -56,6 +56,6 @@ enum class LottoDataType constructor(val value: String) {
     fail("fail");
 
     companion object {
-        fun from(findValue: String): LottoDataType = values().first { it.value == findValue }
+        fun from(findValue: String): LottoReturnType = values().first { it.value == findValue }
     }
 }

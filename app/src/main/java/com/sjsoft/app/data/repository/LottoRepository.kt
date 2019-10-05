@@ -4,7 +4,7 @@ import com.sjsoft.app.data.api.LottoAPI
 import com.sjsoft.app.room.Frequency
 import com.sjsoft.app.room.Lotto
 import com.sjsoft.app.room.LottoDao
-import com.sjsoft.app.room.LottoDataType
+import com.sjsoft.app.room.LottoReturnType
 
 interface LottoDataSource {
     suspend fun loadAllLottos():List<Lotto>
@@ -32,8 +32,8 @@ class LottoRepository constructor(
         } else {
             val serverLotto = lottoAPI.getLotto(drwNo)
             when (serverLotto.returnValue) {
-                LottoDataType.success -> return serverLotto
-                LottoDataType.fail -> throw IllegalArgumentException()
+                LottoReturnType.success -> return serverLotto
+                LottoReturnType.fail -> throw IllegalArgumentException()
             }
         }
     }
@@ -54,8 +54,8 @@ class LottoRepository constructor(
             } else {
                 val serverLotto = lottoAPI.getLotto(drwNo)
                 when (serverLotto.returnValue) {
-                    LottoDataType.success -> lottoDao.saveLottoWithFrequency(serverLotto)
-                    LottoDataType.fail -> throw IllegalArgumentException()
+                    LottoReturnType.success -> lottoDao.saveLottoWithFrequency(serverLotto)
+                    LottoReturnType.fail -> throw IllegalArgumentException()
                 }
             }
         }

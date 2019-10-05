@@ -18,8 +18,10 @@ package com.sjsoft.app.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.sjsoft.app.ui.MainViewModel
 import com.sjsoft.app.ui.history.HistoryViewModel
-import com.sjsoft.app.ui.main.MainViewModel
+import com.sjsoft.app.ui.home.HomeViewModel
+import com.sjsoft.app.ui.search.SearchViewModel
 
 import com.sjsoft.app.ui.splash.SplashViewModel
 import com.sjsoft.app.ui.trend.TrendViewModel
@@ -45,8 +47,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(MainViewModel::class)
-    abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
+    @ViewModelKey(HomeViewModel::class)
+    abstract fun bindHomeViewModel(viewModel: HomeViewModel): ViewModel
 
     @Binds
     @IntoMap
@@ -57,6 +59,17 @@ abstract class ViewModelModule {
     @IntoMap
     @ViewModelKey(TrendViewModel::class)
     abstract fun bindTrendViewModel(viewModel: TrendViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(SearchViewModel::class)
+    abstract fun bindSearchViewModel(viewModel: SearchViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
+
 
     @Binds
     abstract fun bindViewModelFactory(factory: AppViewModelFactory): ViewModelProvider.Factory

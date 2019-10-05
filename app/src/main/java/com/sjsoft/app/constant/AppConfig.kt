@@ -15,10 +15,11 @@ class AppConfig {
         const val BLUEWHALE_ACCOUNT = "BLUEWHALE_ACCOUNT"
         const val kycamlSupportEmail = "support@sumsub.com"
 
+
         fun needDebugInfo(): Boolean {
             return !isProductionVersion || BuildConfig.DEBUG
         }
-        
+
         val isProductionVersion: Boolean
             get() = BuildConfig.FLAVOR.contains(prod) && !BuildConfig.DEBUG
 
@@ -34,5 +35,8 @@ class AppConfig {
 
         val splashDelay = 3000L
         val enteringDelay = 400L
+    }
+    object DeepLinkParams {
+        const val drwNo = "drwNo"
     }
 }

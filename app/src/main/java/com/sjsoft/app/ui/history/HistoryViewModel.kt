@@ -14,19 +14,13 @@ class HistoryViewModel
 @Inject constructor(val api: LottoDataSource) : BaseViewModel() {
     val list: MutableLiveData<List<Lotto>> = MutableLiveData()
 
-
     fun getList() {
         launchVMScope({
-            val delay = async { delay(AppConfig.enteringDelay) }
             val result = async { api.loadAllLottos() }
-
-            delay.await()
             result.await()
             list.value = result.await()
         }, {
 
         })
     }
-
-
 }

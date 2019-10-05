@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/spacing_large"
+    android:paddingBottom="@dimen/spacing_large"
+    >
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="6dp"
+        app:cardElevation="2dp"
+        app:cardUseCompatPadding="true"
+        android:layout_margin="@dimen/spacing_smlarge"
+        tools:visibility="visible"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="@dimen/spacing_large">
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
+                android:text="@string/winning_numbers"
+                android:textColor="@color/colorAccent"
+                android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                />
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="@dimen/spacing_large"
+                android:paddingBottom="@dimen/spacing_large">
+                <TextView
+                    android:id="@+id/tv_lotto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:gravity="center_horizontal"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Headline"
+                    tools:text="3, 5, 2, 49, 29, 1 + 24"
+                    />
+                <com.github.ybq.android.spinkit.SpinKitView
+                    android:id="@+id/v_loading"
+                    style="@style/SpinKitView.Large.ThreeBounce"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerInParent="true"
+                    android:visibility="gone"
+                    app:SpinKit_Color="@color/colorPrimary"
+                    />
+                <ImageView
+                    android:id="@+id/v_retry"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/baseline_cloud_off_black_48"
+                    android:layout_centerInParent="true"
+                    android:tint="@color/colorAccent"
+                    android:visibility="gone"
+                    tools:visibility="visible"
+                    />
+            </RelativeLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

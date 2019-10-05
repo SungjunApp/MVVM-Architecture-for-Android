@@ -1,8 +1,6 @@
 package com.sjsoft.app.ui.welcome
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,9 +10,9 @@ import androidx.lifecycle.ViewModelProvider
 import com.sjsoft.app.R
 import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.ui.BaseFragment
-import com.sjsoft.app.ui.main.MainFragment
+import com.sjsoft.app.ui.home.HomeFragment
 import com.sjsoft.app.util.replaceFragmentInActivity
-import kotlinx.android.synthetic.main.fragment_login.*
+import kotlinx.android.synthetic.main.fragment_welcome.*
 import javax.inject.Inject
 
 class WelcomeFragment : BaseFragment(), Injectable {
@@ -35,7 +33,7 @@ class WelcomeFragment : BaseFragment(), Injectable {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         viewModel.command.observe(this, Observer {
-            replaceFragmentInActivity(MainFragment())
+            replaceFragmentInActivity(HomeFragment())
         })
 
         bt_next.setOnClickListener {

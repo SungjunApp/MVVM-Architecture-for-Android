@@ -1,10 +1,11 @@
-package com.sjsoft.app.ui.main
+package com.sjsoft.app.ui.home
 
 import androidx.lifecycle.MutableLiveData
 import com.sjsoft.app.global.SingleLiveEvent
 import com.sjsoft.app.data.LottoMatch
 import com.sjsoft.app.util.NetworkErrorUtil
 import com.sjsoft.app.data.repository.LottoDataSource
+import com.sjsoft.app.data.repository.PreferenceDataSource
 import com.sjsoft.app.ui.BaseViewModel
 import com.sjsoft.app.util.LottoTicket
 import com.sjsoft.app.util.LottoUtil
@@ -12,8 +13,8 @@ import kotlinx.coroutines.async
 import javax.inject.Inject
 
 
-class MainViewModel
-@Inject constructor(val api: LottoDataSource) : BaseViewModel() {
+class HomeViewModel
+@Inject constructor(val api: LottoDataSource, val pref: PreferenceDataSource) : BaseViewModel() {
     val generateButton = MutableLiveData<Boolean>().apply { value = false }
     val errorPopup: SingleLiveEvent<Int> = SingleLiveEvent()
 
@@ -39,7 +40,7 @@ class MainViewModel
 
     sealed class LottoMatchUI {
         data class Data(val data: LottoMatch) : LottoMatchUI()
-        data class Loading(val showing:Boolean) : LottoMatchUI()
+        data class Loading(val showing: Boolean) : LottoMatchUI()
     }
 
     val lottoMatchUI: SingleLiveEvent<LottoMatchUI> = SingleLiveEvent()
@@ -65,6 +66,19 @@ class MainViewModel
             lottoMatchUI.value = LottoMatchUI.Loading(false)
             errorPopup.value = NetworkErrorUtil.getErrorStringRes(it)
         })
+    }
+
+    val reservedDrwNo: SingleLiveEvent<Int> = SingleLiveEvent()
+    fun queryReservedDrwNo() {
+        pref.getReservedDrwNo()?.also {
+            if (it.isNotEmpty()) {
+                pref.setReservedDrwNo("")
+                try {
+                    reservedDrwNo.value = it.toInt()
+                } catch (e: Exception) {
+                }
+            }
+        }
     }
 }
 

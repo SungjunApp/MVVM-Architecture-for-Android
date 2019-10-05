@@ -1,7 +1,8 @@
 package com.sjsoft.app.di
 
 import com.sjsoft.app.ui.history.HistoryFragment
-import com.sjsoft.app.ui.main.MainFragment
+import com.sjsoft.app.ui.home.HomeFragment
+import com.sjsoft.app.ui.search.SearchFragment
 import com.sjsoft.app.ui.splash.SplashFragment
 import com.sjsoft.app.ui.trend.TrendFragment
 import com.sjsoft.app.ui.welcome.WelcomeFragment
@@ -18,10 +19,14 @@ abstract class FragmentBuildModule {
     abstract fun contributeWelcomeFragment(): WelcomeFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeMainFragment(): MainFragment
+    abstract fun contributeMainFragment(): HomeFragment
 
     @ContributesAndroidInjector
     abstract fun contributeHistoryFragment(): HistoryFragment
+
     @ContributesAndroidInjector
     abstract fun contributeTrendFragment(): TrendFragment
+
+    @ContributesAndroidInjector
+    abstract fun contributeSearchFragment(): SearchFragment
 }

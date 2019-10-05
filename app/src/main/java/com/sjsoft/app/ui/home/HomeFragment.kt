@@ -1,4 +1,4 @@
-package com.sjsoft.app.ui.main
+package com.sjsoft.app.ui.home
 
 import android.os.Bundle
 import android.text.Editable
@@ -17,19 +17,20 @@ import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.data.LottoMatch
 import com.sjsoft.app.ui.BaseFragment
 import com.sjsoft.app.ui.history.HistoryFragment
+import com.sjsoft.app.ui.search.SearchFragment
 import com.sjsoft.app.ui.trend.TrendFragment
 import com.sjsoft.app.util.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
 
-class MainFragment : BaseFragment(), Injectable {
+class HomeFragment : BaseFragment(), Injectable {
     override val titleResource: Int
         get() = R.string.title_main
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
 
-    val viewModel: MainViewModel by viewModels {
+    val viewModel: HomeViewModel by viewModels {
         viewModelFactory
     }
 
@@ -67,6 +68,11 @@ class MainFragment : BaseFragment(), Injectable {
             handleLottoMatch(it)
         })
 
+        viewModel.reservedDrwNo.observe(this, Observer {
+            addFragmentToActivity(SearchFragment.getInstance(it))
+        })
+
+
         bt_generate.setOnClickListener {
             viewModel.generateLotto()
         }
@@ -92,17 +98,19 @@ class MainFragment : BaseFragment(), Injectable {
 
             override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {}
         })
+
+        viewModel.queryReservedDrwNo()
     }
 
-    private fun handleLottoMatch(it: MainViewModel.LottoMatchUI) {
+    private fun handleLottoMatch(it: HomeViewModel.LottoMatchUI) {
         when (it) {
-            is MainViewModel.LottoMatchUI.Loading -> {
+            is HomeViewModel.LottoMatchUI.Loading -> {
                 v_loading.apply {
                     if (it.showing) show() else hide()
                 }
                 changeVisibility(bt_match, !it.showing)
             }
-            is MainViewModel.LottoMatchUI.Data -> {
+            is HomeViewModel.LottoMatchUI.Data -> {
                 v_loading.hide()
                 changeVisibility(bt_match, true)
                 showLotteryResult(it.data)
@@ -131,8 +139,8 @@ class MainFragment : BaseFragment(), Injectable {
     }
 
     companion object {
-        fun getInstance(): MainFragment {
-            val f = MainFragment()
+        fun getInstance(): HomeFragment {
+            val f = HomeFragment()
             val bundle = Bundle()
             f.arguments = bundle
             return f

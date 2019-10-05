@@ -1,4 +1,4 @@
-package com.android.app.ui.main
+package com.android.app.ui.home
 
 import androidx.annotation.StringRes
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
@@ -9,7 +9,8 @@ import com.android.app.util.LottoTestUtil
 import com.sjsoft.app.R
 import com.sjsoft.app.data.LottoMatch
 import com.sjsoft.app.data.repository.LottoDataSource
-import com.sjsoft.app.ui.main.MainViewModel
+import com.sjsoft.app.data.repository.PreferenceDataSource
+import com.sjsoft.app.ui.home.HomeViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.*
@@ -20,7 +21,7 @@ import org.mockito.Mockito.*
 import org.mockito.MockitoAnnotations
 
 @ExperimentalCoroutinesApi
-class MainViewModelTest {
+class HomeViewModelTest {
     @ExperimentalCoroutinesApi
     @get:Rule
     var coroutinesTestRule = CoroutinesTestRule()
@@ -31,7 +32,10 @@ class MainViewModelTest {
     @Mock
     lateinit var api: LottoDataSource
 
-    private lateinit var viewModel: MainViewModel
+    @Mock
+    lateinit var pref: PreferenceDataSource
+
+    private lateinit var viewModel: HomeViewModel
 
     @Mock
     private lateinit var lottoObserver: Observer<String>
@@ -40,10 +44,10 @@ class MainViewModelTest {
     private lateinit var lottoCaptor: ArgumentCaptor<String>
 
     @Mock
-    private lateinit var matchUIObserver: Observer<MainViewModel.LottoMatchUI>
+    private lateinit var matchUIObserver: Observer<HomeViewModel.LottoMatchUI>
 
     @Captor
-    private lateinit var matchUICaptor: ArgumentCaptor<MainViewModel.LottoMatchUI>
+    private lateinit var matchUICaptor: ArgumentCaptor<HomeViewModel.LottoMatchUI>
 
     @Mock
     private lateinit var errorObserver: Observer<Int>
@@ -55,7 +59,7 @@ class MainViewModelTest {
     @Before
     fun setupViewModel() {
         MockitoAnnotations.initMocks(this)
-        viewModel = MainViewModel(api)
+        viewModel = HomeViewModel(api, pref)
 
         viewModel.lotto.observeForever(lottoObserver)
         viewModel.lottoMatchUI.observeForever(matchUIObserver)
@@ -93,11 +97,11 @@ class MainViewModelTest {
 
         verify(matchUIObserver, times(2)).onChanged(matchUICaptor.capture())
         Assert.assertEquals(
-            MainViewModel.LottoMatchUI.Loading(true),
+            HomeViewModel.LottoMatchUI.Loading(true),
             matchUICaptor.allValues[0]
         )
         Assert.assertEquals(
-            MainViewModel.LottoMatchUI.Data(
+            HomeViewModel.LottoMatchUI.Data(
                 LottoMatch(
                     lotto,
                     viewModel.generatedLotto!!
@@ -133,11 +137,11 @@ class MainViewModelTest {
 
             verify(matchUIObserver, times(2)).onChanged(matchUICaptor.capture())
             Assert.assertEquals(
-                MainViewModel.LottoMatchUI.Loading(true),
+                HomeViewModel.LottoMatchUI.Loading(true),
                 matchUICaptor.allValues[0]
             )
             Assert.assertEquals(
-                MainViewModel.LottoMatchUI.Loading(false),
+                HomeViewModel.LottoMatchUI.Loading(false),
                 matchUICaptor.allValues[1]
             )
 

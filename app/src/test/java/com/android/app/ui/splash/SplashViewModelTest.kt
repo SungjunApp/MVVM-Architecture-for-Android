@@ -34,6 +34,7 @@ class SplashViewModelTest {
 
     @Mock
     lateinit var api: LottoDataSource
+
     @Mock
     lateinit var pref: PreferenceDataSource
 
@@ -83,7 +84,7 @@ class SplashViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `no internet`() = coroutinesTestRule.testDispatcher.runBlockingTest {
+    fun `splash http exception`() = coroutinesTestRule.testDispatcher.runBlockingTest {
         `when`(pref.getReadWelcome()).thenReturn(true)
 
         `when`(api.syncWinnersInfo(1, 50)).thenThrow(ExceptionTest.getHttpException())
