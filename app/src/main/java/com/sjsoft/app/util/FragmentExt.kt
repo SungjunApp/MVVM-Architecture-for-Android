@@ -153,14 +153,13 @@ fun Fragment.showAlertDialog(
     title: CharSequence? = null,
     onDismiss: DialogInterface.OnDismissListener? = null
 ) {
-    val builder = context?.let { AlertDialog.Builder(it) }
-    if (builder != null) {
+    context?.let {
+        val builder = AlertDialog.Builder(it)
         title?.let { builder.setTitle(title) }
         builder.setMessage(message)
         builder.setPositiveButton(android.R.string.ok) { _, _ ->
         }
         builder.setOnDismissListener(onDismiss)
-        //builder.setNegativeButton(R.string.CANCEL, null)
         builder.show()
     }
 }

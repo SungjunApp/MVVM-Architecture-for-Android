@@ -17,9 +17,6 @@ class ShadowView : RelativeLayout {
     internal var direction = Direction.up_down
 
     override fun onDetachedFromWindow() {
-        /*if(unbinder!=null)
-            unbinder.unbind();
-        mContext = null;*/
         super.onDetachedFromWindow()
     }
 

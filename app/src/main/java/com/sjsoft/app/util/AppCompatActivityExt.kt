@@ -17,10 +17,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.sjsoft.app.R
-
-const val ADD_EDIT_RESULT_OK = Activity.RESULT_FIRST_USER + 1
-const val DELETE_RESULT_OK = Activity.RESULT_FIRST_USER + 2
-const val EDIT_RESULT_OK = Activity.RESULT_FIRST_USER + 3
+import com.sjsoft.app.ui.BaseFragment
 
 /**
  * The `fragment` is added to the container view with id `frameId`. The operation is
@@ -136,8 +133,25 @@ fun AppCompatActivity.sendTextIntent(title: String, contents: String) {
     )
 }
 
-/*fun <T : ViewModel> AppCompatActivity.obtainViewModel(viewModelClass: Class<T>) =
-    ViewModelProviders.of(this, ShiftViewModelFactory.getInstance(application)).get(viewModelClass)*/
+fun AppCompatActivity.getCurrentFragment(): BaseFragment? {
+    val fragmentCount = supportFragmentManager.backStackEntryCount
+    if (fragmentCount > 0) {
+        val backEntry = supportFragmentManager.getBackStackEntryAt(fragmentCount - 1)
+        val f = supportFragmentManager.findFragmentByTag(backEntry.name)
+        return if (f != null) f as BaseFragment
+        else null
+    }
+
+    return null
+}
+
+fun AppCompatActivity.goToRootFragment() {
+    val count = supportFragmentManager.backStackEntryCount
+    if (count >= 2) {
+        val be = supportFragmentManager.getBackStackEntryAt(0)
+        supportFragmentManager.popBackStack(be.id, 0)
+    }
+}
 
 /**
  * Runs a FragmentTransaction, then calls commit().

@@ -1,10 +1,51 @@
 <resources>
-    <string name="app_name">SJ Demo</string>
+    <string name="app_name">Lotto Demo</string>
     <string name="action_settings">Settings</string>
 
-    <string name="title_main">Main</string>
-    <string name="title_signin">Sign In</string>
+    <string name="downloading_lotto_data">Downloading Lotto data</string>
+
+    <string name="sync_data_retry">Retriving data from the server has failed. Would you like to retry?</string>
 
     <string name="info_start_with_email">To sign up, please input your email\nor to sign in, please input the email you used when signing up our service.</string>
+
+    <!-- Title -->
+    <string name="title_main">Main</string>
+    <string name="title_splash">Splash</string>
+    <string name="title_welcome">Welcome</string>
+    <string name="title_history">History</string>
+    <string name="title_trend">Trend</string>
+
+    <!-- Retry -->
+    <string name="button_retry">Retry</string>
+    <string name="button_ok">OK</string>
     <string name="button_signin">Sign In</string>
+
+    <!-- Welcome -->
+    <string name="welcome_title">Feeling of lucky?</string>
+    <string name="welcome_message">If you want to start, please tap OK.</string>
+
+    <!-- Main -->
+    <string name="event_number">Event Number</string>
+    <string name="generate_lotto">Generate Lotto</string>
+    <string name="generated_loto">Your Lotto</string>
+    <string name="result">Result</string>
+    <string name="button_history">History</string>
+    <string name="button_trend">Trend</string>
+
+    <string name="title_win">Congratulations!</string>
+    <string name="title_lose">Unlucky!</string>
+    <string name="message_win">Your ranking is %d</string>
+    <string name="message_lost">Sorry, maybe next time.\n\nYours: %s,\nWinning Numbers: %s</string>
+    <string name="please_wait">Please Wait..</string>
+
+    <string name="no">No. %d</string>
+    <string name="times">%d times</string>
+    <string name="time">%d time</string>
+
+    <!-- Error Message-->
+<!--    <string name="error_access">입력한 값이 잘못 되었습니다. 확인후 다시 시도해 주세요.</string>-->
+<!--    <string name="error_network">인터넷 연결 확인 후 다시 시도해 주세요.</string>-->
+    <string name="error_code">The server api usage is not correct. Please check your API specification document.</string>
+    <string name="error_argument">Input data is not appropriate. Please check your input data and try again.</string>
+    <string name="error_unknown">There is an error in connecting to the server. Please check this out.</string>
 </resources>

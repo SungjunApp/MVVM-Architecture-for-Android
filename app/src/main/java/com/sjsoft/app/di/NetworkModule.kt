@@ -6,8 +6,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.orhanobut.logger.Logger
 import com.sjsoft.app.BuildConfig
-import com.sjsoft.app.network.repository.PreferenceDataSource
-import com.sjsoft.app.network.repository.PreferenceRepository
+import com.sjsoft.app.data.repository.PreferenceDataSource
+import com.sjsoft.app.data.repository.PreferenceRepository
 import dagger.Module
 import dagger.Provides
 import okhttp3.Interceptor
@@ -19,7 +19,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
-import java.util.HashSet
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -85,7 +84,7 @@ class NetworkModule {
     @Singleton
     fun provideRetrofit(gson: Gson, okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(BuildConfig.authServer)
+            .baseUrl(BuildConfig.SERVER_DOMAIN)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .client(okHttpClient)
             .build()
@@ -102,10 +101,11 @@ class NetworkModule {
                 val builder = newBuilder()
 
                 builder.header("Accept", "application/json")
-                storage.getCookie()?.also { cookie ->
+                /*storage.getCookie()?.also { cookie ->
                     builder.header("Authorization", "Bearer $cookie")
 
                 }
+                */
                 builder.build()
             }
 
@@ -116,7 +116,7 @@ class NetworkModule {
             Log.e("pretty", "**http-body: $body")
 
 
-            val cookies = HashSet<String>()
+            /*val cookies = HashSet<String>()
             for (header in response.headers("Set-Cookie")) {
                 cookies.add(header)
 
@@ -128,11 +128,11 @@ class NetworkModule {
                         storage.setCookie(token)
                     }
                 }
-            }
+            }*/
 
             /*val isResponseOk = response.code / 100 == 2
             if (!isResponseOk && bodyStr != null) {
-                val serverErrorState = NetworkErrorHandler.getServerErrorState(bodyStr)
+                val serverErrorState = NetworkErrorUtil.getServerErrorState(bodyStr)
                 if (serverErrorState != null) {
                     if (serverErrorState.invalidSigniture()) {
                         storage.logout()

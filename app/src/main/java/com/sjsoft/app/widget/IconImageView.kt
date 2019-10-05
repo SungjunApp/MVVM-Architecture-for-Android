@@ -13,7 +13,6 @@ class IconImageView : AppCompatImageView {
         //initView(context)
     }
 
-
     constructor(context: Context, attrs: AttributeSet) : super(context, attrs) {
         setAttr(context, attrs)
     }
@@ -36,7 +35,4 @@ class IconImageView : AppCompatImageView {
         ta.recycle()
     }
 
-    override fun onDetachedFromWindow() {
-        super.onDetachedFromWindow()
-    }
 }

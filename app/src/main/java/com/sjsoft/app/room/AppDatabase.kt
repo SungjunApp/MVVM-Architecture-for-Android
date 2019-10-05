@@ -4,16 +4,17 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.bluewhale.ssb.room.GameStat
+import androidx.room.TypeConverters
 
 @Database(
     version = 1,
     exportSchema = false,
     entities = [
-        GameStat::class
+        Lotto::class,
+        Frequency::class
     ]
 )
-//@TypeConverters(StudyPlanConverters::class, DDayConverters::class, ColorConverters::class)
+@TypeConverters(LottoConverters::class)
 abstract class AppDatabase : RoomDatabase() {
     companion object {
         fun create(context: Context): AppDatabase {
@@ -24,5 +25,5 @@ abstract class AppDatabase : RoomDatabase() {
 
     }
 
-    //abstract fun getGameStatDao(): GameStatDao
+    abstract fun getLottoDao(): LottoDao
 }

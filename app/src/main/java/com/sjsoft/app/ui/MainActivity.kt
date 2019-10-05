@@ -1,21 +1,21 @@
 package com.sjsoft.app.ui
 
-import android.app.usage.UsageStatsManager
-import android.app.usage.UsageStatsManager.INTERVAL_YEARLY
-import android.content.Context
+import android.graphics.PorterDuff
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import com.sjsoft.app.BuildConfig
 import com.sjsoft.app.R
-import com.sjsoft.app.ui.register.LoginFragment
-import com.sjsoft.app.util.replaceFragmentInActivity
-import com.sjsoft.app.util.setupActionBar
+import com.sjsoft.app.constant.AppConfig
+import com.sjsoft.app.ui.splash.SplashFragment
+import com.sjsoft.app.util.*
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
 import dagger.android.support.HasSupportFragmentInjector
-import kotlinx.android.synthetic.main.toolbar.*
+import kotlinx.android.synthetic.main.activity_main.*
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -27,92 +27,56 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     val frameLayoutId = R.id.contentFrame
 
-    /*@Inject
-    lateinit var factory: ShiftViewModelFactory*/
-
-    val TAG = "MainActivity"
-
-    //@Inject lateinit var dWallet: DWallet
-
-    //lateinit var model: ShiftViewModel
-
-    /*private val model: ShiftViewModel by lazyInject {
-        ViewModelProviders.of(this,
-            object : ViewModelProvider.Factory {
-                override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-                    return ShiftViewModel(
-                        Injection.provideShiftRepository(application)
-                    ) as T
-                }
-            }).get(ShiftViewModel::class.java)
-    }*/
-
-    fun getForegroundPackageName(): String {
-        val sb = StringBuilder()
-        val usageStatsManager = getSystemService(Context.USAGE_STATS_SERVICE) as UsageStatsManager
-        val endTime = System.currentTimeMillis()
-        val beginTime = endTime-10000
-        /*val usageEvents = usageStatsManager.queryEvents(0, endTime)
-        while (usageEvents.hasNextEvent()) {
-            val event = UsageEvents.Event()
-            usageEvents.getNextEvent(event)
-            if (event.getEventType() == UsageEvents.Event.MOVE_TO_FOREGROUND) {
-                sb.append("name:${event.packageName}, timeStamp: ${event.timeStamp}").append("\n")
-            }
-        }*/
-        usageStatsManager
-        val usageEvents = usageStatsManager.queryUsageStats(INTERVAL_YEARLY, 0, endTime)
-        for(usage in usageEvents){
-            usage.packageName
-            sb.append("name:${usage.packageName}, totalTime: ${usage.totalTimeInForeground}").append("\n")
-            usage.totalTimeInForeground
-        }
-
-        return sb.toString()
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //val test = getForegroundPackageName()
-        //startActivityForResult(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS), 1)
-        //Log.e("test hong","test hong:" +  test)
+        toolbar.navigationIcon?.setColorFilter(
+            ContextCompat.getColor(this, R.color.grey_60),
+            PorterDuff.Mode.SRC_ATOP
+        )
+        //toolbar.setNavigationIcon(R.drawable.shareable_assets_logo_full)
+        setSystemBarColor(R.color.grey_5)
+        setSystemBarLight()
+
+        if (AppConfig.needDebugInfo()) {
+            toolbar.setSubtitleTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+            toolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Medium)
+            toolbar.setSubtitleTextAppearance(this, R.style.TextAppearance_AppCompat_Caption)
+        }
 
         supportFragmentManager.addOnBackStackChangedListener(mOnBackStackChangedListener)
 
-        replaceFragmentInActivity(frameLayoutId, findOrCreateViewFragment())
+        replaceFragmentInActivity(frameLayoutId, SplashFragment())
     }
-
-    private fun findOrCreateViewFragment() =
-        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: LoginFragment()
-//        supportFragmentManager.findFragmentById(R.id.contentFrame) ?: TabFragment.openithTrading()
 
     private val mOnBackStackChangedListener = FragmentManager.OnBackStackChangedListener {
         try {
+            var showToolbar = true
             val fragmentCount = supportFragmentManager.backStackEntryCount
-            val title: String
-            if (fragmentCount > 1) {
-                val backEntry = supportFragmentManager.getBackStackEntryAt(fragmentCount - 1)
-                val fragment = supportFragmentManager.findFragmentByTag(backEntry.name) as BaseFragment
-                title = getString(fragment.titleResource)
-            } else
-                title = getString(R.string.app_name)
+            val title: String?
+            title =
+                if (fragmentCount > 0) {
+                    val fragment = supportFragmentManager.fragments[supportFragmentManager.fragments.size - 1] as BaseFragment
+                    if(fragment is SplashFragment) showToolbar = false
 
-            if (fragmentCount > 1) {
-                setupActionBar(toolbar) {
-                    setTitle(title)
-                    setDisplayHomeAsUpEnabled(true)
-                    setDisplayShowHomeEnabled(true)
-                }
-            } else {
-                setupActionBar(toolbar) {
-                    setTitle(title)
-                    setDisplayHomeAsUpEnabled(false)
-                    setDisplayShowHomeEnabled(false)
-                }
+                    fragment.getCustomTitle() ?: getString(fragment.titleResource)
+                } else
+                    getString(R.string.app_name)
+
+            if (AppConfig.needDebugInfo())
+                supportActionBar?.subtitle =
+                    "Server: ${BuildConfig.FLAVOR},\tVerName: ${getAppVersionName()}, VerCode: ${getAppVersionCode()}"
+
+            Timber.d("fragmentCount: $fragmentCount")
+            setupActionBar(toolbar) {
+                if(showToolbar) show() else hide()
+                setTitle(title)
+                setDisplayHomeAsUpEnabled(fragmentCount > 1)
+                setDisplayShowHomeEnabled(fragmentCount > 1)
             }
 
+            invalidateOptionsMenu()
 
         } catch (e: Exception) {
             e.printStackTrace()
@@ -137,19 +101,4 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
         super.onBackPressed()
     }
-
-    fun goToRootFragment() {
-        val count = supportFragmentManager.backStackEntryCount
-        if (count >= 2) {
-            val be = supportFragmentManager.getBackStackEntryAt(0)
-            supportFragmentManager.popBackStack(be.id, 0)
-        }
-    }
-
-    private inline fun FragmentManager.transact(action: FragmentTransaction.() -> Unit) {
-        beginTransaction().apply {
-            action()
-        }.commitAllowingStateLoss()
-    }
-
 }

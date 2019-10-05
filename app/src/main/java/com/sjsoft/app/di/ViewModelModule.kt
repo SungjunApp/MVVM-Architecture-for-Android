@@ -18,8 +18,12 @@ package com.sjsoft.app.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.sjsoft.app.ui.history.HistoryViewModel
+import com.sjsoft.app.ui.main.MainViewModel
 
-import com.sjsoft.app.ui.register.LoginViewModel
+import com.sjsoft.app.ui.splash.SplashViewModel
+import com.sjsoft.app.ui.trend.TrendViewModel
+import com.sjsoft.app.ui.welcome.WelcomeViewModel
 import com.sjsoft.app.viewmodel.AppViewModelFactory
 
 import dagger.Binds
@@ -31,8 +35,28 @@ import dagger.multibindings.IntoMap
 abstract class ViewModelModule {
     @Binds
     @IntoMap
-    @ViewModelKey(LoginViewModel::class)
-    abstract fun bindLoginViewModel(userViewModel: LoginViewModel): ViewModel
+    @ViewModelKey(SplashViewModel::class)
+    abstract fun bindSplashViewModel(viewModel: SplashViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(WelcomeViewModel::class)
+    abstract fun bindWelcomeViewModel(viewModel: WelcomeViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(MainViewModel::class)
+    abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(HistoryViewModel::class)
+    abstract fun bindHistoryViewModel(viewModel: HistoryViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(TrendViewModel::class)
+    abstract fun bindTrendViewModel(viewModel: TrendViewModel): ViewModel
 
     @Binds
     abstract fun bindViewModelFactory(factory: AppViewModelFactory): ViewModelProvider.Factory

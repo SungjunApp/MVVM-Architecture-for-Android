@@ -13,4 +13,8 @@ class RoomModule {
     fun providesRoomDatabase(context: Context): AppDatabase {
         return AppDatabase.create(context)
     }
+
+    @Singleton
+    @Provides
+    fun providesLottoDao(database: AppDatabase) = database.getLottoDao()
 }
