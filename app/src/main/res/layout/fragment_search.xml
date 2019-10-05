@@ -61,6 +61,7 @@
                     android:id="@+id/v_retry"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/baseline_cloud_off_black_48"
                     android:layout_centerInParent="true"
                     android:tint="@color/colorAccent"

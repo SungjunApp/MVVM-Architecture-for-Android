@@ -12,10 +12,6 @@ class AppConfig {
         const val stg = "stg"
         const val mock = "mock"
 
-        const val BLUEWHALE_ACCOUNT = "BLUEWHALE_ACCOUNT"
-        const val kycamlSupportEmail = "support@sumsub.com"
-
-
         fun needDebugInfo(): Boolean {
             return !isProductionVersion || BuildConfig.DEBUG
         }

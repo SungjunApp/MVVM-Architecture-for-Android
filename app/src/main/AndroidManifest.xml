@@ -32,7 +32,6 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="lotto" android:host="sungjunapp" />
-                <data android:scheme="https" android:host="sungjunapp.com" />
             </intent-filter>
         </activity>
     </application>

@@ -49,6 +49,7 @@ class SearchFragment : BaseFragment(), Injectable {
         })
 
         v_retry.setSafeOnClickListener {
+            v_retry.hide()
             viewModel.getWinner(getDrwNo())
         }
 
@@ -67,6 +68,7 @@ class SearchFragment : BaseFragment(), Injectable {
                 }
             }
             is SearchViewModel.LottoUI.Data -> {
+                v_retry.hide()
                 v_loading.hide()
                 tv_lotto.show()
                 tv_lotto.text = it.data.getDisplayText()

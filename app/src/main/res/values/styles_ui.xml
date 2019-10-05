@@ -34,5 +34,5 @@
     <style name="FontNotoSansRegular">
         <item name="android:includeFontPadding">false</item>
         <item name="android:textColor">@color/colorText</item>
-    </style>
+    </style>K
 </resources>

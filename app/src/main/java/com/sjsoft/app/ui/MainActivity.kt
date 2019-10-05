@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
             ContextCompat.getColor(this, R.color.grey_60),
             PorterDuff.Mode.SRC_ATOP
         )
-        //toolbar.setNavigationIcon(R.drawable.shareable_assets_logo_full)
         setSystemBarColor(R.color.grey_5)
         setSystemBarLight()
 
