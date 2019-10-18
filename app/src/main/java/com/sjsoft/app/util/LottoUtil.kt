@@ -25,13 +25,13 @@ class LottoUtil {
             for (i in 0 until 6) {
                 val idx = Random.nextInt(list.size)
                 result.add(list[idx])
-                list.remove(idx)
+                list.removeAt(idx)
             }
             result.sortBy { it }
 
             val idx = Random.nextInt(list.size)
             result.add(list[idx])
-            list.remove(idx)
+            list.removeAt(idx)
             //val result = arrayListOf(	2	,9	,16,	25,	26,	40,	42)
 
             return LottoTicket(
