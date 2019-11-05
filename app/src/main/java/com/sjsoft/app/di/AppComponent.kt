@@ -17,7 +17,8 @@ import javax.inject.Singleton
         APIModule::class,
         NetworkModule::class,
         RepositoryModule::class,
-        RoomModule::class
+        RoomModule::class,
+        PixleeModule::class
     ]
 )
 interface AppComponent {

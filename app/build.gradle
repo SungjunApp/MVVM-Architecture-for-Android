@@ -230,4 +230,5 @@ dependencies {
      * logger
      */
     implementation "com.jakewharton.timber:timber:4.7.1"
+    implementation project(path: ':pixleesdk')
 }

@@ -1,11 +1,9 @@
 package com.sjsoft.app.di
 
 import android.content.Context
+import com.pixlee.pixleesdk.PXLAlbum
 import com.sjsoft.app.data.api.LottoAPI
-import com.sjsoft.app.data.repository.PreferenceDataSource
-import com.sjsoft.app.data.repository.PreferenceRepository
-import com.sjsoft.app.data.repository.LottoDataSource
-import com.sjsoft.app.data.repository.LottoRepository
+import com.sjsoft.app.data.repository.*
 import com.sjsoft.app.room.LottoDao
 import dagger.Module
 import dagger.Provides
@@ -25,6 +23,13 @@ class RepositoryModule {
     fun providePreferenceRepository(context: Context): PreferenceDataSource {
         return PreferenceRepository(context)
     }
+
+    //@Singleton
+    @Provides
+    fun providePixleeRepository(album: PXLAlbum): PixleeDataSource {
+        return PixleeRepository(album)
+    }
+
 
 
 }

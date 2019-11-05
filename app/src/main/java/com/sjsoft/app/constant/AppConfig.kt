@@ -1,9 +1,6 @@
 package com.sjsoft.app.constant
 
 import com.sjsoft.app.BuildConfig
-import org.web3j.utils.Convert
-import java.math.BigDecimal
-import java.math.BigInteger
 
 class AppConfig {
     companion object {
@@ -29,8 +26,9 @@ class AppConfig {
             get() = BuildConfig.FLAVOR.contains(mock)
 
 
-        val splashDelay = 3000L
-        val enteringDelay = 400L
+        const val splashDelay = 3000L
+        const val enteringDelay = 400L
+        const val albumId = "5984962"
     }
     object DeepLinkParams {
         const val drwNo = "drwNo"
