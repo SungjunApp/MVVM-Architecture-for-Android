@@ -1,23 +1,108 @@
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <RelativeLayout
+        android:id="@+id/v_tab"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:clipToPadding="false"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        android:scrollbars="vertical"
-        android:scrollingCache="true"/>
-    <com.github.ybq.android.spinkit.SpinKitView
-        android:id="@+id/v_loading"
-        style="@style/SpinKitView.ThreeBounce"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        app:SpinKit_Color="@color/colorAccent"
-        />
-</RelativeLayout>
+        android:layout_height="50dp"
+        android:background="@android:color/white"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center_vertical">
+            <TextView
+                android:id="@+id/tab_recency"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="@dimen/spacing_middle"
+                android:textSize="@dimen/font_tab"
+                android:text="recency" />
+
+            <TextView
+                android:id="@+id/tab_random"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="@dimen/spacing_middle"
+                android:textSize="@dimen/font_tab"
+                android:text="random" />
+
+            <TextView
+                android:id="@+id/tab_pixlee_shares"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="@dimen/spacing_middle"
+                android:textSize="@dimen/font_tab"
+                android:text="shares" />
+
+            <TextView
+                android:id="@+id/tab_pixlee_likes"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="@dimen/spacing_middle"
+                android:textSize="@dimen/font_tab"
+                android:text="likes" />
+
+            <TextView
+                android:id="@+id/tab_pixlee_popularity"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="@dimen/spacing_middle"
+                android:textSize="@dimen/font_tab"
+                android:text="popularity" />
+
+            <TextView
+                android:id="@+id/tab_pixlee_dynamic"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:padding="@dimen/spacing_middle"
+                android:textSize="@dimen/font_tab"
+                android:text="dynamic" />
+        </LinearLayout>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:clipToPadding="false"
+            android:scrollbars="vertical"
+            android:scrollingCache="true"/>
+        <com.github.ybq.android.spinkit.SpinKitView
+            android:id="@+id/v_loading"
+            style="@style/SpinKitView.ThreeBounce"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            app:SpinKit_Color="@color/colorAccent"
+            />
+        <com.sjsoft.app.widget.ShadowView
+            android:id="@+id/v_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:alpha="0"
+            app:brightness="dark"
+            app:direction="up_down" />
+    </RelativeLayout>
+
+</LinearLayout>

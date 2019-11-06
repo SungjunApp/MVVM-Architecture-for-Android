@@ -1,43 +1,43 @@
-package com.sjsoft.app.ui.splash
+package com.sjsoft.app.ui.upload
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.sjsoft.app.R
 import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.ui.BaseFragment
-import com.sjsoft.app.ui.history.GalleryFragment
-import com.sjsoft.app.ui.home.HomeFragment
-import com.sjsoft.app.ui.welcome.WelcomeFragment
-import com.sjsoft.app.util.*
-import kotlinx.android.synthetic.main.fragment_splash.*
+import com.sjsoft.app.util.hide
+import com.sjsoft.app.util.setSafeOnClickListener
+import com.sjsoft.app.util.show
+import com.sjsoft.app.util.showAlertDialog
+import kotlinx.android.synthetic.main.fragment_upload.*
 import javax.inject.Inject
 
-class SplashFragment : BaseFragment(), Injectable {
+class UploadFragment : BaseFragment(), Injectable {
     override val titleResource: Int
-        get() = R.string.title_main
+        get() = R.string.title_upload_a_pic
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    val viewModel: UploadViewModel by viewModels {
+        viewModelFactory
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_splash, container, false)
+        return inflater.inflate(R.layout.fragment_upload, container, false)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        bt_gallery.setSafeOnClickListener {
-            addFragmentToActivity(GalleryFragment())
-        }
 
-        bt_upload.setSafeOnClickListener {
-            addFragmentToActivity(GalleryFragment())
-        }
     }
 }

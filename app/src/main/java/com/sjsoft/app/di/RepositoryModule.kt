@@ -2,7 +2,7 @@ package com.sjsoft.app.di
 
 import android.content.Context
 import com.pixlee.pixleesdk.PXLAlbum
-import com.sjsoft.app.data.api.LottoAPI
+import com.sjsoft.app.data.api.RemoteAPI
 import com.sjsoft.app.data.repository.*
 import com.sjsoft.app.room.LottoDao
 import dagger.Module
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 class RepositoryModule {
     @Singleton
     @Provides
-    fun provideUserRepository(api: LottoAPI, dao: LottoDao): LottoDataSource {
+    fun provideUserRepository(api: RemoteAPI, dao: LottoDao): LottoDataSource {
         return LottoRepository(api, dao)
     }
 

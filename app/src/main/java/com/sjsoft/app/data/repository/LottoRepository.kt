@@ -1,6 +1,6 @@
 package com.sjsoft.app.data.repository
 
-import com.sjsoft.app.data.api.LottoAPI
+import com.sjsoft.app.data.api.RemoteAPI
 import com.sjsoft.app.room.Frequency
 import com.sjsoft.app.room.Lotto
 import com.sjsoft.app.room.LottoDao
@@ -14,7 +14,7 @@ interface LottoDataSource {
 }
 
 class LottoRepository constructor(
-    private val lottoAPI: LottoAPI,
+    private val lottoAPI: RemoteAPI,
     private val lottoDao: LottoDao
 ) : LottoDataSource {
     override suspend fun loadAllFrequency(): List<Frequency> {

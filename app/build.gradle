@@ -44,7 +44,11 @@ android {
     productFlavors {
         prod {
             dimension "default"
-            manifestPlaceholders = [appNameGradle: "Lottery"]
+            manifestPlaceholders = [
+                    appNameGradle: "PixleeDemo"
+            ]
+            buildConfigField "String", "PIXLEE_API_KEY", "\"" + PIXLEE_API_KEY + "\""
+            buildConfigField "String", "PIXLEE_SECRET_KEY", "\"" + PIXLEE_SECRET_KEY + "\""
             buildConfigField "String", "AWS_ACCESS_KEY", "\"" + AWS_ACCESS_KEY + "\""
             buildConfigField "String", "AWS_SECRET_KEY", "\"" + AWS_SECRET_KEY + "\""
 
@@ -52,7 +56,11 @@ android {
         mock {
             dimension "default"
             applicationIdSuffix = ".mock"
-            manifestPlaceholders = [appNameGradle: "LotteryMock"]
+            manifestPlaceholders = [
+                    appNameGradle: "PixleeMockDemo"
+            ]
+            buildConfigField "String", "PIXLEE_API_KEY", "\"" + PIXLEE_API_KEY + "\""
+            buildConfigField "String", "PIXLEE_SECRET_KEY", "\"" + PIXLEE_SECRET_KEY + "\""
             buildConfigField "String", "AWS_ACCESS_KEY", "\"" + AWS_ACCESS_KEY + "\""
             buildConfigField "String", "AWS_SECRET_KEY", "\"" + AWS_SECRET_KEY + "\""
         }
@@ -60,7 +68,11 @@ android {
         dev {
             dimension "default"
             applicationIdSuffix = ".dev"
-            manifestPlaceholders = [appNameGradle: "LotteryDev"]
+            manifestPlaceholders = [
+                    appNameGradle: "PixleeMockDev"
+            ]
+            buildConfigField "String", "PIXLEE_API_KEY", "\"" + PIXLEE_API_KEY + "\""
+            buildConfigField "String", "PIXLEE_SECRET_KEY", "\"" + PIXLEE_SECRET_KEY + "\""
             buildConfigField "String", "AWS_ACCESS_KEY", "\"" + AWS_ACCESS_KEY + "\""
             buildConfigField "String", "AWS_SECRET_KEY", "\"" + AWS_SECRET_KEY + "\""
         }
@@ -88,7 +100,6 @@ android {
 //    from "${projectDir}/src/test/resources"
 //    into "${buildDir}/intermediates/classes/test/debug/resources"
 //}
-
 
 
 dependencies {
@@ -140,7 +151,7 @@ dependencies {
     /**
      * Navigation
      */
-    implementation "androidx.navigation:navigation-fragment-ktx:2.2.0-alpha03"
+    implementation "androidx.navigation:navigation-fragment-ktx:2.2.0-rc01"
 
     /**
      * Room Entities
@@ -150,6 +161,12 @@ dependencies {
     implementation "androidx.room:room-ktx:$room_version"
     implementation "androidx.room:room-rxjava2:$room_version"
     testImplementation "androidx.room:room-testing:$room_version"
+
+
+    /**
+     * Paging
+     */
+    implementation "androidx.paging:paging-runtime:$pagingVersion"
 
 
     /**
@@ -235,4 +252,10 @@ dependencies {
      */
     implementation "com.jakewharton.timber:timber:4.7.1"
     implementation project(path: ':pixleesdk')
+
+    /**
+     * AWS
+     */
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.16.3'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.16.3'
 }

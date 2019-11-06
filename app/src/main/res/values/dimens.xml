@@ -1,5 +1,8 @@
 <resources>
-    <dimen name="shadow_h">3dp</dimen>
+    <dimen name="shadow_h">5dp</dimen>
+
+    <dimen name="font_tab">12dp</dimen>
+
 
     <!--genaral spacing-->
     <dimen name="spacing_xsmall">2dp</dimen>

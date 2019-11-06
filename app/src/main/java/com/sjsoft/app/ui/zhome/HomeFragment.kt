@@ -1,4 +1,4 @@
-package com.sjsoft.app.ui.home
+package com.sjsoft.app.ui.zhome
 
 import android.os.Bundle
 import android.text.Editable
@@ -16,8 +16,8 @@ import com.sjsoft.app.R
 import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.data.LottoMatch
 import com.sjsoft.app.ui.BaseFragment
-import com.sjsoft.app.ui.history.GalleryFragment
-import com.sjsoft.app.ui.search.SearchFragment
+import com.sjsoft.app.ui.gallery.GalleryFragment
+import com.sjsoft.app.ui.upload.UploadFragment
 import com.sjsoft.app.util.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
@@ -68,7 +68,7 @@ class HomeFragment : BaseFragment(), Injectable {
         })
 
         viewModel.reservedDrwNo.observe(this, Observer {
-            addFragmentToActivity(SearchFragment.getInstance(it))
+            //addFragmentToActivity(UploadFragment.getInstance(it))
         })
 
 

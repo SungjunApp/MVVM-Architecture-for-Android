@@ -9,9 +9,7 @@ import retrofit2.Retrofit
 @Module
 class APIModule {
     @Provides
-    fun provideAPIUser(retrofit: Retrofit): LottoAPI {
-        return retrofit.create(LottoAPI::class.java)
+    fun provideAPIUser(retrofit: Retrofit): RemoteAPI {
+        return retrofit.create(RemoteAPI::class.java)
     }
-
-
 }

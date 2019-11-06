@@ -7,7 +7,7 @@ import com.android.app.util.ExceptionTest
 import com.sjsoft.app.constant.AppConfig
 import com.sjsoft.app.data.repository.LottoDataSource
 import com.sjsoft.app.data.repository.PreferenceDataSource
-import com.sjsoft.app.ui.splash.SplashViewModel
+import com.sjsoft.app.ui.main.SplashViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.*

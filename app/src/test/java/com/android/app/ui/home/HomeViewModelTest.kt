@@ -10,7 +10,7 @@ import com.sjsoft.app.R
 import com.sjsoft.app.data.LottoMatch
 import com.sjsoft.app.data.repository.LottoDataSource
 import com.sjsoft.app.data.repository.PreferenceDataSource
-import com.sjsoft.app.ui.home.HomeViewModel
+import com.sjsoft.app.ui.zhome.HomeViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.*

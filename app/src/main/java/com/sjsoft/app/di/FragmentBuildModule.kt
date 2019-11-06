@@ -1,9 +1,9 @@
 package com.sjsoft.app.di
 
-import com.sjsoft.app.ui.history.GalleryFragment
-import com.sjsoft.app.ui.home.HomeFragment
-import com.sjsoft.app.ui.search.SearchFragment
-import com.sjsoft.app.ui.splash.SplashFragment
+import com.sjsoft.app.ui.gallery.GalleryFragment
+import com.sjsoft.app.ui.zhome.HomeFragment
+import com.sjsoft.app.ui.upload.UploadFragment
+import com.sjsoft.app.ui.main.MenuFragment
 import com.sjsoft.app.ui.welcome.WelcomeFragment
 import dagger.Module
 import dagger.android.ContributesAndroidInjector
@@ -12,7 +12,7 @@ import dagger.android.ContributesAndroidInjector
 @Module
 abstract class FragmentBuildModule {
     @ContributesAndroidInjector
-    abstract fun contributeSplashFragment(): SplashFragment
+    abstract fun contributeSplashFragment(): MenuFragment
 
     @ContributesAndroidInjector
     abstract fun contributeWelcomeFragment(): WelcomeFragment
@@ -24,5 +24,5 @@ abstract class FragmentBuildModule {
     abstract fun contributeHistoryFragment(): GalleryFragment
 
     @ContributesAndroidInjector
-    abstract fun contributeSearchFragment(): SearchFragment
+    abstract fun contributeSearchFragment(): UploadFragment
 }

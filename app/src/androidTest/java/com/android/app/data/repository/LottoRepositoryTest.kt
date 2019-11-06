@@ -6,7 +6,7 @@ import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
 import com.android.app.util.LottoTestUtil
-import com.sjsoft.app.data.api.LottoAPI
+import com.sjsoft.app.data.api.RemoteAPI
 import com.sjsoft.app.data.repository.LottoDataSource
 import com.sjsoft.app.data.repository.LottoRepository
 import com.sjsoft.app.room.AppDatabase
@@ -32,9 +32,9 @@ class LottoRepositoryTest {
     private lateinit var lottoDao: LottoDao
     private lateinit var db: AppDatabase
 
-    //var lottoAPI: LottoAPI = mock()
+    //var lottoAPI: RemoteAPI = mock()
 
-    private val lottoAPI = mock(LottoAPI::class.java)
+    private val lottoAPI = mock(RemoteAPI::class.java)
 
     lateinit var repo: LottoDataSource
 

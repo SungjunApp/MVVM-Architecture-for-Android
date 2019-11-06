@@ -10,7 +10,7 @@ import androidx.lifecycle.ViewModelProvider
 import com.sjsoft.app.R
 import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.ui.BaseFragment
-import com.sjsoft.app.ui.home.HomeFragment
+import com.sjsoft.app.ui.zhome.HomeFragment
 import com.sjsoft.app.util.replaceFragmentInActivity
 import kotlinx.android.synthetic.main.fragment_welcome.*
 import javax.inject.Inject

@@ -1,4 +1,4 @@
-package com.sjsoft.app.ui.home
+package com.sjsoft.app.ui.zhome
 
 import androidx.lifecycle.MutableLiveData
 import com.sjsoft.app.global.SingleLiveEvent

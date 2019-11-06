@@ -8,7 +8,7 @@ import com.android.app.util.LottoTestUtil
 import com.sjsoft.app.R
 import com.sjsoft.app.constant.AppConfig
 import com.sjsoft.app.data.repository.LottoDataSource
-import com.sjsoft.app.ui.search.SearchViewModel
+import com.sjsoft.app.ui.upload.UploadViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.*
@@ -28,13 +28,13 @@ class SearchViewModelTest {
     @Mock
     lateinit var api: LottoDataSource
 
-    private lateinit var viewModel: SearchViewModel
+    private lateinit var viewModel: UploadViewModel
 
     @Mock
-    private lateinit var observer: Observer<SearchViewModel.LottoUI>
+    private lateinit var observer: Observer<UploadViewModel.LottoUI>
 
     @Captor
-    private lateinit var captor: ArgumentCaptor<SearchViewModel.LottoUI>
+    private lateinit var captor: ArgumentCaptor<UploadViewModel.LottoUI>
 
     @Mock
     private lateinit var errorObserver: Observer<Int>
@@ -46,7 +46,7 @@ class SearchViewModelTest {
     @Before
     fun setupViewModel() {
         MockitoAnnotations.initMocks(this)
-        viewModel = SearchViewModel(api)
+        viewModel = UploadViewModel(api)
         viewModel.lottoUI.observeForever(observer)
         viewModel.errorPopup.observeForever(errorObserver)
     }
@@ -69,8 +69,8 @@ class SearchViewModelTest {
 
         verify(observer, Mockito.times(2)).onChanged(captor.capture())
 
-        Assert.assertEquals(SearchViewModel.LottoUI.Loading(true), captor.allValues[0])
-        Assert.assertEquals(SearchViewModel.LottoUI.Data(item), captor.allValues[1])
+        Assert.assertEquals(UploadViewModel.LottoUI.Loading(true), captor.allValues[0])
+        Assert.assertEquals(UploadViewModel.LottoUI.Data(item), captor.allValues[1])
     }
 
     @ExperimentalCoroutinesApi
@@ -84,8 +84,8 @@ class SearchViewModelTest {
 
         verify(observer, Mockito.times(2)).onChanged(captor.capture())
 
-        Assert.assertEquals(SearchViewModel.LottoUI.Loading(true), captor.allValues[0])
-        Assert.assertEquals(SearchViewModel.LottoUI.Failur, captor.allValues[1])
+        Assert.assertEquals(UploadViewModel.LottoUI.Loading(true), captor.allValues[0])
+        Assert.assertEquals(UploadViewModel.LottoUI.Failur, captor.allValues[1])
 
         verify(errorObserver, Mockito.times(1)).onChanged(errorCaptor.capture())
         Assert.assertEquals(R.string.error_code, errorCaptor.allValues[0])
