@@ -2,12 +2,6 @@ package com.sjsoft.app.data.repository
 
 import com.pixlee.pixleesdk.PXLAlbum
 import com.pixlee.pixleesdk.PXLPhoto
-import com.sjsoft.app.data.api.LottoAPI
-import com.sjsoft.app.di.PixleeModule
-import com.sjsoft.app.room.Frequency
-import com.sjsoft.app.room.Lotto
-import com.sjsoft.app.room.LottoDao
-import com.sjsoft.app.room.LottoReturnType
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -33,12 +27,12 @@ class PixleeRepository constructor(
             }
         })
 
-        var canceled = false
-        while (canceled) {
+        var isWorking = true
+        while (isWorking) {
             delay(2000)
             result?.also{
                 emit(it)
-                canceled = true
+                isWorking = false
             }
         }
 

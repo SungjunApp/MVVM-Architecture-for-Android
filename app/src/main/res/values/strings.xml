@@ -4,8 +4,12 @@
     <string name="downloading_lotto_data">Downloading Lotto data</string>
     <string name="sync_data_retry">Retriving data from the server has failed. Would you like to retry?</string>
 
-    <!-- Title -->
+
     <string name="title_main">Main</string>
+    <string name="title_gallery">Gallery</string>
+    <string name="title_upload_a_pic">Upload a photo</string>
+
+    <!-- Title -->
     <string name="title_splash">Splash</string>
     <string name="title_welcome">Welcome</string>
     <string name="title_history">History</string>

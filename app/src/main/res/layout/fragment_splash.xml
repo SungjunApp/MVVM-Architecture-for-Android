@@ -4,44 +4,29 @@
     android:id="@+id/nested_content"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     android:orientation="vertical">
 
-    <ImageView
-        android:id="@+id/iv_logo"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_gallery"
+        android:text="@string/title_gallery"
+        style="@style/NextButtonOutLined"
+        app:cornerRadius="3dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/v_loading"
-        android:transitionName="icon"
-        android:src="@drawable/lotto_icon"/>
+        app:layout_constraintBottom_toTopOf="@+id/bt_upload"
+        />
 
-    <LinearLayout
-        android:id="@+id/v_loading"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center_horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/iv_logo"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/bt_upload"
+        android:text="@string/title_upload_a_pic"
+        style="@style/NextButtonOutLined"
+        app:cornerRadius="3dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bt_gallery"
         app:layout_constraintBottom_toBottomOf="parent"
-        >
-        <com.github.ybq.android.spinkit.SpinKitView
-            style="@style/SpinKitView.Small.Wave"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:SpinKit_Color="@color/colorAccent"
-            />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="@string/downloading_lotto_data"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
-            />
-    </LinearLayout>
-
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

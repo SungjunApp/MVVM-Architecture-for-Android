@@ -3,6 +3,7 @@ package com.sjsoft.app.util
 import android.content.Context
 import android.content.res.Resources
 import android.os.SystemClock
+import android.util.DisplayMetrics
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 
@@ -76,5 +77,4 @@ fun View.hideKeyboard(): Boolean {
     return false
 }
 
-fun Int.toDp(): Int = (this / Resources.getSystem().displayMetrics.density).toInt()
-fun Int.toPx(): Int = (this * Resources.getSystem().displayMetrics.density).toInt()
+fun Int.toPx(): Int = (this * (Resources.getSystem().displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT.toFloat())).toInt()

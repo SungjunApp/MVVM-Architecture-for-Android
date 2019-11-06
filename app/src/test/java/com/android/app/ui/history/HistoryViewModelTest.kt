@@ -6,7 +6,7 @@ import com.android.app.rule.CoroutinesTestRule
 import com.android.app.util.LottoTestUtil
 import com.sjsoft.app.data.repository.LottoDataSource
 import com.sjsoft.app.room.Lotto
-import com.sjsoft.app.ui.history.HistoryViewModel
+import com.sjsoft.app.ui.history.GalleryViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.*
@@ -29,7 +29,7 @@ class HistoryViewModelTest {
     @Mock
     lateinit var api: LottoDataSource
 
-    private lateinit var viewModel: HistoryViewModel
+    private lateinit var viewModel: GalleryViewModel
 
     @Mock
     private lateinit var observer: Observer<List<Lotto>>
@@ -41,7 +41,7 @@ class HistoryViewModelTest {
     @Before
     fun setupViewModel() {
         MockitoAnnotations.initMocks(this)
-        viewModel = HistoryViewModel(api)
+        viewModel = GalleryViewModel(api)
         viewModel.list.observeForever(observer)
     }
 

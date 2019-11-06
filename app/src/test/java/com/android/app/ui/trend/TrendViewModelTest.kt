@@ -3,12 +3,9 @@ package com.android.app.ui.trend
 import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.android.app.rule.CoroutinesTestRule
-import com.android.app.util.LottoTestUtil
 import com.sjsoft.app.constant.AppConfig
 import com.sjsoft.app.data.repository.LottoDataSource
 import com.sjsoft.app.room.Frequency
-import com.sjsoft.app.room.Lotto
-import com.sjsoft.app.ui.history.HistoryViewModel
 import com.sjsoft.app.ui.trend.TrendViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest

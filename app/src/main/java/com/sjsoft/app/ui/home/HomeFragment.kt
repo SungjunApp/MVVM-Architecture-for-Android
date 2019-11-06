@@ -16,9 +16,8 @@ import com.sjsoft.app.R
 import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.data.LottoMatch
 import com.sjsoft.app.ui.BaseFragment
-import com.sjsoft.app.ui.history.HistoryFragment
+import com.sjsoft.app.ui.history.GalleryFragment
 import com.sjsoft.app.ui.search.SearchFragment
-import com.sjsoft.app.ui.trend.TrendFragment
 import com.sjsoft.app.util.*
 import kotlinx.android.synthetic.main.fragment_main.*
 import javax.inject.Inject
@@ -82,12 +81,12 @@ class HomeFragment : BaseFragment(), Injectable {
         }
 
         bt_history.setSafeOnClickListener {
-            addFragmentToActivity(HistoryFragment())
+            addFragmentToActivity(GalleryFragment())
         }
 
-        bt_trend.setSafeOnClickListener {
-            addFragmentToActivity(TrendFragment())
-        }
+//        bt_trend.setSafeOnClickListener {
+//            addFragmentToActivity(TrendFragment())
+//        }
 
         tv_event_number.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
