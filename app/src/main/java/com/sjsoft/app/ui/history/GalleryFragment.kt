@@ -51,6 +51,13 @@ class GalleryFragment : BaseFragment(), Injectable {
     var GRID_COUNT: Int = 3
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        recyclerView!!.setPaddingRelative(
+            3.toPx()
+            , 10.toPx()
+            , 3.toPx()
+            , 10.toPx()
+        )
+
         viewModel.listUI.observe(this, Observer {
             v_loading.apply {
                 if (it is GalleryViewModel.UIData.Loading) show() else hide()
