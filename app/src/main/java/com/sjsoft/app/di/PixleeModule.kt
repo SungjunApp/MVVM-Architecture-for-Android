@@ -13,8 +13,7 @@ class PixleeModule{
     @Provides
     //@Singleton
     fun getPXLAlbum(context:Context):PXLAlbum{
-        PXLClient.initialize(BuildConfig.PIXLEE_ACCESS_KEY, BuildConfig.PIXLEE_SECREET_KEY)
-//        PXLClient.initialize("196i8ZzIAhKU8dO2kDe")
+        PXLClient.initialize(BuildConfig.AWS_ACCESS_KEY, BuildConfig.AWS_SECRET_KEY)
 
         val fo = PXLAlbumFilterOptions()
         fo.minTwitterFollowers = 0

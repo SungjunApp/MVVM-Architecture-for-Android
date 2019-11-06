@@ -31,17 +31,14 @@ task clean(type: Delete) {
 }
 
 
-//def keystorePropertiesFile = rootProject.file("keystore.properties")
-//def keystoreProperties = new Properties()
-//keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+def keystorePropertiesFile = rootProject.file("key.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 ext {
 
-//    KEYSTORE_STORE_FILE = rootProject.file(keystoreProperties['storeFile'])
-//    KEYSTORE_STORE_PASSWORD = keystoreProperties['storePassword']
-//    KEYSTORE_KEY_ALIAS = keystoreProperties['keyAlias']
-//    KEYSTORE_KEY_PASSWORD = keystoreProperties['keyPassword']
-
+    AWS_ACCESS_KEY = keystoreProperties['awsAccessKey']
+    AWS_SECRET_KEY = keystoreProperties['awsSecretKey']
 
     // Sdk and tools
     buildToolsVersion = '28.0.3'

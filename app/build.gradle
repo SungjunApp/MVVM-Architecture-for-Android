@@ -45,20 +45,24 @@ android {
         prod {
             dimension "default"
             manifestPlaceholders = [appNameGradle: "Lottery"]
-            buildConfigField "String", "SERVER_DOMAIN", "\"https://www.dhlottery.co.kr/\""
+            buildConfigField "String", "AWS_ACCESS_KEY", "\"" + AWS_ACCESS_KEY + "\""
+            buildConfigField "String", "AWS_SECRET_KEY", "\"" + AWS_SECRET_KEY + "\""
+
         }
         mock {
             dimension "default"
             applicationIdSuffix = ".mock"
             manifestPlaceholders = [appNameGradle: "LotteryMock"]
-            buildConfigField "String", "SERVER_DOMAIN", "\"https://www.dhlottery.co.kr/\""
+            buildConfigField "String", "AWS_ACCESS_KEY", "\"" + AWS_ACCESS_KEY + "\""
+            buildConfigField "String", "AWS_SECRET_KEY", "\"" + AWS_SECRET_KEY + "\""
         }
 
         dev {
             dimension "default"
             applicationIdSuffix = ".dev"
             manifestPlaceholders = [appNameGradle: "LotteryDev"]
-            buildConfigField "String", "SERVER_DOMAIN", "\"https://www.dhlottery.co.kr/\""
+            buildConfigField "String", "AWS_ACCESS_KEY", "\"" + AWS_ACCESS_KEY + "\""
+            buildConfigField "String", "AWS_SECRET_KEY", "\"" + AWS_SECRET_KEY + "\""
         }
 
     }
