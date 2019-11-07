@@ -15,12 +15,6 @@ import javax.inject.Inject
 
 class MenuViewModel
 @Inject constructor(private val pixleeDataSource: PixleeDataSource) : BaseViewModel() {
-    fun uploadImage(filePath:String){
-        launchVMScope({
-            pixleeDataSource.uploadImage(filePath)
-        },{
 
-        })
-    }
 }
 

@@ -94,6 +94,17 @@ android {
     kotlinOptions {
         jvmTarget = "1.8"
     }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/ASL2.0'
+    }
 }
 
 //task copyResourcesToClasses(type: Copy) {
@@ -256,6 +267,10 @@ dependencies {
     /**
      * AWS
      */
-    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.228')
-    implementation 'com.amazonaws:aws-java-sdk-s3'
+//    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.228')
+//    implementation 'com.amazonaws:aws-java-sdk-s3'
+    implementation 'com.amazonaws:aws-android-sdk-core:2.16.3'
+    implementation 'com.amazonaws:aws-android-sdk-cognito:2.16.3'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.16.3'
+
 }

@@ -1,33 +1,77 @@
 package com.sjsoft.app.data.repository
 
 import android.util.Log
+import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.model.CannedAccessControlList
+import com.amazonaws.services.s3.model.ObjectMetadata
+import com.amazonaws.services.s3.model.PutObjectRequest
+import com.amazonaws.services.s3.model.S3ObjectSummary
 import com.pixlee.pixleesdk.PXLAlbum
 import com.pixlee.pixleesdk.PXLAlbumSortOptions
 import com.pixlee.pixleesdk.PXLClient
 import com.pixlee.pixleesdk.PXLPhoto
 import com.sjsoft.app.BuildConfig
+import com.sjsoft.app.constant.AppConfig
 import com.sjsoft.app.data.PXLPhotoItem
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.withContext
+import java.io.File
 import java.lang.IllegalArgumentException
-import java.util.ArrayList
+import java.util.*
+import kotlin.collections.ArrayList
 
 interface PixleeDataSource {
     suspend fun loadNextPageOfPhotos(options: PXLAlbumSortOptions? = null): Flow<ArrayList<PXLPhotoItem>>
-    suspend fun uploadImage(path: String)
+    suspend fun uploadImage(title: String, filePath: String, contentType: String): String
+    suspend fun getS3Images(): List<S3ObjectSummary>
 }
 
 class PixleeRepository constructor(
-    private val album: PXLAlbum
+    private val album: PXLAlbum,
+    private val awsS3: AmazonS3
 ) : PixleeDataSource {
-    override suspend fun uploadImage(path: String) {
+    override suspend fun getS3Images(): List<S3ObjectSummary> {
+        var list: List<S3ObjectSummary> = ArrayList()
+        withContext(Dispatchers.IO) {
+            list = awsS3.listObjects(AppConfig.s3BucketName).objectSummaries
 
+            Log.e("GalleryVM", "GalleryVM.summaries.size: ${list.size}")
 
-        PXLClient.initialize(BuildConfig.AWS_ACCESS_KEY, BuildConfig.AWS_SECRET_KEY)
-        //album.uploadImage("test", "test@test.com", "testuser", "https://timedotcom.files.wordpress.com/2019/05/drake-nba-finals-warning.jpg", false)
+            list.forEach {
+                Log.e("GalleryVM", "GalleryVM.!JawsS3.key: ${it.key}")
+            }
+        }
+        return list
+    }
 
+    override suspend fun uploadImage(title: String, filePath: String, contentType: String): String {
+        var url = ""
+        //val keyName = "${AppConfig.pixleeEmail}/${UUID.randomUUID()}"
+        val keyName = "${AppConfig.pixleeEmail}/${UUID.randomUUID()}"
+        withContext(Dispatchers.IO) {
+            //awsS3.deleteObject(AppConfig.s3BucketName, keyName)
 
+            val request = PutObjectRequest(AppConfig.s3BucketName, keyName, File(filePath))
+            val metadata = ObjectMetadata()
+            metadata.contentType = "image"
+            metadata.addUserMetadata("x-amz-meta-title", title)
+            request.metadata = metadata
+            awsS3.putObject(request)
+            awsS3.setObjectAcl(AppConfig.s3BucketName, keyName, CannedAccessControlList.PublicRead)
+
+            url = awsS3.getUrl(AppConfig.s3BucketName, keyName).toExternalForm()
+
+            PXLClient.initialize(BuildConfig.PIXLEE_API_KEY, BuildConfig.PIXLEE_SECRET_KEY)
+
+            val uploadResult = album.uploadImage(title, AppConfig.pixleeEmail, AppConfig.pixleeUserName, url, true)
+            Log.e("PixleeDS", "PixleeDS.url: $url")
+            Log.e("PixleeDS", "PixleeDS.uploadResult: $uploadResult")
+        }
+        return url
     }
 
     override suspend fun loadNextPageOfPhotos(options: PXLAlbumSortOptions?): Flow<ArrayList<PXLPhotoItem>> =
@@ -58,7 +102,7 @@ class PixleeRepository constructor(
             while (type >= jobWorking) {
                 delay(700)
 
-                if(type==jobError){
+                if (type == jobError) {
                     throw IllegalArgumentException()
                 }
 

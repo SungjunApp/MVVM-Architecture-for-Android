@@ -1,32 +1,35 @@
 package com.sjsoft.app.di
 
-import android.content.Context
+import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.auth.BasicAWSCredentials
-import com.pixlee.pixleesdk.*
+import com.amazonaws.services.s3.AmazonS3
+import com.amazonaws.services.s3.AmazonS3Client
 import com.sjsoft.app.BuildConfig
-import com.sjsoft.app.constant.AppConfig
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-import com.sun.tools.doclets.formats.html.resources.standard
-import com.amazonaws.services.s3.AmazonS3
-
+import com.amazonaws.ClientConfiguration
+import com.amazonaws.Protocol
+import com.amazonaws.regions.Region
+import com.amazonaws.regions.Regions
 
 
 @Module
 class AWSModule {
     @Provides
     @Singleton
-    fun provideBasicAWSCredentials(context: Context): BasicAWSCredentials {
+    fun provideBasicAWSCredentials(): AWSCredentials {
         return BasicAWSCredentials(BuildConfig.AWS_ACCESS_KEY, BuildConfig.AWS_SECRET_KEY)
     }
 
     @Provides
     @Singleton
-    fun provideAmazonS3(context: Context): AmazonS3 {
-        val s3Client = AmazonS3ClientBuilder.standard()
-            .withCredentials(AWSStaticCredentialsProvider(awsCreds))
-            .build()
+    fun provideAmazonS3(awsCreds: AWSCredentials): AmazonS3 {
+        val clientConfig = ClientConfiguration()
+        clientConfig.protocol = Protocol.HTTP
+        val conn = AmazonS3Client(awsCreds, clientConfig)
 
+        conn.setRegion(Region.getRegion(Regions.AP_NORTHEAST_1))
+        return conn
     }
 }

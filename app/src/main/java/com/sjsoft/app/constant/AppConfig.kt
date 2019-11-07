@@ -32,8 +32,12 @@ class AppConfig {
         //Pixlee
         const val albumId = "5984962"
         const val LIST_VISIBLE_THRESHOLD = 5
-
+        const val pixleeEmail = "sdk@pixleeteam.com"
+        const val pixleeUserName = "SDK Project"
+        //const val s3BucketName = "sdk-project.pixlee.com"
+        const val s3BucketName = "vocalhong"
     }
+
     object DeepLinkParams {
         const val drwNo = "drwNo"
     }
