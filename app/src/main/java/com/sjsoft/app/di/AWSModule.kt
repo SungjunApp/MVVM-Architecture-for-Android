@@ -29,7 +29,7 @@ class AWSModule {
         clientConfig.protocol = Protocol.HTTP
         val conn = AmazonS3Client(awsCreds, clientConfig)
 
-        //GovCloud
+//        conn.setRegion(Region.getRegion(Regions.AP_NORTHEAST_1))
         conn.setRegion(Region.getRegion(Regions.US_EAST_1))
         return conn
     }
