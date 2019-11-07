@@ -256,6 +256,6 @@ dependencies {
     /**
      * AWS
      */
-    implementation 'com.amazonaws:aws-android-sdk-s3:2.16.3'
-    implementation 'com.amazonaws:aws-android-sdk-cognito:2.16.3'
+    implementation platform('com.amazonaws:aws-java-sdk-bom:1.11.228')
+    implementation 'com.amazonaws:aws-java-sdk-s3'
 }

@@ -18,7 +18,8 @@ import javax.inject.Singleton
         NetworkModule::class,
         RepositoryModule::class,
         RoomModule::class,
-        PixleeModule::class
+        PixleeModule::class,
+        AWSModule::class
     ]
 )
 interface AppComponent {
