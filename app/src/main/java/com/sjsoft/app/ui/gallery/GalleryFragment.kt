@@ -4,12 +4,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import com.pixlee.pixleesdk.PXLAlbumSortType
 import com.sjsoft.app.R
 import com.sjsoft.app.di.Injectable
@@ -59,7 +63,7 @@ class GalleryFragment : BaseFragment(), Injectable {
             3.toPx()
             , 10.toPx()
             , 3.toPx()
-            , 10.toPx()
+            , 50.toPx()
         )
 
         recyclerView.setShadowViewController(v_shadow)
@@ -73,21 +77,25 @@ class GalleryFragment : BaseFragment(), Injectable {
             changeTextViewColor(tab_pixlee_dynamic, it, PXLAlbumSortType.DYNAMIC)
         })
 
+
+        viewModel.loadMoreUI.observe(this, Observer {
+            setupConstraintSet(it)
+        })
         viewModel.listUI.observe(this, Observer {
-            v_loading.apply {
-                if (it is GalleryViewModel.UIData.Loading) show() else hide()
-            }
 
             when (it) {
-                is GalleryViewModel.UIData.Loading -> {
+                is GalleryViewModel.UIData.LoadingShown -> {
+                    v_loading.show()
                     adapter.submitList(null)
                 }
+                is GalleryViewModel.UIData.LoadingHide -> {
+                    v_loading.hide()
+                }
                 is GalleryViewModel.UIData.Data -> {
+                    v_loading.hide()
                     adapter.submitList(it.list)
                 }
-                is GalleryViewModel.UIData.Error -> {
 
-                }
             }
         })
 
@@ -115,6 +123,10 @@ class GalleryFragment : BaseFragment(), Injectable {
             viewModel.changeTab(PXLAlbumSortType.DYNAMIC)
         }
 
+        bt_more.setOnClickListener {
+            viewModel.loadMore()
+        }
+
         gridLayoutManager = GridLayoutManager(context, GRID_COUNT)
         recyclerView!!.layoutManager = gridLayoutManager
         gridLayoutManager?.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
@@ -126,7 +138,7 @@ class GalleryFragment : BaseFragment(), Injectable {
         recyclerView.adapter = adapter
         setupScrollListener()
 
-        viewModel.changeTab(PXLAlbumSortType.RECENCY)
+        viewModel.changeTab()
     }
 
     fun changeTextViewColor(
@@ -153,5 +165,35 @@ class GalleryFragment : BaseFragment(), Injectable {
 
             }
         })
+    }
+
+    private val mConstraintSet = ConstraintSet()
+    private fun setupConstraintSet(showLoadMore:Boolean){
+        mConstraintSet.clone(v_content_box)
+
+        if (showLoadMore) {
+            mConstraintSet.clear(bt_more.id, ConstraintSet.TOP)
+            mConstraintSet.connect(
+                bt_more.id, ConstraintSet.BOTTOM,
+                ConstraintSet.PARENT_ID, ConstraintSet.TOP
+            )
+            mConstraintSet.connect(
+                bt_more.id, ConstraintSet.BOTTOM,
+                ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM
+            )
+        } else {
+            mConstraintSet.connect(
+                bt_more.id, ConstraintSet.TOP,
+                ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM
+            )
+            mConstraintSet.clear(bt_more.id, ConstraintSet.BOTTOM)
+        }
+
+        val changeBounds = ChangeBounds()
+        changeBounds.duration = 350
+        changeBounds.interpolator = AnticipateOvershootInterpolator(1.0f)
+        TransitionManager.beginDelayedTransition(v_content_box, changeBounds)
+
+        mConstraintSet.applyTo(v_content_box)
     }
 }

@@ -9,6 +9,8 @@
     <string name="title_gallery">Gallery</string>
     <string name="title_upload_a_pic">Upload a photo</string>
 
+    <string name="button_more">Load more</string>
+
     <!-- Title -->
     <string name="title_splash">Splash</string>
     <string name="title_welcome">Welcome</string>

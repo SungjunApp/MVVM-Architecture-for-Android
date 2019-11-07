@@ -117,12 +117,15 @@ public class PXLAlbum implements RequestCallbacks {
         }
         if (this.hasMore) {
             int desiredPage = this.lastPageLoaded + 1;
-            if (pagesLoading.get(desiredPage) != null && pagesLoading.get(desiredPage)) {
+            //Disable it because request with pages which failed cannot be called again
+            /*if (pagesLoading.get(desiredPage) != null && pagesLoading.get(desiredPage)) {
                 Log.d(TAG, String.format("page %s already loading", desiredPage));
                 return false;
-            }
+            }*/
             PXLClient pxlClient = PXLClient.getInstance(context);
             String requestPath = String.format("albums/%s/photos", this.id);
+
+            pxlClient.cancellAll();
             this.pagesLoading.put(desiredPage, true);
             this.handlers = handlers;
             pxlClient.makeCall(requestPath, getRequestParams(desiredPage), this);

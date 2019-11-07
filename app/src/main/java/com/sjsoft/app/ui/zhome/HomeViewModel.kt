@@ -48,7 +48,7 @@ class HomeViewModel
         launchVMScope({
             lottoMatchUI.value = LottoMatchUI.Loading(true)
 
-            //This gives a delay for the loading UI to be displayed on the screen for sure
+            //This gives a delay for the canLoadMore UI to be displayed on the screen for sure
             //val delay = async { delay(AppConfig.splashDelay) }
             val result = async { api.getWinder(eventNumber.toInt()) }
 

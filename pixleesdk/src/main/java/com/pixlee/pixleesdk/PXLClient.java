@@ -131,6 +131,15 @@ public class PXLClient {
         getRequestQueue().add(req);
     }
 
+    public void cancellAll(){
+        getRequestQueue().cancelAll(new RequestQueue.RequestFilter(){
+            @Override
+            public boolean apply(Request<?> request) {
+                return true;
+            }
+        });
+    }
+
     /***
      * Returns the volley image loader.
      * @return

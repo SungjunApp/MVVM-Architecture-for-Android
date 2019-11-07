@@ -10,19 +10,18 @@ import com.sjsoft.app.data.PXLPhotoItem
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.lang.IllegalArgumentException
 import java.util.ArrayList
 
 interface PixleeDataSource {
     suspend fun loadNextPageOfPhotos(options: PXLAlbumSortOptions? = null): Flow<ArrayList<PXLPhotoItem>>
-    suspend fun uploadImage(path:String)
+    suspend fun uploadImage(path: String)
 }
 
 class PixleeRepository constructor(
     private val album: PXLAlbum
 ) : PixleeDataSource {
     override suspend fun uploadImage(path: String) {
-
-
 
 
         PXLClient.initialize(BuildConfig.AWS_ACCESS_KEY, BuildConfig.AWS_SECRET_KEY)
@@ -33,6 +32,11 @@ class PixleeRepository constructor(
 
     override suspend fun loadNextPageOfPhotos(options: PXLAlbumSortOptions?): Flow<ArrayList<PXLPhotoItem>> =
         flow {
+            val jobFinished = -1
+            val jobWorking = 0
+            val jobError = 1
+            var type = jobWorking
+
             PXLClient.initialize(BuildConfig.PIXLEE_API_KEY)
             var remoteResult: ArrayList<PXLPhoto>? = null
 
@@ -45,22 +49,31 @@ class PixleeRepository constructor(
                 }
 
                 override fun DataLoadFailedHandler(error: String?) {
-                    //throw Exception(error)
+                    type = jobError
+                    //error(error ?: "data load failed")
+
                 }
             })
 
-            var isWorking = true
-            while (isWorking) {
+            while (type >= jobWorking) {
                 delay(2000)
+
+                if(type==jobError){
+                    throw IllegalArgumentException()
+                }
+
                 remoteResult?.also {
                     var lastIndex = -1
                     val result = ArrayList<PXLPhotoItem>()
+
+                    Log.e("GalleryVM", "GalleryVM.remote + remoteResult-pre.size: ${it.size}")
                     it.forEach {
                         result.add(PXLPhotoItem(++lastIndex, it))
                     }
                     Log.e("GalleryVM", "GalleryVM.remote + old.size: ${result.size}")
+                    Log.e("GalleryVM", "GalleryVM.remote + remoteResult-post.size: ${it.size}")
                     emit(result)
-                    isWorking = false
+                    type = jobFinished
                 }
             }
         }
