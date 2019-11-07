@@ -31,8 +31,8 @@
         <activity
             android:name="com.sjsoft.app.ui.MainActivity"
             android:launchMode="singleTop"
-            android:theme="@style/AppTheme"
-            android:configChanges="orientation|keyboardHidden|screenSize">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

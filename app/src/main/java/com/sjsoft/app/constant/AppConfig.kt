@@ -34,8 +34,8 @@ class AppConfig {
         const val LIST_VISIBLE_THRESHOLD = 5
         const val pixleeEmail = "sdk@pixleeteam.com"
         const val pixleeUserName = "SDK Project"
-        //const val s3BucketName = "sdk-project.pixlee.com"
-        const val s3BucketName = "vocalhong"
+        const val s3BucketName = "sdk-project.pixlee.com"
+//        const val s3BucketName = "vocalhong"
     }
 
     object DeepLinkParams {
