@@ -21,7 +21,7 @@ class PixleeModule{
         so.descending = true
 
         val album = PXLAlbum(AppConfig.albumId, context)
-        album.setPerPage(20)
+        album.setPerPage(40)
         album.setFilterOptions(fo)
         album.setSortOptions(so)
 

@@ -56,7 +56,7 @@ class PixleeRepository constructor(
             })
 
             while (type >= jobWorking) {
-                delay(2000)
+                delay(700)
 
                 if(type==jobError){
                     throw IllegalArgumentException()

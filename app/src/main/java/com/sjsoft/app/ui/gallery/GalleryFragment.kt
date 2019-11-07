@@ -160,7 +160,7 @@ class GalleryFragment : BaseFragment(), Injectable {
             ) {
                 super.onScrolled(recyclerView, dx, dy)
                 gridLayoutManager?.apply {
-                    viewModel.listScrolled(itemCount, childCount, findLastVisibleItemPosition())
+                    viewModel.listScrolled(childCount, findLastVisibleItemPosition() , itemCount)
                 }
 
             }

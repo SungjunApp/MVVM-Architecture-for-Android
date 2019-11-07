@@ -28,7 +28,11 @@ class AppConfig {
 
         const val splashDelay = 3000L
         const val enteringDelay = 400L
+
+        //Pixlee
         const val albumId = "5984962"
+        const val LIST_VISIBLE_THRESHOLD = 5
+
     }
     object DeepLinkParams {
         const val drwNo = "drwNo"

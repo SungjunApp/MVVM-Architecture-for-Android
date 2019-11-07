@@ -125,7 +125,7 @@ public class PXLAlbum implements RequestCallbacks {
             PXLClient pxlClient = PXLClient.getInstance(context);
             String requestPath = String.format("albums/%s/photos", this.id);
 
-            pxlClient.cancellAll();
+            pxlClient.cancellAll();//This is for not receiving cancelled calls
             this.pagesLoading.put(desiredPage, true);
             this.handlers = handlers;
             pxlClient.makeCall(requestPath, getRequestParams(desiredPage), this);

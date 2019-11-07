@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.pixlee.pixleesdk.PXLAlbumSortOptions
 import com.pixlee.pixleesdk.PXLAlbumSortType
+import com.sjsoft.app.constant.AppConfig
 import com.sjsoft.app.data.PXLPhotoItem
 import com.sjsoft.app.data.repository.PixleeDataSource
 import com.sjsoft.app.ui.BaseViewModel
@@ -64,7 +65,9 @@ class GalleryViewModel
         }
 
     fun listScrolled(visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
-        if (visibleItemCount + lastVisibleItemPosition + VISIBLE_THRESHOLD >= totalItemCount) {
+        val canScroll = visibleItemCount + lastVisibleItemPosition + AppConfig.LIST_VISIBLE_THRESHOLD >= totalItemCount
+        Log.e("GalleryVM", "canScroll: $canScroll, \tvisibleCount: $visibleItemCount, lastItemPosition: $lastVisibleItemPosition, leftTotal: ${visibleItemCount + lastVisibleItemPosition + AppConfig.LIST_VISIBLE_THRESHOLD},  globalTotal: $totalItemCount")
+        if (visibleItemCount + lastVisibleItemPosition + AppConfig.LIST_VISIBLE_THRESHOLD >= totalItemCount) {
             if (canLoadMore) {
                 getLoadData()
             }
@@ -97,7 +100,4 @@ class GalleryViewModel
         getLoadData(sortOption)
     }
 
-    companion object {
-        private const val VISIBLE_THRESHOLD = 5
-    }
 }
