@@ -26,13 +26,7 @@ import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.ui.BaseFragment
 import com.sjsoft.app.ui.holders.MarginInfo
 import com.sjsoft.app.util.*
-import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_upload.*
-import kotlinx.android.synthetic.main.fragment_upload.bt_more
-import kotlinx.android.synthetic.main.fragment_upload.recyclerView
-import kotlinx.android.synthetic.main.fragment_upload.v_content_box
-import kotlinx.android.synthetic.main.fragment_upload.v_loading
-import kotlinx.android.synthetic.main.fragment_upload.v_shadow
 import javax.inject.Inject
 
 class UploadFragment : BaseFragment(), Injectable {
@@ -85,7 +79,7 @@ class UploadFragment : BaseFragment(), Injectable {
                 is UploadViewModel.ListUI.Data -> {
                     v_loading.hide()
                     adapter.submitList(it.list)
-                    v_empty.visibility = if(it.list.isNotEmpty()) VISIBLE else GONE
+                    v_empty.visibility = if(it.list.isNotEmpty()) GONE else VISIBLE
                 }
             }
         })
@@ -119,6 +113,16 @@ class UploadFragment : BaseFragment(), Injectable {
         bt_more.setSafeOnClickListener {
             viewModel.getS3Images()
         }
+
+        gridLayoutManager = GridLayoutManager(context, GRID_COUNT)
+        recyclerView!!.layoutManager = gridLayoutManager
+        gridLayoutManager?.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
+            override fun getSpanSize(position: Int): Int {
+                return 1
+            }
+        }
+
+        recyclerView.adapter = adapter
 
         viewModel.getS3Images()
     }
