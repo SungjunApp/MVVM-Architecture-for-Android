@@ -58,14 +58,14 @@ android {
             dimension "default"
             applicationIdSuffix = ".dev"
             manifestPlaceholders = [
-                    appNameGradle: "PixMine"
+                    appNameGradle: "PixHong"
             ]
-            buildConfigField "String", "PIXLEE_API_KEY", "\"" + PIXLEE_API_KEY + "\""
-            buildConfigField "String", "PIXLEE_SECRET_KEY", "\"" + PIXLEE_SECRET_KEY + "\""
-            buildConfigField "String", "AWS_ACCESS_KEY", "\"" + AWS_ACCESS_KEY + "\""
-            buildConfigField "String", "AWS_SECRET_KEY", "\"" + AWS_SECRET_KEY + "\""
-            buildConfigField "String", "AWS_S3_BUCKET_NAME", "\"" + AWS_S3_BUCKET_NAME + "\""
-            buildConfigField "String", "AWS_REGION", "\"" + AWS_REGION + "\""
+            buildConfigField "String", "PIXLEE_API_KEY", "\"" + PIXLEE_API_KEY+ "\""
+            buildConfigField "String", "PIXLEE_SECRET_KEY", "\"" + PIXLEE_SECRET_KEY+ "\""
+            buildConfigField "String", "AWS_ACCESS_KEY", "\"" + AWS_ACCESS_KEY_HONG + "\""
+            buildConfigField "String", "AWS_SECRET_KEY", "\"" + AWS_SECRET_KEY_HONG + "\""
+            buildConfigField "String", "AWS_S3_BUCKET_NAME", "\"" + AWS_S3_BUCKET_NAME_HONG + "\""
+            buildConfigField "String", "AWS_REGION", "\"" + AWS_REGION_HONG + "\""
         }
 
     }

@@ -39,10 +39,17 @@ ext {
 
     PIXLEE_API_KEY = keystoreProperties['pixleeAPIKey']
     PIXLEE_SECRET_KEY = keystoreProperties['pixleeSecretKey']
+
     AWS_ACCESS_KEY = keystoreProperties['awsAccessKey']
     AWS_SECRET_KEY = keystoreProperties['awsSecretKey']
     AWS_S3_BUCKET_NAME = keystoreProperties['awsS3BucketName']
     AWS_REGION = keystoreProperties['awsRegion']
+
+    AWS_ACCESS_KEY_HONG = keystoreProperties['awsAccessKey_HONG']
+    AWS_SECRET_KEY_HONG = keystoreProperties['awsSecretKey_HONG']
+    AWS_S3_BUCKET_NAME_HONG = keystoreProperties['awsS3BucketName_HONG']
+    AWS_REGION_HONG = keystoreProperties['awsRegion_HONG']
+
 
     // Sdk and tools
     buildToolsVersion = '28.0.3'
