@@ -10,20 +10,29 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.view.animation.AnticipateOvershootInterpolator
+import androidx.constraintlayout.widget.ConstraintSet
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.transition.ChangeBounds
+import androidx.transition.TransitionManager
 import com.sjsoft.app.R
 import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.ui.BaseFragment
-import com.sjsoft.app.util.hide
-import com.sjsoft.app.util.setSafeOnClickListener
-import com.sjsoft.app.util.show
-import com.sjsoft.app.util.showAlertDialog
-import kotlinx.android.synthetic.main.fragment_menu.*
+import com.sjsoft.app.ui.holders.MarginInfo
+import com.sjsoft.app.util.*
+import kotlinx.android.synthetic.main.fragment_list.*
 import kotlinx.android.synthetic.main.fragment_upload.*
-import kotlinx.android.synthetic.main.fragment_upload.bt_upload
+import kotlinx.android.synthetic.main.fragment_upload.bt_more
+import kotlinx.android.synthetic.main.fragment_upload.recyclerView
+import kotlinx.android.synthetic.main.fragment_upload.v_content_box
+import kotlinx.android.synthetic.main.fragment_upload.v_loading
+import kotlinx.android.synthetic.main.fragment_upload.v_shadow
 import javax.inject.Inject
 
 class UploadFragment : BaseFragment(), Injectable {
@@ -32,9 +41,22 @@ class UploadFragment : BaseFragment(), Injectable {
 
     @Inject
     lateinit var viewModelFactory: ViewModelProvider.Factory
-
     val viewModel: UploadViewModel by viewModels {
         viewModelFactory
+    }
+
+    internal var gridLayoutManager: GridLayoutManager? = null
+    var GRID_COUNT: Int = 3
+
+    val adapter: UploadAdapter by lazy {
+        UploadAdapter(
+            context!!,
+            MarginInfo(
+                0
+                , 3.toPx()
+                , 3.toPx()
+            )
+        )
     }
 
     override fun onCreateView(
@@ -47,6 +69,31 @@ class UploadFragment : BaseFragment(), Injectable {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        recyclerView.setPaddingRelative(
+            3.toPx()
+            , 10.toPx()
+            , 3.toPx()
+            , 50.toPx()
+        )
+
+        recyclerView.setShadowViewController(v_shadow)
+
+        viewModel.listUI.observe(this, Observer {
+            when(it){
+                is UploadViewModel.ListUI.LoadingShown -> v_loading.show()
+                is UploadViewModel.ListUI.LoadingHidden -> v_loading.hide()
+                is UploadViewModel.ListUI.Data -> {
+                    v_loading.hide()
+                    adapter.submitList(it.list)
+                    v_empty.visibility = if(it.list.isNotEmpty()) VISIBLE else GONE
+                }
+            }
+        })
+
+        viewModel.loadMoreUI.observe(this, Observer {
+            setupConstraintSet(it)
+        })
+
         viewModel.buttonUI.observe(this, Observer {
             bt_upload.isEnabled = it
         })
@@ -67,6 +114,10 @@ class UploadFragment : BaseFragment(), Injectable {
 
         bt_upload.setSafeOnClickListener {
             callMediaPicker()
+        }
+
+        bt_more.setSafeOnClickListener {
+            viewModel.getS3Images()
         }
 
         viewModel.getS3Images()
@@ -117,5 +168,36 @@ class UploadFragment : BaseFragment(), Injectable {
                 cursor?.close()
             }
         }
+    }
+
+
+    private val mConstraintSet = ConstraintSet()
+    private fun setupConstraintSet(showLoadMore:Boolean){
+        mConstraintSet.clone(v_content_box)
+
+        if (showLoadMore) {
+            mConstraintSet.clear(bt_more.id, ConstraintSet.TOP)
+            mConstraintSet.connect(
+                bt_more.id, ConstraintSet.BOTTOM,
+                ConstraintSet.PARENT_ID, ConstraintSet.TOP
+            )
+            mConstraintSet.connect(
+                bt_more.id, ConstraintSet.BOTTOM,
+                ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM
+            )
+        } else {
+            mConstraintSet.connect(
+                bt_more.id, ConstraintSet.TOP,
+                ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM
+            )
+            mConstraintSet.clear(bt_more.id, ConstraintSet.BOTTOM)
+        }
+
+        val changeBounds = ChangeBounds()
+        changeBounds.duration = 350
+        changeBounds.interpolator = AnticipateOvershootInterpolator(1.0f)
+        TransitionManager.beginDelayedTransition(v_content_box, changeBounds)
+
+        mConstraintSet.applyTo(v_content_box)
     }
 }

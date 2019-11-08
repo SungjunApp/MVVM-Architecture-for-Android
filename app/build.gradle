@@ -45,36 +45,25 @@ android {
         prod {
             dimension "default"
             manifestPlaceholders = [
-                    appNameGradle: "PixleeDemo"
+                    appNameGradle: "Pixlee"
             ]
             buildConfigField "String", "PIXLEE_API_KEY", "\"" + PIXLEE_API_KEY + "\""
             buildConfigField "String", "PIXLEE_SECRET_KEY", "\"" + PIXLEE_SECRET_KEY + "\""
             buildConfigField "String", "AWS_ACCESS_KEY", "\"" + AWS_ACCESS_KEY + "\""
             buildConfigField "String", "AWS_SECRET_KEY", "\"" + AWS_SECRET_KEY + "\""
-
+            buildConfigField "String", "AWS_S3_BUCKET_NAME", "\"" + AWS_S3_BUCKET_NAME + "\""
         }
-        mock {
-            dimension "default"
-            applicationIdSuffix = ".mock"
-            manifestPlaceholders = [
-                    appNameGradle: "PixleeMockDemo"
-            ]
-            buildConfigField "String", "PIXLEE_API_KEY", "\"" + PIXLEE_API_KEY + "\""
-            buildConfigField "String", "PIXLEE_SECRET_KEY", "\"" + PIXLEE_SECRET_KEY + "\""
-            buildConfigField "String", "AWS_ACCESS_KEY", "\"" + AWS_ACCESS_KEY + "\""
-            buildConfigField "String", "AWS_SECRET_KEY", "\"" + AWS_SECRET_KEY + "\""
-        }
-
         dev {
             dimension "default"
             applicationIdSuffix = ".dev"
             manifestPlaceholders = [
-                    appNameGradle: "PixleeMockDev"
+                    appNameGradle: "PixMine"
             ]
             buildConfigField "String", "PIXLEE_API_KEY", "\"" + PIXLEE_API_KEY + "\""
             buildConfigField "String", "PIXLEE_SECRET_KEY", "\"" + PIXLEE_SECRET_KEY + "\""
             buildConfigField "String", "AWS_ACCESS_KEY", "\"" + AWS_ACCESS_KEY + "\""
             buildConfigField "String", "AWS_SECRET_KEY", "\"" + AWS_SECRET_KEY + "\""
+            buildConfigField "String", "AWS_S3_BUCKET_NAME", "\"" + AWS_S3_BUCKET_NAME + "\""
         }
 
     }

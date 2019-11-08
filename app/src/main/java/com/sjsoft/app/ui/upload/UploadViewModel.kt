@@ -2,15 +2,10 @@ package com.sjsoft.app.ui.upload
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
-import com.sjsoft.app.constant.AppConfig
-import com.sjsoft.app.global.SingleLiveEvent
-import com.sjsoft.app.util.NetworkErrorUtil
-import com.sjsoft.app.data.repository.LottoDataSource
+import com.amazonaws.services.s3.model.S3ObjectSummary
 import com.sjsoft.app.data.repository.PixleeDataSource
-import com.sjsoft.app.room.Lotto
 import com.sjsoft.app.ui.BaseViewModel
-import kotlinx.coroutines.async
-import kotlinx.coroutines.delay
+import com.sjsoft.app.ui.gallery.GalleryViewModel
 import javax.inject.Inject
 
 
@@ -36,14 +31,28 @@ class UploadViewModel
         buttonUI.value = text.isNotEmpty()
     }
 
+    val loadMoreUI = MutableLiveData<Boolean>().apply { value = false }
+
+    sealed class ListUI{
+        object LoadingShown:ListUI()
+        object LoadingHidden:ListUI()
+        data class Data(val list: List<S3ObjectSummary>):ListUI()
+    }
+    val listUI = MutableLiveData<ListUI>()
     fun getS3Images() {
         launchVMScope({
+            loadMoreUI.value = false
+            listUI.value = ListUI.LoadingShown
             val list = pixleeDataSource.getS3Images()
+            listUI.value = ListUI.Data(list)
             list.forEach {
                 Log.e("UploadVM", "UploadVM.it.key: ${it.key}")
 
             }
-        }, {})
+        }, {
+            loadMoreUI.value = true
+            listUI.value = ListUI.LoadingHidden
+        })
     }
 }
 

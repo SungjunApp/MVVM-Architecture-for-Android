@@ -37,12 +37,12 @@ class PixleeRepository constructor(
     override suspend fun getS3Images(): List<S3ObjectSummary> {
         var list: List<S3ObjectSummary> = ArrayList()
         withContext(Dispatchers.IO) {
-            list = awsS3.listObjects(AppConfig.s3BucketName).objectSummaries
+            list = awsS3.listObjects(BuildConfig.AWS_S3_BUCKET_NAME).objectSummaries
 
             Log.e("GalleryVM", "GalleryVM.summaries.size: ${list.size}")
 
             list.forEach {
-                Log.e("GalleryVM", "GalleryVM.!JawsS3.key: ${it.key}")
+                Log.e("GalleryVM", "GalleryVM.awsS3.key: ${it.key}")
             }
         }
         return list
@@ -50,29 +50,29 @@ class PixleeRepository constructor(
 
     override suspend fun uploadImage(title: String, filePath: String, contentType: String): String {
         var url = ""
-        //val keyName = "${AppConfig.pixleeEmail}/${UUID.randomUUID()}"
         val keyName = "${AppConfig.pixleeEmail}/${UUID.randomUUID()}"
         withContext(Dispatchers.IO) {
-            //awsS3.deleteObject(AppConfig.s3BucketName, keyName)
+            //awsS3.deleteObject(BuildConfig.AWS_S3_BUCKET_NAME, keyName)
 
-            val request = PutObjectRequest(AppConfig.s3BucketName, keyName, File(filePath))
+            val request = PutObjectRequest(BuildConfig.AWS_S3_BUCKET_NAME, keyName, File(filePath))
             val metadata = ObjectMetadata()
-            metadata.contentType = "image"
+            //metadata.contentType = "image"
+            metadata.contentType = contentType
             metadata.addUserMetadata("x-amz-meta-title", title)
             request.metadata = metadata
             awsS3.putObject(request)
-            awsS3.setObjectAcl(AppConfig.s3BucketName, keyName, CannedAccessControlList.PublicRead)
+            awsS3.setObjectAcl(BuildConfig.AWS_S3_BUCKET_NAME, keyName, CannedAccessControlList.PublicRead)
 
-            url = awsS3.getUrl(AppConfig.s3BucketName, keyName).toExternalForm()
+            url = awsS3.getUrl(BuildConfig.AWS_S3_BUCKET_NAME, keyName).toExternalForm()
 
             PXLClient.initialize(BuildConfig.PIXLEE_API_KEY, BuildConfig.PIXLEE_SECRET_KEY)
 
-            val uploadResult = album.uploadImage(title, AppConfig.pixleeEmail, AppConfig.pixleeUserName, url, true)
-            Log.e("PixleeDS", "PixleeDS.url: $url")
-            Log.e("PixleeDS", "PixleeDS.uploadResult: $uploadResult")
+            album.uploadImage(title, AppConfig.pixleeEmail, AppConfig.pixleeUserName, url, true)
         }
         return url
     }
+
+
 
     override suspend fun loadNextPageOfPhotos(options: PXLAlbumSortOptions?): Flow<ArrayList<PXLPhotoItem>> =
         flow {

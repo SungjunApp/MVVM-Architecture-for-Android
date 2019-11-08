@@ -10,6 +10,7 @@
     <string name="title_upload_a_pic">Upload a photo</string>
     <string name="title_pic">Pick</string>
     <string name="image_title">Image Title</string>
+    <string name="no_photo">No Item</string>
 
     <string name="button_more">Load more</string>
 

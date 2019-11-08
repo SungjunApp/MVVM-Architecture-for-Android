@@ -18,6 +18,7 @@ import com.pixlee.pixleesdk.PXLAlbumSortType
 import com.sjsoft.app.R
 import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.ui.BaseFragment
+import com.sjsoft.app.ui.holders.MarginInfo
 import com.sjsoft.app.util.hide
 import com.sjsoft.app.util.setShadowViewController
 import com.sjsoft.app.util.show
@@ -47,6 +48,7 @@ class GalleryFragment : BaseFragment(), Injectable {
         )
     }
     internal var gridLayoutManager: GridLayoutManager? = null
+    var GRID_COUNT: Int = 3
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -56,7 +58,7 @@ class GalleryFragment : BaseFragment(), Injectable {
         return inflater.inflate(R.layout.fragment_list, container, false)
     }
 
-    var GRID_COUNT: Int = 3
+
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         recyclerView.setPaddingRelative(

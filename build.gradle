@@ -41,6 +41,7 @@ ext {
     PIXLEE_SECRET_KEY = keystoreProperties['pixleeSecretKey']
     AWS_ACCESS_KEY = keystoreProperties['awsAccessKey']
     AWS_SECRET_KEY = keystoreProperties['awsSecretKey']
+    AWS_S3_BUCKET_NAME = keystoreProperties['awsS3BucketName']
 
 
     // Sdk and tools
