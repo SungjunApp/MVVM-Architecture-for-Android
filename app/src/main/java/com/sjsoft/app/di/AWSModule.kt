@@ -1,17 +1,16 @@
 package com.sjsoft.app.di
 
+import com.amazonaws.ClientConfiguration
+import com.amazonaws.Protocol
 import com.amazonaws.auth.AWSCredentials
 import com.amazonaws.auth.BasicAWSCredentials
+import com.amazonaws.regions.Region
 import com.amazonaws.services.s3.AmazonS3
 import com.amazonaws.services.s3.AmazonS3Client
 import com.sjsoft.app.BuildConfig
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton
-import com.amazonaws.ClientConfiguration
-import com.amazonaws.Protocol
-import com.amazonaws.regions.Region
-import com.amazonaws.regions.Regions
 
 
 @Module
@@ -28,7 +27,6 @@ class AWSModule {
         val clientConfig = ClientConfiguration()
         clientConfig.protocol = Protocol.HTTP
         val conn = AmazonS3Client(awsCreds, clientConfig)
-
         conn.setRegion(Region.getRegion(BuildConfig.AWS_REGION))
         return conn
     }
