@@ -18,56 +18,57 @@ import javax.inject.Inject
 class GalleryViewModel
 @Inject constructor(private val pixleeDataSource: PixleeDataSource) : BaseViewModel() {
 
-    val listUI = MutableLiveData<UIData>()
+    val listUI = MutableLiveData<ListUI>()
     val loadMoreUI = MutableLiveData<Boolean>().apply { value = false }
     val sortType = MutableLiveData<PXLAlbumSortType>()
 
-    sealed class UIData {
-        object LoadingShown : UIData()
-        object LoadingHide : UIData()
-        class Data(val list: ArrayList<PXLPhotoItem>) : UIData()
+    sealed class ListUI {
+        object LoadingShown : ListUI()
+        object LoadingHide : ListUI()
+        class Data(val list: ArrayList<PXLPhotoItem>) : ListUI()
     }
 
     var canLoadMore = true
     var job: Job? = null
-    fun getLoadData(options: PXLAlbumSortOptions? = null) =
-        runBlocking {
-            val isFirstPage = options != null
-
+    private fun loadList(options: PXLAlbumSortOptions? = null) {
+        val isFirstPage = options != null
+        runBlocking{
             job?.cancelAndJoin()
-            job = launchVMScope({
-                try {
-
-                    Log.e("GalleryVM", "GalleryVM.scope.started")
-                    if (isFirstPage) listUI.value = UIData.LoadingShown
-                    loadMoreUI.value = false
-                    canLoadMore = false
-                    pixleeDataSource.loadNextPageOfPhotos(options)
-                        .collect {
-                            listUI.value = UIData.Data(it)
-                            Log.e("GalleryVM", "GalleryVM.size: ${it.size}")
-                        }
-                    canLoadMore = true
-                } catch (e: Exception) {
-                    canLoadMore = true
-                    if (isFirstPage) listUI.value = UIData.LoadingHide
-                    e.printStackTrace()
-                    loadMoreUI.value = true
-                    Log.e("GalleryVM", "GalleryVM.scope.error")
-                } finally {
-                    Log.e("GalleryVM", "GalleryVM.scope.finished")
-                }
-            }, {
-                Log.e("GalleryVM", "GalleryVM.scope.canceled")
-                if (isFirstPage) listUI.value = UIData.LoadingHide
-                canLoadMore = true
-            })
         }
+
+        job = launchVMScope({
+            try {
+
+                Log.e("GalleryVM", "GalleryVM.scope.started")
+                if (isFirstPage) listUI.value = ListUI.LoadingShown
+                loadMoreUI.value = false
+                canLoadMore = false
+                pixleeDataSource.loadNextPageOfPhotos(options)
+                    .collect {
+                        listUI.value = ListUI.Data(it)
+                        Log.e("GalleryVM", "GalleryVM.size: ${it.size}")
+                    }
+                canLoadMore = true
+            } catch (e: Exception) {
+                canLoadMore = true
+                if (isFirstPage) listUI.value = ListUI.LoadingHide
+                e.printStackTrace()
+                loadMoreUI.value = true
+                Log.e("GalleryVM", "GalleryVM.scope.error")
+            } finally {
+                Log.e("GalleryVM", "GalleryVM.scope.finished")
+            }
+        }, {
+            Log.e("GalleryVM", "GalleryVM.scope.canceled")
+            if (isFirstPage) listUI.value = ListUI.LoadingHide
+            canLoadMore = true
+        })
+    }
 
     fun listScrolled(visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
         if (visibleItemCount + lastVisibleItemPosition + AppConfig.LIST_VISIBLE_THRESHOLD >= totalItemCount) {
             if (canLoadMore) {
-                getLoadData()
+                loadList()
             }
         }
     }
@@ -75,15 +76,19 @@ class GalleryViewModel
     private val defaultTab = PXLAlbumSortType.RECENCY
     fun changeTab(type: PXLAlbumSortType = defaultTab) {
         sortType.value = type
+        loadList(generateSortOption(type))
+    }
+
+    fun generateSortOption(type: PXLAlbumSortType): PXLAlbumSortOptions {
         val options = PXLAlbumSortOptions()
         options.sortType = type
         options.descending = true
-        getLoadData(options)
+        return options
     }
 
     fun loadMore() {
         val sortOption: PXLAlbumSortOptions? =
-            if (listUI.value is UIData.Data && (listUI.value as UIData.Data).list.isNotEmpty() && sortType.value!=null) {
+            if (listUI.value is ListUI.Data && (listUI.value as ListUI.Data).list.isNotEmpty() && sortType.value != null) {
                 null
 
             } else {
@@ -95,7 +100,7 @@ class GalleryViewModel
 
 
         Log.e("GalleryVM", "GalleryVM.loadMore()")
-        getLoadData(sortOption)
+        loadList(sortOption)
     }
 
 }

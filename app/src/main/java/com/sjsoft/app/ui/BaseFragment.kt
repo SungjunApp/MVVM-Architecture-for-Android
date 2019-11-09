@@ -3,6 +3,8 @@ package com.sjsoft.app.ui
 import android.content.Context
 import android.os.Bundle
 import android.view.inputmethod.InputMethodManager
+import android.widget.Toast
+import androidx.annotation.StringRes
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import com.sjsoft.app.R
@@ -55,6 +57,16 @@ abstract class BaseFragment : Fragment() {
         } else {
             if (loadingDialog != null && loadingDialog!!.isShowing)
                 loadingDialog?.dismiss()
+        }
+    }
+
+
+    var toast: Toast? = null
+    fun showToast(@StringRes message : Int){
+        context?.also { context ->
+            toast =
+                Toast.makeText(context, message, Toast.LENGTH_LONG)
+            toast?.show()
         }
     }
 }

@@ -12,28 +12,20 @@ import kotlinx.android.synthetic.main.item_gallery.*
 class GridViewHolder(override val containerView: View) : RecyclerView.ViewHolder(containerView),
     LayoutContainer {
 
-    init {
-        /*view.setOnClickListener {
-            repo?.url?.let { url ->
-                val intent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-                view.context.startActivity(intent)
-            }
-        }*/
-    }
-
     fun bind(imageUrl: String?, marginInfo: MarginInfo) {
+        itemView.transitionName = "$adapterPosition$imageUrl"
         val params = img.layoutParams as ViewGroup.LayoutParams
         params.width = marginInfo.getRectangleSize(this.itemView.context, 3)
         params.height = marginInfo.getRectangleSize(this.itemView.context, 3)
         img.layoutParams = params
 
-        if(imageUrl!=null){
+        if (imageUrl != null) {
             GlideApp.with(this.itemView.context).asDrawable().clone()
                 .load(imageUrl)
                 .centerCrop()
                 .dontAnimate()
                 .into(img)
-        }else{
+        } else {
             img.setImageDrawable(null)
         }
     }

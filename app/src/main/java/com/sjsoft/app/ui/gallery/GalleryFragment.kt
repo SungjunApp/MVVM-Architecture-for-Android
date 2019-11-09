@@ -19,10 +19,8 @@ import com.sjsoft.app.R
 import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.ui.BaseFragment
 import com.sjsoft.app.ui.holders.MarginInfo
-import com.sjsoft.app.util.hide
-import com.sjsoft.app.util.setShadowViewController
-import com.sjsoft.app.util.show
-import com.sjsoft.app.util.toPx
+import com.sjsoft.app.ui.viewer.ImageViewerFragment
+import com.sjsoft.app.util.*
 import kotlinx.android.synthetic.main.fragment_list.*
 import javax.inject.Inject
 
@@ -45,7 +43,9 @@ class GalleryFragment : BaseFragment(), Injectable {
                 , 3.toPx()
                 , 3.toPx()
             )
-        )
+        ){ s, view ->
+            addFragmentToActivity(ImageViewerFragment.getInstance(s, view.transitionName), view)
+        }
     }
     internal var gridLayoutManager: GridLayoutManager? = null
     var GRID_COUNT: Int = 3
@@ -86,14 +86,14 @@ class GalleryFragment : BaseFragment(), Injectable {
         viewModel.listUI.observe(this, Observer {
 
             when (it) {
-                is GalleryViewModel.UIData.LoadingShown -> {
+                is GalleryViewModel.ListUI.LoadingShown -> {
                     v_loading.show()
                     adapter.submitList(null)
                 }
-                is GalleryViewModel.UIData.LoadingHide -> {
+                is GalleryViewModel.ListUI.LoadingHide -> {
                     v_loading.hide()
                 }
-                is GalleryViewModel.UIData.Data -> {
+                is GalleryViewModel.ListUI.Data -> {
                     v_loading.hide()
                     adapter.submitList(it.list)
                 }

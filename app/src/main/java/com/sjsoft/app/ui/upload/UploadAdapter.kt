@@ -16,25 +16,40 @@ import com.sjsoft.app.constant.AppConfig
 import com.sjsoft.app.data.PXLPhotoItem
 import com.sjsoft.app.ui.holders.GridViewHolder
 import com.sjsoft.app.ui.holders.MarginInfo
+import com.sjsoft.app.util.setSafeOnClickListener
 import kotlinx.android.extensions.LayoutContainer
 import kotlinx.android.synthetic.main.item_gallery.*
 
-class UploadAdapter(val context: Context, private val marginInfo: MarginInfo) :
+class UploadAdapter(
+    val context: Context,
+    private val marginInfo: MarginInfo,
+    val clickListener: (String, View) -> Unit
+) :
     ListAdapter<S3ObjectSummary, GridViewHolder>(REPO_COMPARATOR) {
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): GridViewHolder {
         return GridViewHolder.create(viewGroup)
     }
 
     override fun onBindViewHolder(holder: GridViewHolder, position: Int) {
-        holder.bind(AppConfig.getS3Url(getItem(position).key), marginInfo)
+        val imageUrl = AppConfig.getS3Url(getItem(position).key)
+        holder.bind(imageUrl, marginInfo)
+        holder.itemView.setSafeOnClickListener {
+            clickListener(imageUrl, holder.itemView)
+        }
     }
 
     companion object {
         private val REPO_COMPARATOR = object : DiffUtil.ItemCallback<S3ObjectSummary>() {
-            override fun areItemsTheSame(oldItem: S3ObjectSummary, newItem: S3ObjectSummary): Boolean =
+            override fun areItemsTheSame(
+                oldItem: S3ObjectSummary,
+                newItem: S3ObjectSummary
+            ): Boolean =
                 oldItem.key == newItem.key
 
-            override fun areContentsTheSame(oldItem: S3ObjectSummary, newItem: S3ObjectSummary): Boolean =
+            override fun areContentsTheSame(
+                oldItem: S3ObjectSummary,
+                newItem: S3ObjectSummary
+            ): Boolean =
                 oldItem.key == newItem.key
         }
     }

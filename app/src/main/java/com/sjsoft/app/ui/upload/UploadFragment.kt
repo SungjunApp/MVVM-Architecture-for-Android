@@ -25,6 +25,7 @@ import com.sjsoft.app.R
 import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.ui.BaseFragment
 import com.sjsoft.app.ui.holders.MarginInfo
+import com.sjsoft.app.ui.viewer.ImageViewerFragment
 import com.sjsoft.app.util.*
 import kotlinx.android.synthetic.main.fragment_upload.*
 import javax.inject.Inject
@@ -50,7 +51,9 @@ class UploadFragment : BaseFragment(), Injectable {
                 , 3.toPx()
                 , 3.toPx()
             )
-        )
+        ) { s, view ->
+            addFragmentToActivity(ImageViewerFragment.getInstance(s, view.transitionName), view)
+        }
     }
 
     override fun onCreateView(
@@ -72,14 +75,27 @@ class UploadFragment : BaseFragment(), Injectable {
 
         recyclerView.setShadowViewController(v_shadow)
 
+        viewModel.uploadUI.observe(this, Observer {
+            makeLoading(it is UploadViewModel.UploadUI.Loading)
+            when (it) {
+                is UploadViewModel.UploadUI.Complete -> {
+                    showToast(it.message)
+                    viewModel.getS3Images()
+                }
+                is UploadViewModel.UploadUI.Error -> {
+                    showToast(it.message)
+                }
+            }
+        })
+
         viewModel.listUI.observe(this, Observer {
-            when(it){
+            when (it) {
                 is UploadViewModel.ListUI.LoadingShown -> v_loading.show()
                 is UploadViewModel.ListUI.LoadingHidden -> v_loading.hide()
                 is UploadViewModel.ListUI.Data -> {
                     v_loading.hide()
                     adapter.submitList(it.list)
-                    v_empty.visibility = if(it.list.isNotEmpty()) GONE else VISIBLE
+                    v_empty.visibility = if (it.list.isNotEmpty()) GONE else VISIBLE
                 }
             }
         })
@@ -149,7 +165,8 @@ class UploadFragment : BaseFragment(), Injectable {
 
     fun extractImage(data: Intent) {
         val selectedImage = data.data
-        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA, MediaStore.Images.Media.MIME_TYPE)
+        val filePathColumn =
+            arrayOf(MediaStore.Images.Media.DATA, MediaStore.Images.Media.MIME_TYPE)
         if (selectedImage != null) {
             var cursor: Cursor? = null
             try {
@@ -163,7 +180,10 @@ class UploadFragment : BaseFragment(), Injectable {
                     val filePath = cursor.getString(cursor.getColumnIndex(filePathColumn[0]))
                     val mimeType = cursor.getString(cursor.getColumnIndex(filePathColumn[1]))
                     viewModel.uploadImage(filePath, mimeType)
-                    Log.e("MenuFragment", "MenuFragment.picturePath: $filePath, mimeType: $mimeType")
+                    Log.e(
+                        "HomeFragment",
+                        "HomeFragment.picturePath: $filePath, mimeType: $mimeType"
+                    )
                     //imageView.setImageBitmap(BitmapFactory.decodeFile(picturePath))
                 }
             } catch (e: Exception) {
@@ -176,7 +196,7 @@ class UploadFragment : BaseFragment(), Injectable {
 
 
     private val mConstraintSet = ConstraintSet()
-    private fun setupConstraintSet(showLoadMore:Boolean){
+    private fun setupConstraintSet(showLoadMore: Boolean) {
         mConstraintSet.clone(v_content_box)
 
         if (showLoadMore) {

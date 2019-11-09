@@ -5,7 +5,7 @@ import androidx.room.Room
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.filters.LargeTest
-import com.android.app.util.LottoTestUtil
+import com.android.app.util.PixleeTestUtil
 import com.sjsoft.app.data.api.RemoteAPI
 import com.sjsoft.app.data.repository.LottoDataSource
 import com.sjsoft.app.data.repository.LottoRepository
@@ -63,7 +63,7 @@ class LottoRepositoryTest {
         val startNo = 1
         val endNo = 50
         for (i in startNo..endNo) {
-            val lotto = LottoTestUtil.makeLotto(i)
+            val lotto = PixleeTestUtil.makeLotto(i)
             savedLottos[lotto.drwNo] = lotto
 
             val list = lotto.getWinNumsAsLit()
@@ -102,7 +102,7 @@ class LottoRepositoryTest {
     @Throws(Exception::class)
     fun getWinder_nothingLocal() = runBlocking {
         val drwNo = Random().nextInt(50) + 1
-        val lotto = LottoTestUtil.makeLotto(drwNo)
+        val lotto = PixleeTestUtil.makeLotto(drwNo)
 
         `when`(lottoAPI.getLotto(drwNo)).thenReturn(lotto)
         val oneFromRepo = repo.getWinder(drwNo)
@@ -117,7 +117,7 @@ class LottoRepositoryTest {
     @Throws(Exception::class)
     fun getWinder_hasLocal() = runBlocking {
         val drwNo = Random().nextInt(50) + 1
-        val lotto = LottoTestUtil.makeLotto(drwNo)
+        val lotto = PixleeTestUtil.makeLotto(drwNo)
 
         lottoDao.saveLottoWithFrequency(lotto)
         val oneFromRepo = repo.getWinder(drwNo)

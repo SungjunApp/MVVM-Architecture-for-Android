@@ -25,7 +25,7 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 interface PixleeDataSource {
-    suspend fun loadNextPageOfPhotos(options: PXLAlbumSortOptions? = null): Flow<ArrayList<PXLPhotoItem>>
+    fun loadNextPageOfPhotos(options: PXLAlbumSortOptions? = null): Flow<ArrayList<PXLPhotoItem>>
     suspend fun uploadImage(title: String, filePath: String, contentType: String): String
     suspend fun getS3Images(): List<S3ObjectSummary>
 }
@@ -66,9 +66,7 @@ class PixleeRepository constructor(
         return url
     }
 
-
-
-    override suspend fun loadNextPageOfPhotos(options: PXLAlbumSortOptions?): Flow<ArrayList<PXLPhotoItem>> =
+    override fun loadNextPageOfPhotos(options: PXLAlbumSortOptions?): Flow<ArrayList<PXLPhotoItem>> =
         flow {
             val jobFinished = -1
             val jobWorking = 0
@@ -79,7 +77,7 @@ class PixleeRepository constructor(
             var remoteResult: ArrayList<PXLPhoto>? = null
 
             options?.also { album.setSortOptions(it) }
-
+            album.cancellAll()
             album.loadNextPageOfPhotos(object : PXLAlbum.RequestHandlers {
                 override fun DataLoadedHandler(photos: ArrayList<PXLPhoto>) {
                     remoteResult = photos

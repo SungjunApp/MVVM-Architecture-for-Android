@@ -14,21 +14,9 @@
 
     <string name="button_more">Load more</string>
 
-    <!-- Title -->
-    <string name="title_splash">Splash</string>
-    <string name="title_welcome">Welcome</string>
-    <string name="title_history">History</string>
-    <string name="title_trend">Trend</string>
-    <string name="title_winning_numbers">Winning Numbers</string>
-
-    <!-- Retry -->
-    <string name="button_retry">Retry</string>
-    <string name="button_ok">OK</string>
-    <string name="button_signin">Sign In</string>
-
-    <!-- Welcome -->
-    <string name="welcome_title">Feeling of lucky?</string>
-    <string name="welcome_message">If you want to start, please tap OK.</string>
+    <!-- Upload -->
+    <string name="upload_success_message">Complete</string>
+    <string name="upload_failure_message">Failed</string>
 
     <!-- Main -->
     <string name="event_number">Event Number</string>

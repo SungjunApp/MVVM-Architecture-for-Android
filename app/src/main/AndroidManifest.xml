@@ -30,19 +30,12 @@
         </provider>
         <activity
             android:name="com.sjsoft.app.ui.MainActivity"
-            android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-            <intent-filter android:label="@string/title_winning_numbers">
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="lotto" android:host="sungjunapp" />
             </intent-filter>
         </activity>
 

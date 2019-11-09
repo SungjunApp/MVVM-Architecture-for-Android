@@ -3,16 +3,14 @@ package com.sjsoft.app.ui
 import android.content.Intent
 import android.graphics.PorterDuff
 import android.os.Bundle
-import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
-import androidx.lifecycle.ViewModelProvider
 import com.sjsoft.app.BuildConfig
 import com.sjsoft.app.R
 import com.sjsoft.app.constant.AppConfig
-import com.sjsoft.app.ui.main.MenuFragment
+import com.sjsoft.app.ui.home.HomeFragment
 import com.sjsoft.app.util.*
 import dagger.android.AndroidInjector
 import dagger.android.DispatchingAndroidInjector
@@ -29,13 +27,6 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
     lateinit var fragmentInjector: DispatchingAndroidInjector<Fragment>
 
     override fun supportFragmentInjector(): AndroidInjector<Fragment> = fragmentInjector
-
-    @Inject
-    lateinit var viewModelFactory: ViewModelProvider.Factory
-
-    val viewModel: MainViewModel by viewModels {
-        viewModelFactory
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -56,25 +47,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
         supportFragmentManager.addOnBackStackChangedListener(mOnBackStackChangedListener)
 
-        goToFirstScreen(intent)
-    }
-
-    override fun onNewIntent(intent: Intent?) {
-        super.onNewIntent(intent)
-        goToFirstScreen(intent)
-    }
-
-
-    fun goToFirstScreen(intent: Intent?) {
-        //로또 회차 조회 : 임시저장 -> HomeFragment -> UploadFragment -> 임시저장 삭제
-        intent?.data?.also { uri ->
-            uri.queryDeepLinkParam(AppConfig.DeepLinkParams.drwNo)?.also{
-                viewModel.saveReservedDrwNo(it)
-                Timber.d("onCreate() -> deep link drwNo: $it")
-            }
-        }
-
-        replaceFragmentInActivity(frameLayoutId, MenuFragment())
+        replaceFragmentInActivity(frameLayoutId, HomeFragment())
     }
 
     private val mOnBackStackChangedListener = FragmentManager.OnBackStackChangedListener {
@@ -86,7 +59,7 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 if (fragmentCount > 0) {
                     val fragment =
                         supportFragmentManager.fragments[supportFragmentManager.fragments.size - 1] as BaseFragment
-                    if (fragment is MenuFragment) showToolbar = false
+                    if (fragment is HomeFragment) showToolbar = false
 
                     fragment.getCustomTitle() ?: getString(fragment.titleResource)
                 } else

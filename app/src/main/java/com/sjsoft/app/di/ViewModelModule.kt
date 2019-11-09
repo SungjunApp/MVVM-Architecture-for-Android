@@ -18,13 +18,9 @@ package com.sjsoft.app.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.sjsoft.app.ui.MainViewModel
 import com.sjsoft.app.ui.gallery.GalleryViewModel
-import com.sjsoft.app.ui.main.MenuViewModel
-import com.sjsoft.app.ui.zhome.HomeViewModel
 import com.sjsoft.app.ui.upload.UploadViewModel
 
-import com.sjsoft.app.ui.welcome.WelcomeViewModel
 import com.sjsoft.app.viewmodel.AppViewModelFactory
 
 import dagger.Binds
@@ -36,34 +32,13 @@ import dagger.multibindings.IntoMap
 abstract class ViewModelModule {
     @Binds
     @IntoMap
-    @ViewModelKey(MenuViewModel::class)
-    abstract fun bindMenuViewModel(viewModel: MenuViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(WelcomeViewModel::class)
-    abstract fun bindWelcomeViewModel(viewModel: WelcomeViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(HomeViewModel::class)
-    abstract fun bindHomeViewModel(viewModel: HomeViewModel): ViewModel
-
-    @Binds
-    @IntoMap
     @ViewModelKey(GalleryViewModel::class)
-    abstract fun bindHistoryViewModel(viewModel: GalleryViewModel): ViewModel
+    abstract fun bindGalleryViewModel(viewModel: GalleryViewModel): ViewModel
 
     @Binds
     @IntoMap
     @ViewModelKey(UploadViewModel::class)
     abstract fun bindSearchViewModel(viewModel: UploadViewModel): ViewModel
-
-    @Binds
-    @IntoMap
-    @ViewModelKey(MainViewModel::class)
-    abstract fun bindMainViewModel(viewModel: MainViewModel): ViewModel
-
 
     @Binds
     abstract fun bindViewModelFactory(factory: AppViewModelFactory): ViewModelProvider.Factory

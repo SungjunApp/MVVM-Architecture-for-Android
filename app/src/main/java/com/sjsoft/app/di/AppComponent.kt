@@ -14,10 +14,7 @@ import javax.inject.Singleton
         AndroidSupportInjectionModule::class,
         ActivityBuildModule::class,
         AppModule::class,
-        APIModule::class,
-        NetworkModule::class,
         RepositoryModule::class,
-        RoomModule::class,
         PixleeModule::class,
         AWSModule::class
     ]
