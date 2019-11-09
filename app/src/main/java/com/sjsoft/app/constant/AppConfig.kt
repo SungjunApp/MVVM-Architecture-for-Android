@@ -34,6 +34,11 @@ class AppConfig {
         const val LIST_VISIBLE_THRESHOLD = 5
         const val pixleeEmail = "sdk@pixleeteam.com"
         const val pixleeUserName = "SDK Project"
+
+        fun getS3Url(key: String): String {
+            return "http://s3.amazonaws.com/${BuildConfig.AWS_S3_BUCKET_NAME}/$key"
+        }
+
     }
 
     object DeepLinkParams {

@@ -24,7 +24,8 @@ class GalleryAdapter(val context: Context, private val marginInfo: MarginInfo) :
     }
 
     override fun onBindViewHolder(holder: GridViewHolder, position: Int) {
-        holder.bind(getItem(position)?.photo?.thumbnailUrl?.toString(), marginInfo)
+
+        holder.bind(getItem(position)?.photo?.cdnMediumUrl?.toString(), marginInfo)
     }
 
     companion object {

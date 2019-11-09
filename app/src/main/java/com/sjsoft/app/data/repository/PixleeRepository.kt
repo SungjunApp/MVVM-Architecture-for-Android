@@ -38,12 +38,6 @@ class PixleeRepository constructor(
         var list: List<S3ObjectSummary> = ArrayList()
         withContext(Dispatchers.IO) {
             list = awsS3.listObjects(BuildConfig.AWS_S3_BUCKET_NAME).objectSummaries
-
-            Log.e("GalleryVM", "GalleryVM.summaries.size: ${list.size}")
-
-            list.forEach {
-                Log.e("GalleryVM", "GalleryVM.awsS3.key: ${it.key}")
-            }
         }
         return list
     }

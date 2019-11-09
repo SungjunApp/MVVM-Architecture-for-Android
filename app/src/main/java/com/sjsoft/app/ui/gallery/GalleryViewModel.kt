@@ -65,8 +65,6 @@ class GalleryViewModel
         }
 
     fun listScrolled(visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
-        val canScroll = visibleItemCount + lastVisibleItemPosition + AppConfig.LIST_VISIBLE_THRESHOLD >= totalItemCount
-        Log.e("GalleryVM", "canScroll: $canScroll, \tvisibleCount: $visibleItemCount, lastItemPosition: $lastVisibleItemPosition, leftTotal: ${visibleItemCount + lastVisibleItemPosition + AppConfig.LIST_VISIBLE_THRESHOLD},  globalTotal: $totalItemCount")
         if (visibleItemCount + lastVisibleItemPosition + AppConfig.LIST_VISIBLE_THRESHOLD >= totalItemCount) {
             if (canLoadMore) {
                 getLoadData()

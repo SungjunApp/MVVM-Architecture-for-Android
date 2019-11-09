@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amazonaws.services.s3.model.S3ObjectSummary
 import com.sjsoft.app.GlideApp
 import com.sjsoft.app.R
+import com.sjsoft.app.constant.AppConfig
 import com.sjsoft.app.data.PXLPhotoItem
 import com.sjsoft.app.ui.holders.GridViewHolder
 import com.sjsoft.app.ui.holders.MarginInfo
@@ -25,7 +26,7 @@ class UploadAdapter(val context: Context, private val marginInfo: MarginInfo) :
     }
 
     override fun onBindViewHolder(holder: GridViewHolder, position: Int) {
-        holder.bind("https://vocalhong.s3-ap-northeast-1.amazonaws.com/" + getItem(position).key, marginInfo)
+        holder.bind(AppConfig.getS3Url(getItem(position).key), marginInfo)
     }
 
     companion object {
