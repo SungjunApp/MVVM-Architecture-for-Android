@@ -68,10 +68,9 @@ class GalleryViewModel
     }
 
     private val defaultTab = PXLAlbumSortType.RECENCY
-    fun changeTab(option: PXLAlbumSortOptions = generateSortOption(defaultTab)):PXLAlbumSortOptions {
+    fun changeTab(option: PXLAlbumSortOptions = generateSortOption(defaultTab)) {
         sortType.value = option.sortType
         loadList(option)
-        return option
     }
 
     fun generateSortOption(type: PXLAlbumSortType): PXLAlbumSortOptions {

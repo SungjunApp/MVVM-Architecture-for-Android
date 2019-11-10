@@ -5,6 +5,7 @@ import androidx.lifecycle.Observer
 import com.android.app.rule.CoroutinesTestRule
 import com.android.app.util.PixleeTestUtil
 import com.pixlee.pixleesdk.PXLAlbumSortType
+import com.sjsoft.app.constant.AppConfig
 import com.sjsoft.app.data.PXLPhotoItem
 import com.sjsoft.app.data.repository.PixleeDataSource
 import com.sjsoft.app.ui.gallery.GalleryViewModel
@@ -134,18 +135,18 @@ class GalleryViewModelTest {
         val firstType = PXLAlbumSortType.RECENCY
         val firstOptions = viewModel.generateSortOption(firstType)
 
-        val secondType = PXLAlbumSortType.RECENCY
+        val secondType = PXLAlbumSortType.DYNAMIC
         val secondOptions = viewModel.generateSortOption(secondType)
 
-        //First call
+        //a call for firstType
         `when`(pixlee.loadNextPageOfPhotos(firstOptions)).thenReturn(
             flow {
                 emit(firstItems)
             }
         )
 
-        //Second call
-        `when`(pixlee.loadNextPageOfPhotos()).thenReturn(
+        //another call for secondType
+        `when`(pixlee.loadNextPageOfPhotos(secondOptions)).thenReturn(
             flow {
                 emit(secondItems)
             }
@@ -153,6 +154,8 @@ class GalleryViewModelTest {
 
         //Select the first tab
         viewModel.changeTab(firstOptions)
+
+        //advanceTimeBy(AppConfig.splashDelay)
 
         //Select the second tab
         viewModel.changeTab(secondOptions)
