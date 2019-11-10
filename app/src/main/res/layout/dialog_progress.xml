@@ -12,10 +12,10 @@
 
     <ProgressBar android:layout_width="@dimen/spacing_xmlarge" android:layout_height="@dimen/spacing_xmlarge"/>
     <TextView
-        android:id="@+id/tv_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingLeft="@dimen/spacing_mlarge"
+        android:text="@string/uploading"
         />
 
 </LinearLayout>

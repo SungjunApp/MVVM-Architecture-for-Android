@@ -28,11 +28,11 @@ import kotlin.collections.ArrayList
 
 interface PixleeDataSource {
     fun loadNextPageOfPhotos(options: PXLAlbumSortOptions? = null): Flow<ArrayList<PXLPhotoItem>>
-    fun uploadImage(title: String, filePath: String, contentType: String): Flow<UploadInfo>
+    suspend fun uploadImage(title: String, filePath: String, contentType: String): UploadInfo
     suspend fun getS3Images(): List<S3Item>
 }
 
-data class UploadInfo(val isComplete: Boolean, val progress: Int, val url: String? = null)
+data class UploadInfo(val isComplete: Boolean, val url: String? = null)
 
 class PixleeRepository constructor(
     private val album: PXLAlbum,
@@ -53,14 +53,13 @@ class PixleeRepository constructor(
 
     @ExperimentalCoroutinesApi
     @SuppressLint("LogNotTimber")
-    override fun uploadImage(
+    override suspend fun uploadImage(
         title: String,
         filePath: String,
         contentType: String
-    ): Flow<UploadInfo> = callbackFlow {
-        var url = ""
+    ): UploadInfo {
         val keyName = "${AppConfig.pixleeEmail}/${UUID.randomUUID()}"
-
+        var uploadInfo:UploadInfo = UploadInfo(false)
         withContext(Dispatchers.IO) {
             //awsS3.deleteObject(BuildConfig.AWS_S3_BUCKET_NAME, keyName)
             val file = File(filePath)
@@ -71,49 +70,22 @@ class PixleeRepository constructor(
             metadata.contentType = contentType
             metadata.addUserMetadata("x-amz-meta-title", title)
             request.metadata = metadata
-            var progress = 0
-            request.setGeneralProgressListener {
-                /*uploadInfo = UploadInfo(
-                    false,
-                    (it.bytesTransferred.toDouble() / fileSize.toDouble() * 100.toDouble()).toInt()
-                )*/
-                val change =
-                    (it.bytesTransferred.toDouble() / fileSize.toDouble() * 100.toDouble()).toInt()
-                if (progress < change) {
-                    progress = change
-                }
-                offer(
-                    UploadInfo(
-                        false,
-                        progress
-                    )
-                )
-                Log.e(
-                    "PixRepo",
-                    "PixRepo.progress: ${it.bytesTransferred} / ${fileSize} ---> $progress"
-                )
-                //Log.e("PixRepo", "PixRepo.progress.uploadInfo: ${uploadInfo}")
-            }
             awsS3.putObject(request)
-            offer(UploadInfo(false, 100))
-            delay(2000)
             awsS3.setObjectAcl(
                 BuildConfig.AWS_S3_BUCKET_NAME,
                 keyName,
                 CannedAccessControlList.PublicRead
             )
 
-            offer(
-                UploadInfo(
-                    true,
-                    100,
-                    url = awsS3.getUrl(BuildConfig.AWS_S3_BUCKET_NAME, keyName).toExternalForm()
-                )
+            uploadInfo = UploadInfo(
+                true,
+                url = awsS3.getUrl(BuildConfig.AWS_S3_BUCKET_NAME, keyName).toExternalForm()
             )
 
             Log.e("PixRepo", "PixRepo.end")
         }
 
+        return uploadInfo
         //PXLClient.initialize(BuildConfig.PIXLEE_API_KEY, BuildConfig.PIXLEE_SECRET_KEY)
         //album.uploadImage(title, AppConfig.pixleeEmail, AppConfig.pixleeUserName, url, true)
 

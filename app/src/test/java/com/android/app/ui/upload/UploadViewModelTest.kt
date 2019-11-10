@@ -5,7 +5,10 @@ import androidx.lifecycle.Observer
 import com.amazonaws.services.s3.model.S3ObjectSummary
 import com.android.app.rule.CoroutinesTestRule
 import com.sjsoft.app.R
+import com.sjsoft.app.data.S3Item
 import com.sjsoft.app.data.repository.PixleeDataSource
+import com.sjsoft.app.data.repository.PreferenceDataSource
+import com.sjsoft.app.data.repository.UploadInfo
 import com.sjsoft.app.ui.upload.UploadViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runBlockingTest
@@ -27,6 +30,9 @@ class UploadViewModelTest {
 
     @Mock
     lateinit var pixlee: PixleeDataSource
+
+    @Mock
+    lateinit var pref: PreferenceDataSource
 
     private lateinit var viewModel: UploadViewModel
 
@@ -60,7 +66,7 @@ class UploadViewModelTest {
     @Before
     fun setupViewModel() {
         MockitoAnnotations.initMocks(this)
-        viewModel = UploadViewModel(pixlee)
+        viewModel = UploadViewModel(pixlee, pref)
         viewModel.listUI.observeForever(listObserver)
         viewModel.loadMoreUI.observeForever(loadMoreObserver)
         viewModel.buttonUI.observeForever(buttonObserver)
@@ -97,8 +103,8 @@ class UploadViewModelTest {
     @ExperimentalCoroutinesApi
     @Test
     fun `get S3Images succeeded`() = coroutinesTestRule.testDispatcher.runBlockingTest {
-        val item = S3ObjectSummary()
-        item.key = "hello"
+        val item = S3Item("image", S3ObjectSummary())
+        item.s3Object.key = "hello"
         val list = listOf(
             item
         )
@@ -145,12 +151,13 @@ class UploadViewModelTest {
         val filePath = "image.png"
         val contentType = "image"
         val returnUrl = "http://aws.hihi.com/face.jpg"
-        `when`(pixlee.uploadImage(title, filePath, contentType)).thenReturn(returnUrl)
+        val uploadInfo = UploadInfo(true, returnUrl)
+        `when`(pixlee.uploadImage(title, filePath, contentType)).thenReturn(uploadInfo)
 
         viewModel.uploadImage(filePath, contentType)
 
         verify(uploadObserver, times(2)).onChanged(uploadCaptor.capture())
-        Assert.assertEquals(UploadViewModel.UploadUI.Loading, uploadCaptor.allValues[0])
+        Assert.assertEquals(UploadViewModel.UploadUI.Uploading, uploadCaptor.allValues[0])
         Assert.assertEquals(UploadViewModel.UploadUI.Complete(returnUrl, R.string.upload_success_message), uploadCaptor.allValues[1])
     }
 
@@ -171,7 +178,7 @@ class UploadViewModelTest {
         viewModel.uploadImage(filePath, contentType)
 
         verify(uploadObserver, times(2)).onChanged(uploadCaptor.capture())
-        Assert.assertEquals(UploadViewModel.UploadUI.Loading, uploadCaptor.allValues[0])
+        Assert.assertEquals(UploadViewModel.UploadUI.Uploading, uploadCaptor.allValues[0])
         Assert.assertEquals(UploadViewModel.UploadUI.Error(R.string.upload_failure_message), uploadCaptor.allValues[1])
     }
 

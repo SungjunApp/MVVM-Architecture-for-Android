@@ -18,7 +18,6 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.app.ActivityCompat
@@ -95,15 +94,7 @@ class UploadFragment : BaseFragment(), Injectable {
         recyclerView.setShadowViewController(v_shadow)
 
         viewModel.uploadUI.observe(this, Observer {
-            val progress = if (it is UploadViewModel.UploadUI.Uploadinging) {
-                if (it.progress == 100) getString(R.string.uploaded) else getString(
-                    R.string.uploading_string,
-                    "${it.progress} / 100"
-                )
-            } else {
-                "0"
-            }
-            makeLoading(it is UploadViewModel.UploadUI.Uploadinging, progress)
+            makeLoading(it is UploadViewModel.UploadUI.Uploading)
 
             when (it) {
                 is UploadViewModel.UploadUI.Complete -> {
@@ -304,15 +295,13 @@ class UploadFragment : BaseFragment(), Injectable {
 
 
     var loadingDialog: AlertDialog? = null
-    var tv_progress: TextView? = null
-    fun makeLoading(show: Boolean, message: String) {
+    fun makeLoading(show: Boolean) {
         if (show) {
             if (loadingDialog == null) {
                 context?.let {
                     val builder = AlertDialog.Builder(it)
                     val inflater = layoutInflater
                     val dialogLayout = inflater.inflate(R.layout.dialog_progress, null)
-                    tv_progress = dialogLayout.findViewById(R.id.tv_message)
                     builder.setView(dialogLayout)
                     builder.setCancelable(false)
                     loadingDialog = builder.show()
@@ -320,8 +309,6 @@ class UploadFragment : BaseFragment(), Injectable {
             } else {
                 loadingDialog?.show()
             }
-
-            tv_progress?.text = message
 
         } else {
             loadingDialog?.also {

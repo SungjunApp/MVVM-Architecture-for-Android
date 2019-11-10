@@ -10,8 +10,7 @@
     <string name="image_title">Image Title</string>
     <string name="no_photo">No Item</string>
     <string name="button_more">Load more</string>
-    <string name="uploading_string">Uploading..(%s)</string>
-    <string name="uploaded">Finishing..</string>
+    <string name="uploading">Uploading..</string>
     <string name="uploaded_item_guide">Click to view this uploaded image</string>
     <string name="list_item_guide">Click to view an image</string>
 

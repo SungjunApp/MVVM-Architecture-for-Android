@@ -8,6 +8,7 @@ import com.pixlee.pixleesdk.PXLAlbumSortType
 import com.sjsoft.app.constant.AppConfig
 import com.sjsoft.app.data.PXLPhotoItem
 import com.sjsoft.app.data.repository.PixleeDataSource
+import com.sjsoft.app.data.repository.PreferenceDataSource
 import com.sjsoft.app.ui.gallery.GalleryViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
@@ -31,6 +32,9 @@ class GalleryViewModelTest {
 
     @Mock
     lateinit var pixlee: PixleeDataSource
+
+    @Mock
+    lateinit var pref: PreferenceDataSource
 
     private lateinit var viewModel: GalleryViewModel
 
@@ -56,7 +60,7 @@ class GalleryViewModelTest {
     @Before
     fun setupViewModel() {
         MockitoAnnotations.initMocks(this)
-        viewModel = GalleryViewModel(pixlee)
+        viewModel = GalleryViewModel(pixlee ,pref)
         viewModel.listUI.observeForever(listObserver)
         viewModel.loadMoreUI.observeForever(loadMoreObserver)
         viewModel.sortType.observeForever(sortTypeObserver)

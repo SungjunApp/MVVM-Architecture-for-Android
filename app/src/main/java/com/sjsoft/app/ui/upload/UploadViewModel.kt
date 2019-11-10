@@ -51,7 +51,7 @@ class UploadViewModel
 
     //Upload
     sealed class UploadUI {
-        data class Uploadinging(val isComplete:Boolean, val progress: Int) : UploadUI()
+        object Uploading : UploadUI()
         data class Error(@StringRes val message: Int) : UploadUI()
         data class Complete(val url: String, @StringRes val message: Int) : UploadUI()
     }
@@ -59,16 +59,12 @@ class UploadViewModel
     val uploadUI = SingleLiveEvent<UploadUI>()
     fun uploadImage(filePath: String, contentType: String) {
         launchVMScope({
-            uploadUI.value = UploadUI.Uploadinging(false, 0)
+            uploadUI.value = UploadUI.Uploading
             title?.also {
-                pixlee.uploadImage(it, filePath, contentType).collect {
-                    if (it.isComplete && it.url != null) {
-                        uploadUI.value = UploadUI.Complete(it.url, R.string.upload_success_message)
-                    } else {
-                        uploadUI.value = UploadUI.Uploadinging(it.isComplete, it.progress)
-                    }
+                val uploadImage = pixlee.uploadImage(it, filePath, contentType)
+                if (uploadImage.isComplete && uploadImage.url != null) {
+                    uploadUI.value = UploadUI.Complete(uploadImage.url, R.string.upload_success_message)
                 }
-
             }
 
         }, {
