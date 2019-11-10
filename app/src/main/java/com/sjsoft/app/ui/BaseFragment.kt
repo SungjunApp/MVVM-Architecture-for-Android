@@ -46,28 +46,6 @@ abstract class BaseFragment : Fragment() {
         super.onDestroyView()
     }
 
-    var loadingDialog: AlertDialog? = null
-    fun makeLoading(show: Boolean) {
-        if (show) {
-            if (loadingDialog != null && loadingDialog!!.isShowing)
-                return
-
-            context?.let {
-                val builder = AlertDialog.Builder(it)
-                val inflater = layoutInflater
-                val dialogLayout = inflater.inflate(R.layout.dialog_progress, null)
-                builder.setView(dialogLayout)
-                builder.setCancelable(false)
-                loadingDialog = builder.show()
-            }
-
-        } else {
-            if (loadingDialog != null && loadingDialog!!.isShowing)
-                loadingDialog?.dismiss()
-        }
-    }
-
-
     var toast: Toast? = null
     fun showToast(@StringRes message: Int) {
         context?.also { context ->

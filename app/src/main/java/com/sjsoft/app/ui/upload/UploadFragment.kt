@@ -18,6 +18,7 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.app.ActivityCompat
@@ -26,13 +27,17 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.sjsoft.app.R
+import com.sjsoft.app.data.S3Item
 import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.ui.BaseFragment
 import com.sjsoft.app.ui.holders.MarginInfo
 import com.sjsoft.app.ui.viewer.ImageViewerFragment
+import com.sjsoft.app.ui.viewer.VideoViewerFragment
 import com.sjsoft.app.util.*
 import kotlinx.android.synthetic.main.fragment_upload.*
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import javax.inject.Inject
 
 class UploadFragment : BaseFragment(), Injectable {
@@ -56,8 +61,16 @@ class UploadFragment : BaseFragment(), Injectable {
                 , 3.toPx()
                 , 3.toPx()
             )
-        ) { s, view ->
-            addFragmentToActivity(ImageViewerFragment.getInstance(s, view.transitionName), view)
+        ){
+            moveToViewer(it)
+        }
+    }
+
+    fun moveToViewer(s3Item:S3Item){
+        if(s3Item.isVideo()){
+            addFragmentToActivity(VideoViewerFragment.getInstance(s3Item.getS3Url()))
+        }else{
+            addFragmentToActivity(ImageViewerFragment.getInstance(s3Item.getS3Url()))
         }
     }
 
@@ -82,7 +95,16 @@ class UploadFragment : BaseFragment(), Injectable {
         recyclerView.setShadowViewController(v_shadow)
 
         viewModel.uploadUI.observe(this, Observer {
-            makeLoading(it is UploadViewModel.UploadUI.Loading)
+            val progress = if (it is UploadViewModel.UploadUI.Uploadinging) {
+                if (it.progress == 100) getString(R.string.uploaded) else getString(
+                    R.string.uploading_string,
+                    "${it.progress} / 100"
+                )
+            } else {
+                "0"
+            }
+            makeLoading(it is UploadViewModel.UploadUI.Uploadinging, progress)
+
             when (it) {
                 is UploadViewModel.UploadUI.Complete -> {
                     showToast(it.message)
@@ -106,8 +128,28 @@ class UploadFragment : BaseFragment(), Injectable {
             }
         })
 
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (itemCount > 0 && !viewModel.isListTapped()) {
+                    recyclerView.post {
+                        MaterialTapTargetPrompt.Builder(activity!!)
+                            .setTarget(R.id.v_root_gallery)
+                            .setPrimaryText(getString(R.string.uploaded_item_guide))
+                            //.setSecondaryText(getString(R.string.uploaded_item_guide))
+                            .setPromptStateChangeListener { prompt, state ->
+                                if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
+                                    viewModel.makeListTapped()
+                                    moveToViewer(adapter.currentList[0])
+                                }
+                            }
+                            .show()
+                    }
+                }
+            }
+        })
+
         viewModel.loadMoreUI.observe(this, Observer {
-            constraintSet.setupLoadMore(v_content_box, bt_more, it)
+            constraintSet.setupLoadMore(v_content_box, bt_more as View, it)
         })
 
         viewModel.buttonUI.observe(this, Observer {
@@ -249,7 +291,7 @@ class UploadFragment : BaseFragment(), Injectable {
         val builder = context?.let { it1 -> AlertDialog.Builder(it1) }
         if (builder != null) {
             builder.setMessage(R.string.storage_permission_for_uploading)
-            builder.setPositiveButton(android.R.string.ok) { _, _ ->
+            builder.setPositiveButton(R.string.button_setting) { _, _ ->
                 startActivity(
                     Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:${activity?.packageName}"))
                 )
@@ -257,6 +299,36 @@ class UploadFragment : BaseFragment(), Injectable {
             builder.setNegativeButton(android.R.string.cancel) { _, _ ->
             }
             builder.show()
+        }
+    }
+
+
+    var loadingDialog: AlertDialog? = null
+    var tv_progress: TextView? = null
+    fun makeLoading(show: Boolean, message: String) {
+        if (show) {
+            if (loadingDialog == null) {
+                context?.let {
+                    val builder = AlertDialog.Builder(it)
+                    val inflater = layoutInflater
+                    val dialogLayout = inflater.inflate(R.layout.dialog_progress, null)
+                    tv_progress = dialogLayout.findViewById(R.id.tv_message)
+                    builder.setView(dialogLayout)
+                    builder.setCancelable(false)
+                    loadingDialog = builder.show()
+                }
+            } else {
+                loadingDialog?.show()
+            }
+
+            tv_progress?.text = message
+
+        } else {
+            loadingDialog?.also {
+                if (it.isShowing) {
+                    it.dismiss()
+                }
+            }
         }
     }
 

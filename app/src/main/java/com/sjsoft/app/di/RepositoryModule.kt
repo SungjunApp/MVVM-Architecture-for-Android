@@ -12,12 +12,14 @@ import javax.inject.Singleton
 
 @Module
 class RepositoryModule {
-    //@Singleton
     @Provides
     fun providePixleeRepository(album: PXLAlbum, awsS3: AmazonS3): PixleeDataSource {
         return PixleeRepository(album, awsS3)
     }
 
-
-
+    @Singleton
+    @Provides
+    fun providePreferenceRepository(context: Context): PreferenceDataSource {
+        return PreferenceRepository(context)
+    }
 }

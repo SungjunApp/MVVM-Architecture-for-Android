@@ -22,7 +22,7 @@ import kotlinx.android.synthetic.main.item_gallery.*
 class GalleryAdapter(
     val context: Context,
     private val marginInfo: MarginInfo,
-    val clickListener: (String, View) -> Unit
+    val clickListener: (String) -> Unit
 ) :
     ListAdapter<PXLPhotoItem, GridViewHolder>(REPO_COMPARATOR) {
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): GridViewHolder {
@@ -31,9 +31,9 @@ class GalleryAdapter(
 
     override fun onBindViewHolder(holder: GridViewHolder, position: Int) {
         val imageUrl = getItem(position)?.photo?.cdnMediumUrl?.toString()
-        holder.bind(imageUrl, marginInfo)
+        holder.bind(imageUrl, false, marginInfo)
         holder.itemView.setSafeOnClickListener {
-            getItem(position)?.photo?.cdnLargeUrl?.toString()?.also { clickListener(it, holder.itemView) }
+            getItem(position)?.photo?.cdnLargeUrl?.toString()?.also { clickListener(it) }
         }
     }
 

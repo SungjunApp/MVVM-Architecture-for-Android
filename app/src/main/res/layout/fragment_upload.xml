@@ -24,7 +24,7 @@
         <com.google.android.material.button.MaterialButton
             android:id="@+id/bt_upload"
             android:layout_width="wrap_content"
-            style="@style/NextButtonOutLined"
+            style="@style/NextButtonDefault"
             android:text="@string/title_pic"
             app:cornerRadius="3dp"
             />

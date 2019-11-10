@@ -1,13 +1,13 @@
 package com.sjsoft.app.ui.gallery
 
 import android.util.Log
-import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import com.pixlee.pixleesdk.PXLAlbumSortOptions
 import com.pixlee.pixleesdk.PXLAlbumSortType
 import com.sjsoft.app.constant.AppConfig
 import com.sjsoft.app.data.PXLPhotoItem
 import com.sjsoft.app.data.repository.PixleeDataSource
+import com.sjsoft.app.data.repository.PreferenceDataSource
 import com.sjsoft.app.ui.BaseViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.cancelAndJoin
@@ -17,7 +17,7 @@ import javax.inject.Inject
 
 
 class GalleryViewModel
-@Inject constructor(private val pixleeDataSource: PixleeDataSource) : BaseViewModel() {
+@Inject constructor(private val pixlee: PixleeDataSource, val pref: PreferenceDataSource) : BaseViewModel() {
 
     val listUI = MutableLiveData<ListUI>()
     val loadMoreUI = MutableLiveData<Boolean>().apply { value = false }
@@ -39,7 +39,7 @@ class GalleryViewModel
                 if (isFirstPage) listUI.value = ListUI.LoadingShown
                 loadMoreUI.value = false
                 canLoadMore = false
-                pixleeDataSource.loadNextPageOfPhotos(options)
+                pixlee.loadNextPageOfPhotos(options)
                     .collect {
                         listUI.value = ListUI.Data(it)
                     }
@@ -97,4 +97,11 @@ class GalleryViewModel
         loadList(sortOption)
     }
 
+    fun isListTapped():Boolean{
+        return pref.isUploadListTapped()
+    }
+
+    fun makeListTapped(){
+        pref.makeUploadListTapped()
+    }
 }

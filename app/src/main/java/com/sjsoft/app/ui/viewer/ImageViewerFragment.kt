@@ -135,16 +135,11 @@ class ImageViewerFragment : BaseFragment() {
         return arguments?.getString("imageUrl")
     }
 
-    private fun getTransitionName(): String? {
-        return arguments?.getString("transitionName")
-    }
-
     companion object {
-        fun getInstance(imageUrl: String, transitionName:String): ImageViewerFragment {
+        fun getInstance(imageUrl: String): ImageViewerFragment {
             val f = ImageViewerFragment()
             val bundle = Bundle()
             bundle.putString("imageUrl", imageUrl)
-            bundle.putString("transitionName", transitionName)
             f.arguments = bundle
             return f
         }

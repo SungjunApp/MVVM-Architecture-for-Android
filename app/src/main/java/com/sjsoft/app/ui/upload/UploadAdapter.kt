@@ -1,56 +1,47 @@
 package com.sjsoft.app.ui.upload
 
 import android.content.Context
-import android.graphics.Point
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import androidx.recyclerview.widget.RecyclerView
-import com.amazonaws.services.s3.model.S3ObjectSummary
-import com.sjsoft.app.GlideApp
-import com.sjsoft.app.R
 import com.sjsoft.app.constant.AppConfig
-import com.sjsoft.app.data.PXLPhotoItem
+import com.sjsoft.app.data.S3Item
 import com.sjsoft.app.ui.holders.GridViewHolder
 import com.sjsoft.app.ui.holders.MarginInfo
 import com.sjsoft.app.util.setSafeOnClickListener
-import kotlinx.android.extensions.LayoutContainer
-import kotlinx.android.synthetic.main.item_gallery.*
 
 class UploadAdapter(
     val context: Context,
     private val marginInfo: MarginInfo,
-    val clickListener: (String, View) -> Unit
+    val clickListener: (S3Item) -> Unit
 ) :
-    ListAdapter<S3ObjectSummary, GridViewHolder>(REPO_COMPARATOR) {
+    ListAdapter<S3Item, GridViewHolder>(REPO_COMPARATOR) {
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): GridViewHolder {
         return GridViewHolder.create(viewGroup)
     }
 
     override fun onBindViewHolder(holder: GridViewHolder, position: Int) {
-        val imageUrl = AppConfig.getS3Url(getItem(position).key)
-        holder.bind(imageUrl, marginInfo)
+        val item = getItem(position)
+        holder.bind(item.getS3Url(), item.isVideo(), marginInfo)
         holder.itemView.setSafeOnClickListener {
-            clickListener(imageUrl, holder.itemView)
+            clickListener(item)
         }
     }
 
     companion object {
-        private val REPO_COMPARATOR = object : DiffUtil.ItemCallback<S3ObjectSummary>() {
+        private val REPO_COMPARATOR = object : DiffUtil.ItemCallback<S3Item>() {
             override fun areItemsTheSame(
-                oldItem: S3ObjectSummary,
-                newItem: S3ObjectSummary
+                oldItem: S3Item,
+                newItem: S3Item
             ): Boolean =
-                oldItem.key == newItem.key
+                oldItem.s3Object.key == newItem.s3Object.key
 
             override fun areContentsTheSame(
-                oldItem: S3ObjectSummary,
-                newItem: S3ObjectSummary
+                oldItem: S3Item,
+                newItem: S3Item
             ): Boolean =
-                oldItem.key == newItem.key
+                oldItem.s3Object.key == newItem.s3Object.key
         }
     }
 }

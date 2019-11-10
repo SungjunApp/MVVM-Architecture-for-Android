@@ -53,6 +53,7 @@ android {
             buildConfigField "String", "AWS_SECRET_KEY", "\"" + AWS_SECRET_KEY + "\""
             buildConfigField "String", "AWS_S3_BUCKET_NAME", "\"" + AWS_S3_BUCKET_NAME + "\""
             buildConfigField "String", "AWS_REGION", "\"" + AWS_REGION + "\""
+            buildConfigField "String", "AWS_S3_DOMAIN", "\"" + AWS_S3_DOMAIN + "\""
         }
         dev {
             dimension "default"
@@ -66,6 +67,8 @@ android {
             buildConfigField "String", "AWS_SECRET_KEY", "\"" + AWS_SECRET_KEY_HONG + "\""
             buildConfigField "String", "AWS_S3_BUCKET_NAME", "\"" + AWS_S3_BUCKET_NAME_HONG + "\""
             buildConfigField "String", "AWS_REGION", "\"" + AWS_REGION_HONG + "\""
+            buildConfigField "String", "AWS_S3_DOMAIN", "\"" + AWS_S3_DOMAIN_HONG + "\""
+
         }
 
     }
@@ -254,6 +257,11 @@ dependencies {
      */
     implementation "com.jakewharton.timber:timber:4.7.1"
     implementation project(path: ':pixleesdk')
+
+    /**
+     * Material Tap Target Prompt
+     */
+    implementation 'uk.co.samuelwall:material-tap-target-prompt:3.0.0'
 
     /**
      * AWS

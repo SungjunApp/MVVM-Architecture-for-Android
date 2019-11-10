@@ -11,14 +11,23 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.pixlee.pixleesdk.PXLAlbumSortType
 import com.sjsoft.app.R
+import com.sjsoft.app.data.S3Item
 import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.ui.BaseFragment
 import com.sjsoft.app.ui.holders.MarginInfo
 import com.sjsoft.app.ui.viewer.ImageViewerFragment
 import com.sjsoft.app.util.*
 import kotlinx.android.synthetic.main.fragment_list.*
+import kotlinx.android.synthetic.main.fragment_list.bt_more
+import kotlinx.android.synthetic.main.fragment_list.recyclerView
+import kotlinx.android.synthetic.main.fragment_list.v_content_box
+import kotlinx.android.synthetic.main.fragment_list.v_loading
+import kotlinx.android.synthetic.main.fragment_list.v_shadow
+import kotlinx.android.synthetic.main.fragment_upload.*
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import javax.inject.Inject
 
 class GalleryFragment : BaseFragment(), Injectable {
@@ -40,9 +49,13 @@ class GalleryFragment : BaseFragment(), Injectable {
                 , 3.toPx()
                 , 3.toPx()
             )
-        ){ s, view ->
-            addFragmentToActivity(ImageViewerFragment.getInstance(s, view.transitionName), view)
+        ){
+            moveToViewer(it)
         }
+    }
+
+    fun moveToViewer(image: String){
+        addFragmentToActivity(ImageViewerFragment.getInstance(image))
     }
     internal var gridLayoutManager: GridLayoutManager? = null
     var GRID_COUNT: Int = 3
@@ -97,6 +110,26 @@ class GalleryFragment : BaseFragment(), Injectable {
                     adapter.submitList(it.list)
                 }
 
+            }
+        })
+
+        adapter.registerAdapterDataObserver(object : RecyclerView.AdapterDataObserver() {
+            override fun onItemRangeInserted(positionStart: Int, itemCount: Int) {
+                if (itemCount > 0 && !viewModel.isListTapped()) {
+                    recyclerView.post {
+                        MaterialTapTargetPrompt.Builder(activity!!)
+                            .setTarget(R.id.v_root_gallery)
+                            .setPrimaryText(getString(R.string.list_item_guide))
+                            //.setSecondaryText(getString(R.string.uploaded_item_guide))
+                            .setPromptStateChangeListener { prompt, state ->
+                                if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
+                                    viewModel.makeListTapped()
+                                    adapter.currentList[0]?.photo?.cdnLargeUrl?.toString()?.also { moveToViewer(it) }
+                                }
+                            }
+                            .show()
+                    }
+                }
             }
         })
 

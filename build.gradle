@@ -44,11 +44,13 @@ ext {
     AWS_SECRET_KEY = keystoreProperties['awsSecretKey']
     AWS_S3_BUCKET_NAME = keystoreProperties['awsS3BucketName']
     AWS_REGION = keystoreProperties['awsRegion']
+    AWS_S3_DOMAIN = keystoreProperties['s3Domain']
 
     AWS_ACCESS_KEY_HONG = keystoreProperties['awsAccessKey_HONG']
     AWS_SECRET_KEY_HONG = keystoreProperties['awsSecretKey_HONG']
     AWS_S3_BUCKET_NAME_HONG = keystoreProperties['awsS3BucketName_HONG']
     AWS_REGION_HONG = keystoreProperties['awsRegion_HONG']
+    AWS_S3_DOMAIN_HONG = keystoreProperties['s3Domain_HONG']
 
 
     // Sdk and tools

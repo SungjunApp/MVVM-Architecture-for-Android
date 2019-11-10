@@ -36,7 +36,7 @@ class AppConfig {
         const val pixleeUserName = "SDK Project"
 
         fun getS3Url(key: String): String {
-            return "http://s3.amazonaws.com/${BuildConfig.AWS_S3_BUCKET_NAME}/$key"
+            return "${BuildConfig.AWS_S3_DOMAIN}$key"
         }
 
     }
