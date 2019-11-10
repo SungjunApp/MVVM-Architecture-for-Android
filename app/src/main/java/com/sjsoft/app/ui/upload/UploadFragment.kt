@@ -1,10 +1,15 @@
 package com.sjsoft.app.ui.upload
 
+import android.Manifest
 import android.app.Activity
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
+import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
+import android.provider.Settings
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -13,14 +18,14 @@ import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.view.animation.AnticipateOvershootInterpolator
+import androidx.appcompat.app.AlertDialog
 import androidx.constraintlayout.widget.ConstraintSet
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.transition.ChangeBounds
-import androidx.transition.TransitionManager
 import com.sjsoft.app.R
 import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.ui.BaseFragment
@@ -64,6 +69,7 @@ class UploadFragment : BaseFragment(), Injectable {
         return inflater.inflate(R.layout.fragment_upload, container, false)
     }
 
+    val constraintSet = ConstraintSet()
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         recyclerView.setPaddingRelative(
@@ -101,7 +107,7 @@ class UploadFragment : BaseFragment(), Injectable {
         })
 
         viewModel.loadMoreUI.observe(this, Observer {
-            setupConstraintSet(it)
+            constraintSet.setupLoadMore(v_content_box, bt_more, it)
         })
 
         viewModel.buttonUI.observe(this, Observer {
@@ -123,7 +129,7 @@ class UploadFragment : BaseFragment(), Injectable {
         })
 
         bt_upload.setSafeOnClickListener {
-            callMediaPicker()
+            setupExternalStoragePermission()
         }
 
         bt_more.setSafeOnClickListener {
@@ -194,34 +200,64 @@ class UploadFragment : BaseFragment(), Injectable {
         }
     }
 
-
-    private val mConstraintSet = ConstraintSet()
-    private fun setupConstraintSet(showLoadMore: Boolean) {
-        mConstraintSet.clone(v_content_box)
-
-        if (showLoadMore) {
-            mConstraintSet.clear(bt_more.id, ConstraintSet.TOP)
-            mConstraintSet.connect(
-                bt_more.id, ConstraintSet.BOTTOM,
-                ConstraintSet.PARENT_ID, ConstraintSet.TOP
-            )
-            mConstraintSet.connect(
-                bt_more.id, ConstraintSet.BOTTOM,
-                ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM
-            )
-        } else {
-            mConstraintSet.connect(
-                bt_more.id, ConstraintSet.TOP,
-                ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM
-            )
-            mConstraintSet.clear(bt_more.id, ConstraintSet.BOTTOM)
+    private fun setupExternalStoragePermission() {
+        activity?.also {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                if (ContextCompat.checkSelfPermission(
+                        it,
+                        Manifest.permission.READ_EXTERNAL_STORAGE
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    callMediaPicker()
+                } else {
+                    ActivityCompat.requestPermissions(
+                        it,
+                        arrayOf(Manifest.permission.READ_EXTERNAL_STORAGE),
+                        reqStorage
+                    )
+                }
+            }
         }
 
-        val changeBounds = ChangeBounds()
-        changeBounds.duration = 350
-        changeBounds.interpolator = AnticipateOvershootInterpolator(1.0f)
-        TransitionManager.beginDelayedTransition(v_content_box, changeBounds)
-
-        mConstraintSet.applyTo(v_content_box)
     }
+
+    private val reqStorage = 1729
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == reqStorage) {
+            if (grantResults.isNotEmpty() && grantResults.first() == PackageManager.PERMISSION_GRANTED) {
+                callMediaPicker()
+            } else {
+                activity?.also {
+                    val showRationale =
+                        ActivityCompat.shouldShowRequestPermissionRationale(it, permissions[0])
+                    if (!showRationale) {
+                        createDialogForStoragePermission()
+                    }
+                }
+
+            }
+        }
+    }
+
+    private fun createDialogForStoragePermission() {
+        val builder = context?.let { it1 -> AlertDialog.Builder(it1) }
+        if (builder != null) {
+            builder.setMessage(R.string.storage_permission_for_uploading)
+            builder.setPositiveButton(android.R.string.ok) { _, _ ->
+                startActivity(
+                    Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).setData(Uri.parse("package:${activity?.packageName}"))
+                )
+            }
+            builder.setNegativeButton(android.R.string.cancel) { _, _ ->
+            }
+            builder.show()
+        }
+    }
+
 }

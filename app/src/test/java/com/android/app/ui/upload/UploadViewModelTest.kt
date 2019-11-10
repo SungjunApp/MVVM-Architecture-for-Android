@@ -4,16 +4,10 @@ import androidx.arch.core.executor.testing.InstantTaskExecutorRule
 import androidx.lifecycle.Observer
 import com.amazonaws.services.s3.model.S3ObjectSummary
 import com.android.app.rule.CoroutinesTestRule
-import com.android.app.util.PixleeTestUtil
-import com.pixlee.pixleesdk.PXLAlbumSortType
 import com.sjsoft.app.R
-import com.sjsoft.app.data.PXLPhotoItem
 import com.sjsoft.app.data.repository.PixleeDataSource
-import com.sjsoft.app.ui.gallery.GalleryViewModel
 import com.sjsoft.app.ui.upload.UploadViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.test.runBlockingTest
 import org.junit.*
 import org.mockito.ArgumentCaptor

@@ -1,6 +1,7 @@
 package com.sjsoft.app.ui.gallery
 
 import android.util.Log
+import androidx.annotation.VisibleForTesting
 import androidx.lifecycle.MutableLiveData
 import com.pixlee.pixleesdk.PXLAlbumSortOptions
 import com.pixlee.pixleesdk.PXLAlbumSortType
@@ -30,42 +31,35 @@ class GalleryViewModel
 
     var canLoadMore = true
     var job: Job? = null
-    private fun loadList(options: PXLAlbumSortOptions? = null) {
+    private fun loadList(options: PXLAlbumSortOptions? = null) = runBlocking {
         val isFirstPage = options != null
-        runBlocking{
-            job?.cancelAndJoin()
-        }
-
+        job?.cancelAndJoin()
         job = launchVMScope({
             try {
-
-                Log.e("GalleryVM", "GalleryVM.scope.started")
                 if (isFirstPage) listUI.value = ListUI.LoadingShown
                 loadMoreUI.value = false
                 canLoadMore = false
                 pixleeDataSource.loadNextPageOfPhotos(options)
                     .collect {
                         listUI.value = ListUI.Data(it)
-                        Log.e("GalleryVM", "GalleryVM.size: ${it.size}")
                     }
                 canLoadMore = true
             } catch (e: Exception) {
-                canLoadMore = true
-                if (isFirstPage) listUI.value = ListUI.LoadingHide
                 e.printStackTrace()
+                if (isFirstPage) listUI.value = ListUI.LoadingHide
                 loadMoreUI.value = true
-                Log.e("GalleryVM", "GalleryVM.scope.error")
-            } finally {
-                Log.e("GalleryVM", "GalleryVM.scope.finished")
+                canLoadMore = true
             }
         }, {
-            Log.e("GalleryVM", "GalleryVM.scope.canceled")
             if (isFirstPage) listUI.value = ListUI.LoadingHide
+            loadMoreUI.value = true
             canLoadMore = true
         })
     }
 
     fun listScrolled(visibleItemCount: Int, lastVisibleItemPosition: Int, totalItemCount: Int) {
+        val canScroll = visibleItemCount + lastVisibleItemPosition + AppConfig.LIST_VISIBLE_THRESHOLD >= totalItemCount
+        Log.e("GalleryVM", "canScroll: $canScroll, \tvisibleCount: $visibleItemCount, lastItemPosition: $lastVisibleItemPosition, leftTotal: ${visibleItemCount + lastVisibleItemPosition + AppConfig.LIST_VISIBLE_THRESHOLD},  globalTotal: $totalItemCount")
         if (visibleItemCount + lastVisibleItemPosition + AppConfig.LIST_VISIBLE_THRESHOLD >= totalItemCount) {
             if (canLoadMore) {
                 loadList()
@@ -74,9 +68,10 @@ class GalleryViewModel
     }
 
     private val defaultTab = PXLAlbumSortType.RECENCY
-    fun changeTab(type: PXLAlbumSortType = defaultTab) {
-        sortType.value = type
-        loadList(generateSortOption(type))
+    fun changeTab(option: PXLAlbumSortOptions = generateSortOption(defaultTab)):PXLAlbumSortOptions {
+        sortType.value = option.sortType
+        loadList(option)
+        return option
     }
 
     fun generateSortOption(type: PXLAlbumSortType): PXLAlbumSortOptions {

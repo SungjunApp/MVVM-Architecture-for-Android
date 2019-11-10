@@ -17,6 +17,7 @@
     <!-- Upload -->
     <string name="upload_success_message">Complete</string>
     <string name="upload_failure_message">Failed</string>
+    <string name="storage_permission_for_uploading">\'Storage\' permission is needed to upload a photo\nMove to Settings?</string>
 
     <!-- Main -->
     <string name="event_number">Event Number</string>

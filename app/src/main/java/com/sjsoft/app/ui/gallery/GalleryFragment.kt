@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnticipateOvershootInterpolator
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
@@ -12,8 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.transition.ChangeBounds
-import androidx.transition.TransitionManager
 import com.pixlee.pixleesdk.PXLAlbumSortType
 import com.sjsoft.app.R
 import com.sjsoft.app.di.Injectable
@@ -50,6 +47,8 @@ class GalleryFragment : BaseFragment(), Injectable {
     internal var gridLayoutManager: GridLayoutManager? = null
     var GRID_COUNT: Int = 3
 
+    val constraintSet = ConstraintSet()
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,7 +80,7 @@ class GalleryFragment : BaseFragment(), Injectable {
 
 
         viewModel.loadMoreUI.observe(this, Observer {
-            setupConstraintSet(it)
+            constraintSet.setupLoadMore(v_content_box, bt_more, it)
         })
         viewModel.listUI.observe(this, Observer {
 
@@ -102,27 +101,27 @@ class GalleryFragment : BaseFragment(), Injectable {
         })
 
         tab_recency.setOnClickListener {
-            viewModel.changeTab(PXLAlbumSortType.RECENCY)
+            viewModel.changeTab(viewModel.generateSortOption(PXLAlbumSortType.RECENCY))
         }
 
         tab_random.setOnClickListener {
-            viewModel.changeTab(PXLAlbumSortType.RANDOM)
+            viewModel.changeTab(viewModel.generateSortOption(PXLAlbumSortType.RANDOM))
         }
 
         tab_pixlee_shares.setOnClickListener {
-            viewModel.changeTab(PXLAlbumSortType.PIXLEE_SHARES)
+            viewModel.changeTab(viewModel.generateSortOption(PXLAlbumSortType.PIXLEE_SHARES))
         }
 
         tab_pixlee_likes.setOnClickListener {
-            viewModel.changeTab(PXLAlbumSortType.PIXLEE_LIKES)
+            viewModel.changeTab(viewModel.generateSortOption(PXLAlbumSortType.PIXLEE_LIKES))
         }
 
         tab_pixlee_popularity.setOnClickListener {
-            viewModel.changeTab(PXLAlbumSortType.POPULARITY)
+            viewModel.changeTab(viewModel.generateSortOption(PXLAlbumSortType.POPULARITY))
         }
 
         tab_pixlee_dynamic.setOnClickListener {
-            viewModel.changeTab(PXLAlbumSortType.DYNAMIC)
+            viewModel.changeTab(viewModel.generateSortOption(PXLAlbumSortType.DYNAMIC))
         }
 
         bt_more.setOnClickListener {
@@ -139,7 +138,6 @@ class GalleryFragment : BaseFragment(), Injectable {
 
         recyclerView.adapter = adapter
         setupScrollListener()
-
         viewModel.changeTab()
     }
 
@@ -167,35 +165,5 @@ class GalleryFragment : BaseFragment(), Injectable {
 
             }
         })
-    }
-
-    private val mConstraintSet = ConstraintSet()
-    private fun setupConstraintSet(showLoadMore:Boolean){
-        mConstraintSet.clone(v_content_box)
-
-        if (showLoadMore) {
-            mConstraintSet.clear(bt_more.id, ConstraintSet.TOP)
-            mConstraintSet.connect(
-                bt_more.id, ConstraintSet.BOTTOM,
-                ConstraintSet.PARENT_ID, ConstraintSet.TOP
-            )
-            mConstraintSet.connect(
-                bt_more.id, ConstraintSet.BOTTOM,
-                ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM
-            )
-        } else {
-            mConstraintSet.connect(
-                bt_more.id, ConstraintSet.TOP,
-                ConstraintSet.PARENT_ID, ConstraintSet.BOTTOM
-            )
-            mConstraintSet.clear(bt_more.id, ConstraintSet.BOTTOM)
-        }
-
-        val changeBounds = ChangeBounds()
-        changeBounds.duration = 350
-        changeBounds.interpolator = AnticipateOvershootInterpolator(1.0f)
-        TransitionManager.beginDelayedTransition(v_content_box, changeBounds)
-
-        mConstraintSet.applyTo(v_content_box)
     }
 }

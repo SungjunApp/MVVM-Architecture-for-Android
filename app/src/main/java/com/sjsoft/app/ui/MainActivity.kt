@@ -105,7 +105,20 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        val f = getCurrentFragment()
-        f?.also { f.onActivityResult(requestCode, resultCode, data) }
+        getCurrentFragment()?.also {
+            it.onActivityResult(requestCode, resultCode, data)
+        }
     }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        getCurrentFragment()?.also {
+            it.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        }
+    }
+
 }

@@ -70,18 +70,138 @@ class GalleryViewModelTest {
 
     @ExperimentalCoroutinesApi
     @Test
-    fun `loadList`() = coroutinesTestRule.testDispatcher.runBlockingTest {
-        val items = PixleeTestUtil.getPhotoItems()
-        fun getFlowPhotoItems(): Flow<ArrayList<PXLPhotoItem>> = flow {
-            emit(items)
-        }
+    fun `load a list succeeded`() = coroutinesTestRule.testDispatcher.runBlockingTest {
+        val firstItems = PixleeTestUtil.getPhotoItems()
+        val secondItems = PixleeTestUtil.getPhotoItems(1)
 
         val type = PXLAlbumSortType.RECENCY
         val options = viewModel.generateSortOption(type)
 
-        `when`(pixlee.loadNextPageOfPhotos(options)).thenReturn(getFlowPhotoItems())
+        //First call
+        `when`(pixlee.loadNextPageOfPhotos(options)).thenReturn(
+            flow {
+                emit(firstItems)
+            }
+        )
 
-        viewModel.changeTab(type)
+        //Second call
+        `when`(pixlee.loadNextPageOfPhotos()).thenReturn(
+            flow {
+                emit(secondItems)
+            }
+        )
+
+        //Select Tab
+        viewModel.changeTab(options)
+
+        //Scroll down to get the next page
+        viewModel.listScrolled(
+            visibleItemCount = 18,
+            lastVisibleItemPosition = 20,
+            totalItemCount = 40
+        )
+
+        verify(sortTypeObserver, times(1)).onChanged(sortTypeCaptor.capture())
+        Assert.assertEquals(
+            type,
+            sortTypeCaptor.allValues[0]
+        )
+
+        verify(listObserver, times(3)).onChanged(listCaptor.capture())
+        Assert.assertEquals(
+            GalleryViewModel.ListUI.LoadingShown,
+            listCaptor.allValues[0]
+        )
+
+        //Since PXLPhoto class is not testable class, this code only verify idx
+        Assert.assertEquals(
+            GalleryViewModel.ListUI.Data(firstItems).list[0].idx,
+            (listCaptor.allValues[1] as GalleryViewModel.ListUI.Data).list[0].idx
+        )
+
+        Assert.assertEquals(
+            GalleryViewModel.ListUI.Data(secondItems).list[0].idx,
+            (listCaptor.allValues[2] as GalleryViewModel.ListUI.Data).list[0].idx
+        )
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun `change tabs succeeded`() = coroutinesTestRule.testDispatcher.runBlockingTest {
+        val firstItems = PixleeTestUtil.getPhotoItems()
+        val secondItems = PixleeTestUtil.getPhotoItems(1)
+
+        val firstType = PXLAlbumSortType.RECENCY
+        val firstOptions = viewModel.generateSortOption(firstType)
+
+        val secondType = PXLAlbumSortType.RECENCY
+        val secondOptions = viewModel.generateSortOption(secondType)
+
+        //First call
+        `when`(pixlee.loadNextPageOfPhotos(firstOptions)).thenReturn(
+            flow {
+                emit(firstItems)
+            }
+        )
+
+        //Second call
+        `when`(pixlee.loadNextPageOfPhotos()).thenReturn(
+            flow {
+                emit(secondItems)
+            }
+        )
+
+        //Select the first tab
+        viewModel.changeTab(firstOptions)
+
+        //Select the second tab
+        viewModel.changeTab(secondOptions)
+
+        verify(sortTypeObserver, times(2)).onChanged(sortTypeCaptor.capture())
+        Assert.assertEquals(
+            firstType,
+            sortTypeCaptor.allValues[0]
+        )
+
+        Assert.assertEquals(
+            secondType,
+            sortTypeCaptor.allValues[1]
+        )
+
+        verify(listObserver, times(4)).onChanged(listCaptor.capture())
+        Assert.assertEquals(
+            GalleryViewModel.ListUI.LoadingShown,
+            listCaptor.allValues[0]
+        )
+
+        //Since PXLPhoto class is not testable class, this code only verify idx
+        Assert.assertEquals(
+            GalleryViewModel.ListUI.Data(firstItems).list[0].idx,
+            (listCaptor.allValues[1] as GalleryViewModel.ListUI.Data).list[0].idx
+        )
+
+        Assert.assertEquals(
+            GalleryViewModel.ListUI.LoadingShown,
+            listCaptor.allValues[2]
+        )
+
+        Assert.assertEquals(
+            GalleryViewModel.ListUI.Data(secondItems).list[0].idx,
+            (listCaptor.allValues[3] as GalleryViewModel.ListUI.Data).list[0].idx
+        )
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun `load the first list failed`() = coroutinesTestRule.testDispatcher.runBlockingTest {
+        val firstItems = PixleeTestUtil.getPhotoItems()
+
+        val type = PXLAlbumSortType.RECENCY
+        val options = viewModel.generateSortOption(type)
+
+        `when`(pixlee.loadNextPageOfPhotos(options)).thenThrow(IllegalArgumentException(""))
+
+        viewModel.changeTab(options)
 
         verify(sortTypeObserver, times(1)).onChanged(sortTypeCaptor.capture())
         Assert.assertEquals(
@@ -94,11 +214,131 @@ class GalleryViewModelTest {
             GalleryViewModel.ListUI.LoadingShown,
             listCaptor.allValues[0]
         )
+
+        //Since PXLPhoto class is not testable class, this code only verify idx
         Assert.assertEquals(
-            GalleryViewModel.ListUI.Data(items),
-//            GalleryViewModel.ListUI.LoadingHide,
+            GalleryViewModel.ListUI.LoadingHide,
             listCaptor.allValues[1]
         )
+
+        verify(loadMoreObserver, times(3)).onChanged(loadMoreCaptor.capture())
+        Assert.assertEquals(false, loadMoreCaptor.allValues[0])
+        Assert.assertEquals(false, loadMoreCaptor.allValues[1])
+        Assert.assertEquals(true, loadMoreCaptor.allValues[2])
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun `load the second list failed`() = coroutinesTestRule.testDispatcher.runBlockingTest {
+        val firstItems = PixleeTestUtil.getPhotoItems()
+
+        val type = PXLAlbumSortType.RECENCY
+        val options = viewModel.generateSortOption(type)
+
+        `when`(pixlee.loadNextPageOfPhotos(options)).thenReturn(
+            flow {
+                emit(firstItems)
+            }
+        )
+
+        `when`(pixlee.loadNextPageOfPhotos()).thenThrow(IllegalArgumentException(""))
+
+        viewModel.changeTab(options)
+
+        viewModel.listScrolled(
+            visibleItemCount = 18,
+            lastVisibleItemPosition = 20,
+            totalItemCount = 40
+        )
+
+        verify(sortTypeObserver, times(1)).onChanged(sortTypeCaptor.capture())
+        Assert.assertEquals(
+            type,
+            sortTypeCaptor.allValues[0]
+        )
+
+        verify(listObserver, times(2)).onChanged(listCaptor.capture())
+        Assert.assertEquals(
+            GalleryViewModel.ListUI.LoadingShown,
+            listCaptor.allValues[0]
+        )
+
+        //Since PXLPhoto class is not testable class, this code only verify idx
+        Assert.assertEquals(
+            GalleryViewModel.ListUI.Data(firstItems).list[0].idx,
+            (listCaptor.allValues[1] as GalleryViewModel.ListUI.Data).list[0].idx
+        )
+
+        verify(loadMoreObserver, times(4)).onChanged(loadMoreCaptor.capture())
+        Assert.assertEquals(false, loadMoreCaptor.allValues[0])
+        Assert.assertEquals(false, loadMoreCaptor.allValues[1])
+        Assert.assertEquals(false, loadMoreCaptor.allValues[2])
+        Assert.assertEquals(true, loadMoreCaptor.allValues[3])
+    }
+
+    @ExperimentalCoroutinesApi
+    @Test
+    fun `load the third list failed`() = coroutinesTestRule.testDispatcher.runBlockingTest {
+        val firstItems = PixleeTestUtil.getPhotoItems()
+        val secondItems = PixleeTestUtil.getPhotoItems(1)
+
+        val type = PXLAlbumSortType.RECENCY
+        val options = viewModel.generateSortOption(type)
+
+        `when`(pixlee.loadNextPageOfPhotos(options)).thenReturn(
+            flow {
+                emit(firstItems)
+            }
+        )
+        viewModel.changeTab(options)
+
+        `when`(pixlee.loadNextPageOfPhotos()).thenReturn(
+            flow {
+                emit(secondItems)
+            }
+        )
+        viewModel.listScrolled(
+            visibleItemCount = 18,
+            lastVisibleItemPosition = 20,
+            totalItemCount = 40
+        )
+
+        `when`(pixlee.loadNextPageOfPhotos()).thenThrow(IllegalArgumentException(""))
+        viewModel.listScrolled(
+            visibleItemCount = 18,
+            lastVisibleItemPosition = 59,
+            totalItemCount = 80
+        )
+
+        verify(sortTypeObserver, times(1)).onChanged(sortTypeCaptor.capture())
+        Assert.assertEquals(
+            type,
+            sortTypeCaptor.allValues[0]
+        )
+
+        verify(listObserver, times(3)).onChanged(listCaptor.capture())
+        Assert.assertEquals(
+            GalleryViewModel.ListUI.LoadingShown,
+            listCaptor.allValues[0]
+        )
+
+        //Since PXLPhoto class is not testable class, this code only verify idx
+        Assert.assertEquals(
+            GalleryViewModel.ListUI.Data(firstItems).list[0].idx,
+            (listCaptor.allValues[1] as GalleryViewModel.ListUI.Data).list[0].idx
+        )
+
+        Assert.assertEquals(
+            GalleryViewModel.ListUI.Data(secondItems).list[0].idx,
+            (listCaptor.allValues[2] as GalleryViewModel.ListUI.Data).list[0].idx
+        )
+
+        verify(loadMoreObserver, times(5)).onChanged(loadMoreCaptor.capture())
+        Assert.assertEquals(false, loadMoreCaptor.allValues[0])
+        Assert.assertEquals(false, loadMoreCaptor.allValues[1])
+        Assert.assertEquals(false, loadMoreCaptor.allValues[2])
+        Assert.assertEquals(false, loadMoreCaptor.allValues[3])
+        Assert.assertEquals(true, loadMoreCaptor.allValues[4])
     }
 
 }
