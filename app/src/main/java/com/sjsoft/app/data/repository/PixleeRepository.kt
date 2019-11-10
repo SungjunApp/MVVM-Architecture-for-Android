@@ -28,7 +28,7 @@ import kotlin.collections.ArrayList
 
 interface PixleeDataSource {
     fun loadNextPageOfPhotos(options: PXLAlbumSortOptions? = null): Flow<ArrayList<PXLPhotoItem>>
-    suspend fun uploadImage(title: String, filePath: String, contentType: String): UploadInfo
+    suspend fun uploadImage(filePath: String, contentType: String): UploadInfo
     suspend fun getS3Images(): List<S3Item>
 }
 
@@ -45,8 +45,10 @@ class PixleeRepository constructor(
             objects.forEach {
                 val meta = awsS3.getObjectMetadata(BuildConfig.AWS_S3_BUCKET_NAME, it.key)
                 list.add(S3Item(meta.contentType, it))
+                //awsS3.deleteObject(BuildConfig.AWS_S3_BUCKET_NAME, it.key)
             }
             list.sortByDescending { it.s3Object.lastModified.time }
+
         }
         return list
     }
@@ -54,21 +56,17 @@ class PixleeRepository constructor(
     @ExperimentalCoroutinesApi
     @SuppressLint("LogNotTimber")
     override suspend fun uploadImage(
-        title: String,
         filePath: String,
         contentType: String
     ): UploadInfo {
         val keyName = "${AppConfig.pixleeEmail}/${UUID.randomUUID()}"
-        var uploadInfo:UploadInfo = UploadInfo(false)
+        var uploadInfo = UploadInfo(false)
         withContext(Dispatchers.IO) {
             //awsS3.deleteObject(BuildConfig.AWS_S3_BUCKET_NAME, keyName)
             val file = File(filePath)
-            val fileSize = file.length()
             val request = PutObjectRequest(BuildConfig.AWS_S3_BUCKET_NAME, keyName, file)
             val metadata = ObjectMetadata()
-            //metadata.contentType = "image"
             metadata.contentType = contentType
-            metadata.addUserMetadata("x-amz-meta-title", title)
             request.metadata = metadata
             awsS3.putObject(request)
             awsS3.setObjectAcl(
@@ -82,7 +80,7 @@ class PixleeRepository constructor(
                 url = awsS3.getUrl(BuildConfig.AWS_S3_BUCKET_NAME, keyName).toExternalForm()
             )
 
-            Log.e("PixRepo", "PixRepo.end")
+            Log.e("PixRepo", "PixRepo.end: ${uploadInfo.url}")
         }
 
         return uploadInfo

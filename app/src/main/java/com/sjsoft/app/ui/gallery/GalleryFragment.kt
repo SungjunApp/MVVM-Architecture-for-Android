@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.pixlee.pixleesdk.PXLAlbumSortType
 import com.sjsoft.app.R
-import com.sjsoft.app.data.S3Item
 import com.sjsoft.app.di.Injectable
 import com.sjsoft.app.ui.BaseFragment
 import com.sjsoft.app.ui.holders.MarginInfo
@@ -26,7 +25,6 @@ import kotlinx.android.synthetic.main.fragment_list.recyclerView
 import kotlinx.android.synthetic.main.fragment_list.v_content_box
 import kotlinx.android.synthetic.main.fragment_list.v_loading
 import kotlinx.android.synthetic.main.fragment_list.v_shadow
-import kotlinx.android.synthetic.main.fragment_upload.*
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt
 import javax.inject.Inject
 
@@ -49,14 +47,15 @@ class GalleryFragment : BaseFragment(), Injectable {
                 , 3.toPx()
                 , 3.toPx()
             )
-        ){
+        ) {
             moveToViewer(it)
         }
     }
 
-    fun moveToViewer(image: String){
+    fun moveToViewer(image: String) {
         addFragmentToActivity(ImageViewerFragment.getInstance(image))
     }
+
     internal var gridLayoutManager: GridLayoutManager? = null
     var GRID_COUNT: Int = 3
 
@@ -119,12 +118,13 @@ class GalleryFragment : BaseFragment(), Injectable {
                     recyclerView.post {
                         MaterialTapTargetPrompt.Builder(activity!!)
                             .setTarget(R.id.v_root_gallery)
-                            .setPrimaryText(getString(R.string.list_item_guide))
-                            //.setSecondaryText(getString(R.string.uploaded_item_guide))
+                            .setPrimaryText(getString(R.string.title_guide_viewer))
+                            .setSecondaryText(getString(R.string.message_guide_list))
                             .setPromptStateChangeListener { prompt, state ->
                                 if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
                                     viewModel.makeListTapped()
-                                    adapter.currentList[0]?.photo?.cdnLargeUrl?.toString()?.also { moveToViewer(it) }
+                                    adapter.currentList[0]?.photo?.cdnLargeUrl?.toString()
+                                        ?.also { moveToViewer(it) }
                                 }
                             }
                             .show()
@@ -171,7 +171,10 @@ class GalleryFragment : BaseFragment(), Injectable {
 
         recyclerView.adapter = adapter
         setupScrollListener()
-        viewModel.changeTab()
+
+        if (viewModel.listUI.value == null) {
+            viewModel.changeTab()
+        }
     }
 
     fun changeTextViewColor(
@@ -193,7 +196,7 @@ class GalleryFragment : BaseFragment(), Injectable {
             ) {
                 super.onScrolled(recyclerView, dx, dy)
                 gridLayoutManager?.apply {
-                    viewModel.listScrolled(childCount, findLastVisibleItemPosition() , itemCount)
+                    viewModel.listScrolled(childCount, findLastVisibleItemPosition(), itemCount)
                 }
 
             }

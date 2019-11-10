@@ -10,8 +10,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.Settings
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -88,7 +86,7 @@ class UploadFragment : BaseFragment(), Injectable {
             3.toPx()
             , 10.toPx()
             , 3.toPx()
-            , 50.toPx()
+            , 100.toPx()
         )
 
         recyclerView.setShadowViewController(v_shadow)
@@ -125,8 +123,8 @@ class UploadFragment : BaseFragment(), Injectable {
                     recyclerView.post {
                         MaterialTapTargetPrompt.Builder(activity!!)
                             .setTarget(R.id.v_root_gallery)
-                            .setPrimaryText(getString(R.string.uploaded_item_guide))
-                            //.setSecondaryText(getString(R.string.uploaded_item_guide))
+                            .setPrimaryText(getString(R.string.title_guide_viewer))
+                            .setSecondaryText(getString(R.string.message_guide_upload))
                             .setPromptStateChangeListener { prompt, state ->
                                 if (state == MaterialTapTargetPrompt.STATE_FOCAL_PRESSED) {
                                     viewModel.makeListTapped()
@@ -143,25 +141,7 @@ class UploadFragment : BaseFragment(), Injectable {
             constraintSet.setupLoadMore(v_content_box, bt_more as View, it)
         })
 
-        viewModel.buttonUI.observe(this, Observer {
-            bt_upload.isEnabled = it
-        })
-
-        et_title.addTextChangedListener(object : TextWatcher {
-            override fun afterTextChanged(s: Editable?) {
-                viewModel.updateTitle(s.toString())
-            }
-
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
-        })
-
-        bt_upload.setSafeOnClickListener {
+        fab_upload.setSafeOnClickListener {
             setupExternalStoragePermission()
         }
 

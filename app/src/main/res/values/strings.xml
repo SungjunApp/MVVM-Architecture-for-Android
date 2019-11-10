@@ -4,15 +4,14 @@
     <string name="title_main">Main</string>
     <string name="title_gallery">Gallery</string>
     <string name="title_upload_a_pic">Upload a photo</string>
-    <string name="title_pic">Pick</string>
 
     <!--common -->
-    <string name="image_title">Image Title</string>
     <string name="no_photo">No Item</string>
     <string name="button_more">Load more</string>
     <string name="uploading">Uploading..</string>
-    <string name="uploaded_item_guide">Click to view this uploaded image</string>
-    <string name="list_item_guide">Click to view an image</string>
+    <string name="title_guide_viewer">Item Viewer</string>
+    <string name="message_guide_list">Click to see this image</string>
+    <string name="message_guide_upload">Click to see this uploaded item</string>
 
     <!-- Upload -->
     <string name="upload_success_message">Complete</string>

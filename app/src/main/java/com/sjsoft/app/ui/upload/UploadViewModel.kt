@@ -15,14 +15,6 @@ import javax.inject.Inject
 
 class UploadViewModel
 @Inject constructor(private val pixlee: PixleeDataSource, private val pref: PreferenceDataSource) : BaseViewModel() {
-    //Input
-    val buttonUI = MutableLiveData<Boolean>().apply { value = false }
-    var title: String? = null
-    fun updateTitle(text: String) {
-        title = text.trim()
-        buttonUI.value = title?.isNotEmpty()
-    }
-
     //List
     sealed class ListUI {
         object LoadingShown : ListUI()
@@ -35,7 +27,8 @@ class UploadViewModel
     fun getS3Images() {
         launchVMScope({
             loadMoreUI.value = false
-            listUI.value = ListUI.LoadingShown
+            if(listUI.value==null || listUI.value !is ListUI.Data)
+                listUI.value = ListUI.LoadingShown
             val list = pixlee.getS3Images()
             listUI.value = ListUI.Data(list)
 
@@ -60,11 +53,9 @@ class UploadViewModel
     fun uploadImage(filePath: String, contentType: String) {
         launchVMScope({
             uploadUI.value = UploadUI.Uploading
-            title?.also {
-                val uploadImage = pixlee.uploadImage(it, filePath, contentType)
-                if (uploadImage.isComplete && uploadImage.url != null) {
-                    uploadUI.value = UploadUI.Complete(uploadImage.url, R.string.upload_success_message)
-                }
+            val uploadImage = pixlee.uploadImage(filePath, contentType)
+            if (uploadImage.isComplete && uploadImage.url != null) {
+                uploadUI.value = UploadUI.Complete(uploadImage.url, R.string.upload_success_message)
             }
 
         }, {

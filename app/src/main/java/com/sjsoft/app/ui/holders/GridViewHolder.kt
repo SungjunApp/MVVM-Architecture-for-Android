@@ -28,6 +28,7 @@ class GridViewHolder(override val containerView: View) : RecyclerView.ViewHolder
         if (imageUrl != null) {
             GlideApp.with(this.itemView.context).asDrawable().clone()
                 .load(imageUrl)
+                .thumbnail(0.2f)
                 .centerCrop()
                 .dontAnimate()
                 .into(img)

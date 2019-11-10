@@ -30,7 +30,7 @@ class GalleryAdapter(
     }
 
     override fun onBindViewHolder(holder: GridViewHolder, position: Int) {
-        val imageUrl = getItem(position)?.photo?.cdnMediumUrl?.toString()
+        val imageUrl = getItem(position)?.photo?.cdnMediumUrl ?.toString()
         holder.bind(imageUrl, false, marginInfo)
         holder.itemView.setSafeOnClickListener {
             getItem(position)?.photo?.cdnLargeUrl?.toString()?.also { clickListener(it) }

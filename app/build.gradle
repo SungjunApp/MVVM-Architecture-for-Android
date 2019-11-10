@@ -59,7 +59,7 @@ android {
             dimension "default"
             applicationIdSuffix = ".dev"
             manifestPlaceholders = [
-                    appNameGradle: "PixHong"
+                    appNameGradle: "PixTest"
             ]
             buildConfigField "String", "PIXLEE_API_KEY", "\"" + PIXLEE_API_KEY+ "\""
             buildConfigField "String", "PIXLEE_SECRET_KEY", "\"" + PIXLEE_SECRET_KEY+ "\""

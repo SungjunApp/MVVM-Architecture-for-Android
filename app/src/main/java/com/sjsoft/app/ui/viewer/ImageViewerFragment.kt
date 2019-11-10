@@ -56,6 +56,7 @@ class ImageViewerFragment : BaseFragment() {
         context?.also {
             GlideApp.with(it).asDrawable().clone()
                 .load(getImageUrl())
+                .thumbnail(0.2f)
                 .fitCenter()
                 .dontAnimate()
                 .apply(requestOptions)

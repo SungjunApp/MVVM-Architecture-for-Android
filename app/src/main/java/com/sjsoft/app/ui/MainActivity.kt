@@ -65,17 +65,21 @@ class MainActivity : AppCompatActivity(), HasSupportFragmentInjector {
                 } else
                     getString(R.string.app_name)
 
-            if (AppConfig.needDebugInfo())
-                supportActionBar?.subtitle =
-                    "Server: ${BuildConfig.FLAVOR},\tVerName: ${getAppVersionName()}, VerCode: ${getAppVersionCode()}"
+//            toolbar.setSubtitleTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+//            toolbar.setTitleTextAppearance(this, R.style.TextAppearance_AppCompat_Medium)
+//            toolbar.setSubtitleTextAppearance(this, R.style.TextAppearance_AppCompat_Caption)
 
             Timber.d("fragmentCount: $fragmentCount")
             setupActionBar(toolbar) {
-                if (showToolbar) show() else hide()
+                //if (showToolbar) show() else hide()
                 setTitle(title)
                 setDisplayHomeAsUpEnabled(fragmentCount > 1)
                 setDisplayShowHomeEnabled(fragmentCount > 1)
             }
+
+            if (AppConfig.needDebugInfo())
+                supportActionBar?.subtitle =
+                    "Bucket: ${BuildConfig.AWS_S3_BUCKET_NAME},\tVer: ${getAppVersionName()}"
 
             invalidateOptionsMenu()
 
